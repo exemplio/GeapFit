@@ -1,0 +1,30 @@
+[
+  {
+    "name": "credicard-theme",
+    "dflt": true,
+    "filter": {
+      "id_docs": [
+        "J403399646"
+      ]
+    },
+    "colors": {
+      "primary": "0xFF000000",
+      "primary_light": "0xFFFCA069"
+    },
+    "assets_img": {
+      "uri": "assets/img",
+      "logo": "credicard.png",
+      "logo2": "credicard2.png",
+      "logo3": "credicard3.png",
+      "closed": "closed.png",
+      "details": "details.png",
+      "last": "last.png",
+      "pos": "pos.png",
+      "report": "report.png",
+      "sales": "sales.png",
+      "simple": "simple.png",
+      "test": "test.png",
+      "transactions": "transactions.png"
+    }
+  }
+]
