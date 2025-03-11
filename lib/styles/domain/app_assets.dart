@@ -16,15 +16,6 @@ class AppAssets with _$AppAssets {
     required String logo,
     required String logo2,
     required String logo3,
-    required String closed,
-    required String details,
-    required String last,
-    required String pos,
-    required String report,
-    required String sales,
-    required String simple,
-    required String test,
-    required String transactions,
   }) = _AppAssets;
 
   factory AppAssets.fromJson(Map<String, Object?> json) => _$AppAssetsFromJson(json);

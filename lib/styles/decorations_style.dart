@@ -14,7 +14,7 @@ class MyTheme {
   static const Color error = Color.fromARGB(255, 228, 52, 46);
   static const Color warning = Color.fromARGB(255, 255, 251, 9);
   static const Color labelColor = Color.fromARGB(255, 53, 53, 53);
-  static String? fontFamily = "Kalinga" /* GoogleFonts.roboto().fontFamily */;
+  static String? fontFamily = "Big Shoulders Stencil" /* GoogleFonts.roboto().fontFamily */;
 
   ThemeData theme(ColorProvider colorProvider) {
     return ThemeData(
@@ -31,7 +31,7 @@ class MyTheme {
         textButtonTheme: TextButtonThemeData(
             style: TextButton.styleFrom(
           shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10))),
+              borderRadius: BorderRadius.all(Radius.circular(20))),
         )),
         appBarTheme: AppBarTheme(
             titleTextStyle: const TextStyle(color: Colors.white),
@@ -43,10 +43,10 @@ class MyTheme {
           labelMedium: const TextStyle(color: labelColor, fontSize: 12),
           labelSmall: const TextStyle(color: labelColor, fontSize: 8),
           displayLarge:
-              const TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+              const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
           titleLarge:
-              const TextStyle(fontSize: 30.0, fontStyle: FontStyle.normal),
-          bodyMedium: TextStyle(fontSize: 18.0, fontFamily: fontFamily),
+              const TextStyle(fontSize: 20.0, fontStyle: FontStyle.italic),
+          bodyMedium: TextStyle(fontSize: 16.0, fontFamily: fontFamily),
         ),
         iconTheme: const IconThemeData(
           color: Colors.white,
@@ -57,8 +57,8 @@ class MyTheme {
             dividerColor: Color(0xFF4A148C)),
         iconButtonTheme: IconButtonThemeData(
             style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.transparent),
-                iconColor: MaterialStateProperty.all(colorProvider.primary()))),
+                backgroundColor: WidgetStateProperty.all(Colors.transparent),
+                iconColor: WidgetStateProperty.all(colorProvider.primary()))),
         dialogTheme: DialogTheme(
           backgroundColor: Colors.white,
           surfaceTintColor: Colors.white,
@@ -80,10 +80,10 @@ class MyTheme {
           indicatorColor: colorProvider.primaryLight(),
           indicatorShape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(10))),
-          labelTextStyle: MaterialStateTextStyle.resolveWith(
+          labelTextStyle: WidgetStateTextStyle.resolveWith(
               (states) => const TextStyle(fontSize: 10, color: secondary)),
-          iconTheme: MaterialStateProperty.resolveWith((states) {
-            if (states.contains(MaterialState.selected)) {
+          iconTheme: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.selected)) {
               return const IconThemeData(color: secondary, size: _iconSize);
             }
 
@@ -100,7 +100,7 @@ class MyTheme {
         inputDecorationTheme: InputDecorationTheme(
           focusColor: colorProvider.primary(),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15.0),
+            borderRadius: BorderRadius.circular(25.0),
           ),
           border: const OutlineInputBorder(),
           iconColor: colorProvider.primaryLight(),
@@ -112,7 +112,7 @@ class MyTheme {
         colorScheme: ColorScheme.fromSwatch().copyWith(
             primary: colorProvider.primary(),
             secondary: colorProvider.primaryLight(),
-            background: Colors.white,
+            surface: Colors.white,
             error: error));
   }
 }

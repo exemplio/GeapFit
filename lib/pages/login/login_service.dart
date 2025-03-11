@@ -2,7 +2,6 @@
 
 import 'dart:ffi';
 
-import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sports_management/domain/access_token_response.dart';
 import 'package:sports_management/domain/credential_response.dart';
@@ -48,13 +47,7 @@ class LoginService {
   Future<Result<Void>> _authDevice(Result<AccessTokenResponse> result) async {
     await _saveAccessToken(result);
     var idToken = result.obj?.idToken;
-
-    if(result.obj != null) {
-      print(result.obj?.idToken);
-    }
     if (idToken != null) {
-      print("Tambien aca llegó");
-      print(result);
       return Result.result(result);
     }
 
@@ -104,7 +97,6 @@ class LoginService {
       if (value.success) {
         var profile = value.obj;
         if (profile != null) {
-          _cache.saveDeviceIsAuthorized(profile.id!);
           _themeSelector.selectThemeFromProfile(profile);
           return _cache.saveProfile(profile).then((v) => Result.result(value));
         }
@@ -138,9 +130,6 @@ class LoginService {
       if (value.success) {
         var initData = value.obj;
         if (initData != null) {
-          if (initData.profile?.id != null) {
-            _cache.saveDeviceIsAuthorized(initData.profile?.id ?? "");
-          }
           return _cache
               .saveInitData(initData)
               .then((v) => Result.result(value));

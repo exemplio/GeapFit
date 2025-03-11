@@ -74,10 +74,7 @@ extension GetItInjectableX on _i174.GetIt {
       ),
     );
     gh.factory<_i404.GetCredentials>(
-      () => _i404.GetCredentials(
-        gh<_i281.ApiServices>(),
-        gh<_i256.FingerprintService>(),
-      ),
+      () => _i404.GetCredentials(gh<_i281.ApiServices>()),
     );
     gh.factory<_i596.LoginService>(
       () => _i596.LoginService(

@@ -12,7 +12,6 @@ import 'package:sports_management/pages/client/models/initModel.dart';
 import 'package:sports_management/pages/store/models/collect_channel_model.dart';
 import 'package:sports_management/pages/store/models/store_model.dart';
 import 'package:sports_management/services/cacheService.dart';
-import 'package:sports_management/services/http/domain/auth_device_request.dart';
 import 'package:sports_management/services/http/domain/password_grant_request.dart';
 import 'package:sports_management/services/http/http_util.dart';
 import 'package:sports_management/services/http/is_online_provider.dart';
@@ -24,7 +23,6 @@ import '../../domain/credential_response.dart';
 import '../../domain/message.dart';
 import '../../pages/store/models/rate_model.dart';
 import '../../utils/utils.dart';
-import 'domain/auth_device_code_request.dart';
 import 'domain/role_request.dart';
 import 'http_service.dart';
 

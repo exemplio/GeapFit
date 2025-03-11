@@ -9,23 +9,18 @@ import 'package:sports_management/services/http/domain/password_grant_request.da
 import 'package:sports_management/services/http/domain/role_request.dart';
 import 'package:sports_management/services/http/result.dart';
 
-import '../../domain/message.dart';
-import '../../services/get/fingerprint_service.dart';
 import '../../services/http/api_services.dart';
-import '../../services/http/domain/auth_device_request.dart';
 import '../../utils/encrypt_password.dart';
 import '../../utils/utils.dart';
 
 @injectable
 class GetCredentials {
   final ApiServices _apiServices;
-  final FingerprintService _fingerprintService;
 
-  GetCredentials(this._apiServices, this._fingerprintService);
+  GetCredentials(this._apiServices);
 
   Future<Result<CredentialResponse>> credentials(
       String email, String password) {
-        print("object");
     return Future(() {
       var publicKey = MyUtils.publicKey;
       var result = Cryptom.encrypt(password, publicKey);

@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sports_management/domain/credentialModel.dart';
 import 'package:sports_management/services/cacheService.dart';
 import 'package:sports_management/styles/theme_holder.dart';
@@ -24,8 +23,6 @@ import 'login_bloc.dart';
 import 'login_event.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:animated_toggle_switch/animated_toggle_switch.dart';
-
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -66,11 +63,8 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
   Future<String> check() async {
     var cache = getIt<Cache>();
     var token = await cache.getAccessTokenResponse();
-    var profile = await cache.getProfile();
-    var third =
-        profile == null ? false : await cache.isDeviceAuthorized(profile.id!);
 
-    return "is device auth $third token ${token?.idToken})";
+    return "token ${token?.idToken})";
   }
 
   Future<void> checkDeviceModel() async {
@@ -142,7 +136,6 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
   }
 
   Widget _formWidget() {
-    double screenHeight = MediaQuery.of(context).size.height;
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -162,7 +155,6 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                       _showError(state.errorMessage);
                     }
                     if (state is GoToAuthDeviceState) {
-                      print("TAMBIEN LLEGa pa");
                       _goToAuthDevice(state.userEmail, state.userPassword);
                     }
                   },
@@ -185,40 +177,40 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                               Flexible(
                                   flex: isLoggingIn ? 1 : 7,
                                   child: _loginButton(isLoggingIn)),
-                              isSupported && keepInCache
-                                  ? Flexible(
-                                      flex: isLoggingIn ? 0 : 2,
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 15.0),
-                                        child: !isLoggingIn
-                                            ? Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  color:
-                                                      _primaryColor,
-                                                ),
-                                                child: IconButton(
-                                                    onPressed: () {
-                                                      !isLoggingIn
-                                                          ? biometricAuth()
-                                                          : null;
-                                                    },
-                                                    icon: const SizedBox(
-                                                      height: 45,
-                                                      width: 50,
-                                                      child: Icon(
-                                                        Icons.fingerprint,
-                                                        size: 40,
-                                                        color: Colors.white,
-                                                      ),
-                                                    )),
-                                              )
-                                            : const SizedBox(),
-                                      ),
-                                    )
-                                  : const SizedBox(),
+                              // isSupported && keepInCache
+                              //     ? Flexible(
+                              //         flex: isLoggingIn ? 0 : 2,
+                              //         child: Padding(
+                              //           padding:
+                              //               const EdgeInsets.only(top: 15.0),
+                              //           child: !isLoggingIn
+                              //               ? Container(
+                              //                   decoration: BoxDecoration(
+                              //                     borderRadius:
+                              //                         BorderRadius.circular(10),
+                              //                     color:
+                              //                         _primaryColor,
+                              //                   ),
+                              //                   child: IconButton(
+                              //                       onPressed: () {
+                              //                         !isLoggingIn
+                              //                             ? biometricAuth()
+                              //                             : null;
+                              //                       },
+                              //                       icon: const SizedBox(
+                              //                         height: 45,
+                              //                         width: 50,
+                              //                         child: Icon(
+                              //                           Icons.fingerprint,
+                              //                           size: 40,
+                              //                           color: Colors.white,
+                              //                         ),
+                              //                       )),
+                              //                 )
+                              //               : const SizedBox(),
+                              //         ),
+                              //       )
+                              //     : const SizedBox(),
                             ],
                           ),
                           const SizedBox(height: 15),
@@ -227,7 +219,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                _recoverButton(),
+                                // _recoverButton(),
                               ],
                             ),
                           ),
@@ -238,15 +230,6 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
             ],
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 10.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              // _registerButton(),
-            ],
-          ),
-        )
       ],
     );
   }
@@ -288,35 +271,6 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
     }
   }
 
-  _typeDocument(bool isLoading) {
-    return SizedBox(
-      height: 60,
-      child: DropdownButtonFormField<String>(
-        enableFeedback: isLoading,
-        decoration: InputDecoration(
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                    color: isLoading
-                        ? const Color.fromARGB(206, 207, 207, 207)
-                        : _primaryColor,
-                    width: isLoading ? 1 : 2))),
-        icon: const Icon(Icons.arrow_downward),
-        value: _bloc().typeDniSelected,
-        style: const TextStyle(color: Colors.deepPurple, fontFamily: "Kalinga"),
-        isExpanded: true,
-        onChanged: isLoading ? null : (type) => _bloc().setTypeDoc(type),
-        items: _bloc().typeDocs.map<DropdownMenuItem<String>>((String type) {
-          return DropdownMenuItem<String>(
-              value: type,
-              child: Center(
-                child: Text(type,
-                    style: const TitleTextStyle(color: ColorUtil.dark_gray)),
-              ));
-        }).toList(),
-      ),
-    );
-  }
-
   LoginScreenBloc _bloc() {
     return context.read<LoginScreenBloc>();
   }
@@ -331,17 +285,6 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
             fontSize: 16,
             color: _primaryColor,
             decoration: TextDecoration.underline),
-      ),
-    );
-  }
-
-  Widget _registerButton() {
-    return TextButton(
-      onPressed: () => context.go(StaticNames.registerName.path),
-      child: const Text(
-        "ABRIR UNA NUEVA CUENTA",
-        style: TextStyle(
-            fontWeight: FontWeight.bold, decoration: TextDecoration.underline),
       ),
     );
   }
@@ -363,7 +306,6 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
               return TextFormField(
                 autofillHints: const [AutofillHints.password],
                 keyboardType: TextInputType.text,
-                maxLength: 20,
                 readOnly: false,
                 controller: passwordController,
                 onChanged: (text) => _bloc().updatePassword(text),
@@ -371,7 +313,6 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                 validator: (value) => snapshot.error?.toString(),
                 obscureText: obscure,
                 decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.lock_outline_sharp),
                     suffixIcon: IconButton(
                         icon: Icon(
                             obscure ? Icons.visibility_off : Icons.visibility),
@@ -395,12 +336,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
               Expanded(
                 child: Container(
                   margin: const EdgeInsets.fromLTRB(0, 15, 0, 5),
-                  child: MediaQuery.of(context).size.height <= 432
-                      ? Visibility(
-                          child: _textButtonMini(
-                              (snapshot.data ?? false), isLoggingIn),
-                        )
-                      : _textButton((snapshot.data ?? false), isLoggingIn),
+                  child: _textButton((snapshot.data ?? false), isLoggingIn),
                 ),
               )
             ],
@@ -418,7 +354,6 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
               enableInteractiveSelection: false,
               autofillHints: const [AutofillHints.email],
               keyboardType: TextInputType.emailAddress,
-              maxLength: 40,
               controller: emailController,
               readOnly: false,
               onChanged: (text) => _bloc().updateUserName(text),
@@ -426,7 +361,6 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
               autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: (value) => snapshot.error?.toString(),
               decoration: const InputDecoration(
-                  prefixIcon: Icon(Icons.person),
                   labelText: "Correo electrónico",
                   border: OutlineInputBorder(),
                   hintText: ''),
@@ -443,20 +377,11 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
             backgroundColor:
                 formIsValid && validateInput && passwordController.text != ""
                     ? _primaryColor
-                    : Colors.grey,
-            padding: const EdgeInsets.all(20)),
+                    : Colors.blueGrey,
+            padding: const EdgeInsets.all(10)),
         onPressed: () {
           formIsValid && !isLoggingIn ? _pressLoginButton() : null;
         },
-        child: _textOrProgress(isLoggingIn));
-  }
-
-  Widget _textButtonMini(bool formIsValid, bool isLoggingIn) {
-    return TextButton(
-        style: TextButton.styleFrom(
-            backgroundColor: formIsValid ? _primaryColor : Colors.grey,
-            padding: const EdgeInsets.all(10)),
-        onPressed: formIsValid && !isLoggingIn ? _loginBtnTap : null,
         child: _textOrProgress(isLoggingIn));
   }
 
@@ -470,8 +395,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
         color: ColorUtil.white,
       );
     }
-
-    return Text("INICIAR SESIÓN",
+    return Text("Iniciar sesión",
         selectionColor: ColorUtil.gray, style: subtitleStyleText("white", 15));
   }
 

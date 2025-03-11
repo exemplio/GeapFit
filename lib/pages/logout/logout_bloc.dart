@@ -46,7 +46,6 @@ class LogoutBloc extends Bloc<LogoutEvent, LogoutState> {
               .closeSession()
               .onError((error, stackTrace) => Result.fail(error, stackTrace))
               .then((value) async {
-            await _cache.deleteAccessToken();
             await _cache.emptyCacheData();
             cache.saveKeepLastSession(keep ?? "MANTENER");
             cache.saveLastCredentials(

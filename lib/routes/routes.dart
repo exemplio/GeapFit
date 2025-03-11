@@ -3,14 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
-import 'package:sports_management/domain/credentialModel.dart';
 import 'package:sports_management/pages/pages.dart';
 import 'package:sports_management/pages/recharge/recharge.dart';
 import 'package:sports_management/pages/store/bloc/store_bloc.dart';
 import 'package:sports_management/pages/store/models/store_model.dart';
-import 'package:sports_management/pages/withdraw/withdraw.dart';
-import 'package:sports_management/pages/register/views/email_form.dart';
-import 'package:sports_management/services/http/domain/productModel.dart';
 import 'package:sports_management/utils/global.dart';
 import 'package:sports_management/utils/staticNamesRoutes.dart';
 import '../di/injection.dart';
@@ -140,17 +136,6 @@ final GoRouter router = GoRouter(
                   _logger.i(list);
 
                   return RechageScreen(bloc: RechargeBloc(listTypes: list));
-                },
-              ),
-              GoRoute(
-                name: StaticNames.withdraw.name,
-                parentNavigatorKey: _shellNavigatorKey,
-                path: StaticNames.withdraw.path,
-                builder: (context, state) {
-                  _logger.i(state.location);
-                  var list = state.extra as List<String>;
-
-                  return WithdrawScreen(listTypes: list);
                 },
               ),
             ])

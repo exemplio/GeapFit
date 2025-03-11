@@ -7,21 +7,12 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:logger/logger.dart';
 import 'package:optional/optional.dart';
-import 'package:sports_management/di/injection.dart';
-import 'package:sports_management/domain/credentialModel.dart';
 import 'package:sports_management/pages/login/login_service.dart';
-import 'package:sports_management/services/cacheService.dart';
-import 'package:sports_management/services/http/api_services.dart';
 import 'package:sports_management/services/http/result.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:sports_management/services/token_service.dart';
-
 import '../../utils/utils.dart';
 import 'login_event.dart';
-import 'package:encrypt/encrypt.dart' as crypt;
-
 
 part 'login_state.dart';
 
@@ -41,13 +32,11 @@ class LoginScreenBloc extends Bloc<LoginEvent, LoginState> {
     });
   }
 
-  final _logger = Logger();
   final LoginService _loginService;
   String userEmail = "";
   String typeDniSelected = "V";
   bool expired = false;
   bool useEmail = false;
-  final Cache _cache = Cache();
 
   List<String> typeDocs = ["V", "E", "J", "P"];
   final _userNameController = BehaviorSubject<String>();
@@ -72,16 +61,11 @@ class LoginScreenBloc extends Bloc<LoginEvent, LoginState> {
 
   Future<void> _onLoginTryEvent(Emitter<LoginState> emitter) async {
     emitter(const LoginLoadingState());
-    print("SI PASA ACA");
     var result = await _login();
-
     var errorMessage = Optional.ofNullable(result.msg)
         .map((p0) => p0.message)
         .orElse(result.errorMessage ?? "Error al loguearse");
     if (result.success) {
-    print("Si devolvio algo bro");
-    print(result);
-    print(errorMessage);
         emitter(GoToAuthDeviceState(userEmail, _passwordController.value));
     } else {
       if (errorMessage == "AUTHORIZATION_EMAIL_SENDED") {

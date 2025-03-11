@@ -21,7 +21,6 @@ class TokenService {
           var refreshToken = accessTokenResponse.idToken;
           var expireDate = DateTime.fromMillisecondsSinceEpoch(565465);
           if (refreshToken != null &&
-              expireDate != null &&
               expireDate.isBefore(DateTime.now())) {
             return _loginService
                 .refreshToken(idToken, refreshToken)

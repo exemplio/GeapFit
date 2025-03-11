@@ -9,7 +9,6 @@ import 'package:sports_management/domain/access_token_response.dart';
 import 'package:sports_management/domain/credentialModel.dart';
 import 'package:sports_management/domain/profile.dart';
 import 'package:sports_management/pages/client/models/initModel.dart';
-import 'package:sports_management/services/http/domain/authorized_devices.dart';
 import 'package:sports_management/services/http/network_connectivity.dart';
 import 'package:sports_management/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -88,12 +87,10 @@ class Cache {
       var accessTokenResponse = await getAccessTokenResponse();
 
       var fingerprint = (await _prefs()).getString(FingerprintService.key);
-      var devices = await getAuthorizedDevices();
 
       await prefs.clear();
 
       await prefs.setString(FingerprintService.key, fingerprint!);
-      await saveAuthorizedDevices(devices);
 
 
       if (accessTokenResponse != null) {
@@ -121,10 +118,8 @@ class Cache {
   Future<bool> areCredentialsStored() async {
     var first = await credentialResponse().then((value) => value != null);
     var second = await getAccessTokenResponse().then((value) => value != null);
-    var profile = await getProfile();
-    var third = profile == null ? false : await isDeviceAuthorized(profile.id!);
 
-    return first || (second && third);
+    return first || second;
   }
 
   Future<void> saveNetworkState(NetworkState networkState) {
@@ -220,40 +215,6 @@ class Cache {
 
   Future<void> saveLastCredentials(CredentialModel credentials) {
     return _savePrefs("last_credentials", credentials);
-  }
-
-  Future<void> saveAuthorizedDevices(AuthorizedDevices devices) {
-    return _savePrefs("authorized_devices", devices);
-  }
-
-  Future<AuthorizedDevices> getAuthorizedDevices() {
-    return _getFromPrefs(
-            "authorized_devices", (json) => AuthorizedDevices.fromJson(json))
-        .then((value) {
-      if (value == null) {
-        return const AuthorizedDevices(map: {});
-      }
-      return value;
-    });
-  }
-
-  Future<void> saveDeviceIsAuthorized(String id, {bool isAuth = true}) async {
-    var devices = await getAuthorizedDevices();
-    Map<String, bool> newMap = {...devices.map};
-
-    newMap.update(id, (value) => isAuth, ifAbsent: () => isAuth);
-    devices = devices.copyWith(map: newMap);
-    await saveAuthorizedDevices(devices);
-  }
-
-  Future<bool> isDeviceAuthorized(String id) async {
-    var devices = await getAuthorizedDevices();
-
-    return devices.map[id] ?? false;
-  }
-
-  Future<void> deleteAccessToken() {
-    return deleteCacheData("access_token");
   }
 
   Future<void> saveDeviceModel(String model) async{

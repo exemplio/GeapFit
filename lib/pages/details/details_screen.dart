@@ -67,29 +67,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
     );
   }
 
-  TextFormField _datePaymentInitialMini(bool isLoading) {
-    return TextFormField(
-      showCursor: false,
-      mouseCursor: MouseCursor.uncontrolled,
-      controller: _bloc().dateInitialController,
-      keyboardType: TextInputType.none,
-      onTap: calendaryInitial,
-      readOnly: false,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      enabled: !isLoading,
-      validator: _bloc().validateInitialDate,
-      decoration: InputDecoration(
-          prefixIcon: IconButton(
-              onPressed: calendaryInitial,
-              icon: const Icon(Icons.date_range_rounded)),
-          suffixIcon: IconButton(
-              onPressed: getInventario, icon: const Icon(Icons.search)),
-          labelText: "Período (inicio)",
-          border: const OutlineInputBorder(),
-          hintText: ''),
-    );
-  }
-
   TextFormField _datePaymentFinal(bool isLoading) {
     return TextFormField(
       showCursor: false,
@@ -98,29 +75,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
       keyboardType: TextInputType.none,
       onTap: calendaryFinal,
       maxLength: 12,
-      readOnly: false,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      enabled: !isLoading,
-      validator: _bloc().validateEndDate,
-      decoration: InputDecoration(
-          prefixIcon: IconButton(
-              onPressed: calendaryFinal,
-              icon: const Icon(Icons.date_range_rounded)),
-          suffixIcon: IconButton(
-              onPressed: getInventario, icon: const Icon(Icons.search)),
-          labelText: "Período (fin)",
-          border: const OutlineInputBorder(),
-          hintText: ''),
-    );
-  }
-
-  TextFormField _datePaymentFinalMini(bool isLoading) {
-    return TextFormField(
-      showCursor: false,
-      mouseCursor: MouseCursor.uncontrolled,
-      controller: _bloc().dateFinalController,
-      keyboardType: TextInputType.none,
-      onTap: calendaryFinal,
       readOnly: false,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       enabled: !isLoading,
@@ -147,48 +101,27 @@ class _DetailsScreenState extends State<DetailsScreen> {
   }
 
   Widget _filters(bool isLoading) {
-    return MediaQuery.of(context).size.height > 432
-        ? Visibility(
-            child: Form(
-              key: _formKey,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(children: [
-                  const SizedBox(height: 20),
-                  Row(
-                    children: [
-                      Expanded(child: _datePaymentInitial(isLoading)),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Expanded(child: _datePaymentFinal(isLoading)),
-                    ],
-                  ),
-                  const Divider()
-                ]),
+    return Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(children: [
+              const SizedBox(height: 20),
+              Row(
+                children: [
+                  Expanded(child: _datePaymentInitial(isLoading)),
+                ],
               ),
-            ),
-          )
-        : Form(
-            key: _formKey,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(children: [
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    Expanded(child: _datePaymentInitialMini(isLoading)),
-                    const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10)),
-                    Expanded(child: _datePaymentFinalMini(isLoading)),
-                  ],
-                ),
-                const Divider()
-              ]),
-            ),
-          );
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Expanded(child: _datePaymentFinal(isLoading)),
+                ],
+              ),
+              const Divider()
+            ]),
+          ),
+        );
   }
 
   Widget get _loadingCenter => const Center(
@@ -328,35 +261,17 @@ class _DetailsScreenState extends State<DetailsScreen> {
         builder: (context, state) {
           var isLoading = state is DetailsLoadingState;
           var showError = state is DetailsErrorState;
-          return MediaQuery.of(context).size.height > 432
-              ? Visibility(
-                  child: Column(
-                    children: [
-                      _filters(isLoading),
-                      showError
-                          ? Expanded(
-                              child: SingleChildScrollView(
-                                  child: ShowErrorMessage(
-                                      errorMessage: state.errorMessage!,
-                                      error: true)))
-                          : _listReport(
-                              isLoading: isLoading, report: state.report),
-                      state.report != null ? _paginate() : const SizedBox()
-                    ],
-                  ),
-                )
-              : ListView(
+          return Column(
                   children: [
                     _filters(isLoading),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height / 3,
-                      child: showError
-                          ? ShowErrorMessage(
-                              errorMessage: state.errorMessage!, error: true)
-                          : _listReport(
-                              isLoading: isLoading, report: state.report),
-                    ),
+                    showError
+                        ? Expanded(
+                            child: SingleChildScrollView(
+                                child: ShowErrorMessage(
+                                    errorMessage: state.errorMessage!,
+                                    error: true)))
+                        : _listReport(
+                            isLoading: isLoading, report: state.report),
                     state.report != null ? _paginate() : const SizedBox()
                   ],
                 );

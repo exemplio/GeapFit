@@ -56,45 +56,19 @@ class AssetsImg {
   String? logo;
   String? logo2;
   String? logo3;
-  String? closed;
-  String? details;
-  String? last;
-  String? pos;
-  String? report;
-  String? sales;
-  String? simple;
-  String? test;
-  String? transactions;
 
   AssetsImg(
       {this.uri,
         this.logo,
         this.logo2,
         this.logo3,
-        this.closed,
-        this.details,
-        this.last,
-        this.pos,
-        this.report,
-        this.sales,
-        this.simple,
-        this.test,
-        this.transactions});
+        });
 
   AssetsImg.fromJson(Map<String, dynamic> json) {
     uri = json['uri'];
     logo = json['logo'];
     logo2 = json['logo2'];
     logo3 = json['logo3'];
-    closed = json['closed'];
-    details = json['details'];
-    last = json['last'];
-    pos = json['pos'];
-    report = json['report'];
-    sales = json['sales'];
-    simple = json['simple'];
-    test = json['test'];
-    transactions = json['transactions'];
   }
 
   Map<String, dynamic> toJson() {
@@ -103,15 +77,6 @@ class AssetsImg {
     data['logo'] = logo;
     data['logo2'] = logo2;
     data['logo3'] = logo3;
-    data['closed'] = closed;
-    data['details'] = details;
-    data['last'] = last;
-    data['pos'] = pos;
-    data['report'] = report;
-    data['sales'] = sales;
-    data['simple'] = simple;
-    data['test'] = test;
-    data['transactions'] = transactions;
     return data;
   }
 }

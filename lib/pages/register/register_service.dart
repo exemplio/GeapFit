@@ -1,7 +1,6 @@
 // ignore_for_file: unused_field, unused_element, non_constant_identifier_names
 
 import 'dart:async';
-import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:injectable/injectable.dart';
@@ -9,7 +8,6 @@ import 'package:sports_management/domain/message.dart';
 import 'package:sports_management/services/http/api_services.dart';
 import 'package:sports_management/services/http/result.dart';
 import 'package:sports_management/services/token_service.dart';
-import 'package:sports_management/utils/utils.dart';
 
 @injectable
 class RegisterService {
