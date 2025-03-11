@@ -10,7 +10,7 @@ Future<Map<String, String>> initHeaders() async {
   Map<String, String> headers = {};
 
   AccessTokenResponse? access = await _cache.getAccessTokenResponse();
-  var token = access?.accessToken;
+  var token = access?.idToken;
 
   if(token != null){
     headers["Authorization"] = "bearer $token";
@@ -21,7 +21,7 @@ Future<Map<String, String>> initHeaders() async {
 Future<Map<String, String>> initParams() async {
   Init? init = await _cache.getInitData();
   Map<String, String> params = {};
-  params["client_id"] = MyUtils.clientIdRole;
+  params["client_id"] = MyUtils.apiKey;
   if(init?.role?.businessId!=null){
     params["role_owner_id"] = init?.role?.businessId ?? "";
   }

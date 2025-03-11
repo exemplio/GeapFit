@@ -1,6 +1,6 @@
 [
   {
-    "name": "credicard-theme",
+    "name": "default-theme",
     "dflt": true,
     "filter": {
       "id_docs": [

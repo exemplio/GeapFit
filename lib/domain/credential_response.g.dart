@@ -8,13 +8,11 @@ part of 'credential_response.dart';
 
 CredentialResponse _$CredentialResponseFromJson(Map<String, dynamic> json) =>
     CredentialResponse(
-      profile: json['profile'] == null
-          ? null
-          : Profile.fromJson(json['profile'] as Map<String, dynamic>),
-      
+      profile:
+          json['profile'] == null
+              ? null
+              : Profile.fromJson(json['profile'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$CredentialResponseToJson(CredentialResponse instance) =>
-    <String, dynamic>{
-      'profile': instance.profile,
-    };
+    <String, dynamic>{'profile': instance.profile};

@@ -1,5 +1,3 @@
-export 'package:sports_management/pages/auth_device/auth_device_bloc.dart';
-export 'package:sports_management/pages/auth_device/auth_device_screen.dart';
 export 'package:sports_management/pages/client/client_screen.dart';
 export 'package:sports_management/pages/login/login_screen.dart';
 export 'package:sports_management/pages/register/views/email_form.dart';

@@ -2,6 +2,7 @@
 
 import 'dart:ffi';
 
+import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sports_management/domain/access_token_response.dart';
 import 'package:sports_management/domain/credential_response.dart';
@@ -27,9 +28,9 @@ class LoginService {
   }
 
   Future<Result<AccessTokenResponse>> refreshToken(
-      String accessToken, String refreshToken) {
+      String idToken, String refreshToken) {
     return _getCredentials
-        .refreshToken(accessToken, refreshToken)
+        .refreshToken(idToken, refreshToken)
         .then((value) => MyUtils.nextResult(value, _saveAccessToken));
   }
 
@@ -46,9 +47,15 @@ class LoginService {
 
   Future<Result<Void>> _authDevice(Result<AccessTokenResponse> result) async {
     await _saveAccessToken(result);
-    var accessToken = result.obj?.accessToken;
-    if (accessToken != null) {
-      return _getCredentials.authDevice(accessToken).then(Result.result);
+    var idToken = result.obj?.idToken;
+
+    if(result.obj != null) {
+      print(result.obj?.idToken);
+    }
+    if (idToken != null) {
+      print("Tambien aca llegó");
+      print(result);
+      return Result.result(result);
     }
 
     return Result.failMsg("No hay access token para el dispositivo");
@@ -84,7 +91,7 @@ class LoginService {
         var accessTokenResponse = result.obj;
 
         if (accessTokenResponse != null) {
-          _cache.setCacheJson("access_token", accessTokenResponse);
+          _cache.setCacheJson("id_token", accessTokenResponse);
         }
       }
 

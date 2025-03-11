@@ -15,18 +15,18 @@ class TokenService {
   Future<Result<String>> token() async {
     var accessTokenResponse = await _cache.getAccessTokenResponse();
     if (accessTokenResponse != null) {
-      var accessToken = accessTokenResponse.accessToken;
-      if (accessToken != null) {
+      var idToken = accessTokenResponse.idToken;
+      if (idToken != null) {
         {
-          var refreshToken = accessTokenResponse.refreshToken;
-          var expireDate = accessTokenResponse.expireDate;
+          var refreshToken = accessTokenResponse.idToken;
+          var expireDate = DateTime.fromMillisecondsSinceEpoch(565465);
           if (refreshToken != null &&
               expireDate != null &&
               expireDate.isBefore(DateTime.now())) {
             return _loginService
-                .refreshToken(accessToken, refreshToken)
+                .refreshToken(idToken, refreshToken)
                 .then((value) {
-              var token = value.obj?.accessToken;
+              var token = value.obj?.idToken;
               if (token != null) {
                 return Result.success(token);
               }
@@ -36,7 +36,7 @@ class TokenService {
           }
         }
 
-        return Future.value(Result.success(accessTokenResponse.accessToken));
+        return Future.value(Result.success(accessTokenResponse.idToken));
       }
     }
 
@@ -48,9 +48,9 @@ class TokenService {
 
       return _loginService.auth(credentialResponse).then((result) {
         if (result.success) {
-          var accessToken = result.obj?.accessToken;
-          if (accessToken != null) {
-            return Result.success(accessToken);
+          var idToken = result.obj?.idToken;
+          if (idToken != null) {
+            return Result.success(idToken);
           }
 
           return Result.failMsg("No hay access token");

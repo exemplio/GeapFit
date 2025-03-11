@@ -74,33 +74,19 @@ abstract class MyUtils {
 
   static String get authId => dotenv.env['AUTH_ID'] ?? '';
 
-  static String get authContextPath => dotenv.env['AUTH_CONTEXT_PATH'] ?? '';
-
-  static String get urlContextPath => dotenv.env['URL_CONTEXT_PATH'] ?? '';
-
   static String get type => dotenv.env['CONTEXT_PATH'] ?? '';
-
-  static String get typeDemo => dotenv.env['CONTEXT_PATH_DEMO'] ?? '';
 
   static String get clientId => dotenv.env['CLIENT_ID'] ?? '';
 
-  static String get clientIdRole => dotenv.env['CLIENT_ID_INIT'] ?? '';
-
   static String get base => dotenv.env['API_URL'] ?? '';
 
-  static String get scopePos => dotenv.env['SCOPE_POS'] ?? '';
-
-  static String get scopeAllied => dotenv.env['SCOPE_ALLIED'] ?? '';
-
   static String get publicKey => dotenv.env['PASSWORD_PUBLIC_KEY'] ?? '';
+
+  static String get apiKey => dotenv.env['API_KEY'] ?? '';
 
   static bool get disableSslVerification =>
       dotenv.env['DISABLE_SSL_VERIFICATION']?.parseBool() ?? false;
 
-  // static const String client_id = "210d8421-9222-41a0-926a-23be3dfe7608"; // QA
-  // static const String base = "apiq.credicard.com.ve"; // QA
-
-  static String pinPad = "$type/pin_pad/";
   static String uri = "$type/pin_pad/payment";
 
   static Map<String, String> params = {};
@@ -116,10 +102,6 @@ abstract class MyUtils {
 
   static void testLoadDemo() {
     dotenv.testLoad(fileInput: File('env.demo').readAsStringSync());
-  }
-
-  static void testLoadQA() {
-    dotenv.testLoad(fileInput: File('env.qa').readAsStringSync());
   }
 
   static Future<void> loadDemo() {

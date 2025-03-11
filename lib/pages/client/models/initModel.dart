@@ -4,7 +4,7 @@ import 'package:sports_management/services/http/domain/productModel.dart';
 import '../../../services/http/domain/role_request.dart';
 
 class Init {
-  AccessToken? accessToken;
+  AccessToken? idToken;
   ProfileModel? profile;
   ProfileModel? businessProfile;
   Country? country;
@@ -13,7 +13,7 @@ class Init {
   List<Inventories>? inventories;
 
   Init(
-      {this.accessToken,
+      {this.idToken,
         this.profile,
         this.businessProfile,
         this.country,
@@ -22,8 +22,8 @@ class Init {
         this.inventories});
 
   Init.fromJson(Map<String, dynamic> json) {
-    accessToken = json['access_token'] != null
-        ? AccessToken.fromJson(json['access_token'])
+    idToken = json['id_token'] != null
+        ? AccessToken.fromJson(json['id_token'])
         : null;
     profile =
     json['profile'] != null ? ProfileModel.fromJson(json['profile']) : null;
@@ -46,8 +46,8 @@ class Init {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    if (accessToken != null) {
-      data['access_token'] = accessToken?.toJson();
+    if (idToken != null) {
+      data['id_token'] = idToken?.toJson();
     }
     if (profile != null) {
       data['profile'] = profile?.toJson();
@@ -72,16 +72,16 @@ class Init {
 }
 
 class AccessToken {
-  String? accessToken;
+  String? idToken;
   int? expiresIn;
   String? refreshToken;
   String? tokenType;
 
   AccessToken(
-      {this.accessToken, this.expiresIn, this.refreshToken, this.tokenType});
+      {this.idToken, this.expiresIn, this.refreshToken, this.tokenType});
 
   AccessToken.fromJson(Map<String, dynamic> json) {
-    accessToken = json['access_token'];
+    idToken = json['id_token'];
     expiresIn = json['expires_in'];
     refreshToken = json['refresh_token'];
     tokenType = json['token_type'];
@@ -89,7 +89,7 @@ class AccessToken {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['access_token'] = accessToken;
+    data['id_token'] = idToken;
     data['expires_in'] = expiresIn;
     data['refresh_token'] = refreshToken;
     data['token_type'] = tokenType;

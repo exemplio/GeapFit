@@ -4,7 +4,7 @@ import 'package:sports_management/domain/profile.dart';
 
 part 'credential_response.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable()
 class CredentialResponse {
   Profile? profile;
 

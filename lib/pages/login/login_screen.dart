@@ -70,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
     var third =
         profile == null ? false : await cache.isDeviceAuthorized(profile.id!);
 
-    return "is device auth $third token ${token?.accessToken})";
+    return "is device auth $third token ${token?.idToken})";
   }
 
   Future<void> checkDeviceModel() async {
@@ -162,6 +162,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                       _showError(state.errorMessage);
                     }
                     if (state is GoToAuthDeviceState) {
+                      print("TAMBIEN LLEGa pa");
                       _goToAuthDevice(state.userEmail, state.userPassword);
                     }
                   },
@@ -267,7 +268,6 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
           final decryptedPassword = encrypter
               .decrypt(crypt.Encrypted.from64(credentials.password), iv: iv);
 
-          _bloc().setBiometric(true);
           _bloc().updateUserName(decryptedEmail);
           _bloc().updatePassword(decryptedPassword);
           _loginBtnTap();
@@ -461,7 +461,6 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
   }
 
   void _pressLoginButton() {
-    _bloc().setBiometric(false);
     _loginBtnTap();
   }
 
@@ -498,7 +497,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
   }
 
   void _goToAuthDevice(String userEmail, String userPassword) {
-    context.go(StaticNames.authDeviceName.path,
+    context.go(StaticNames.salesName.path,
         extra: CredentialModel(email: userEmail, password: userPassword));
   }
 }

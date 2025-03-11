@@ -8,21 +8,28 @@ part of 'access_token_response.dart';
 
 AccessTokenResponse _$AccessTokenResponseFromJson(Map<String, dynamic> json) =>
     AccessTokenResponse(
-      accessToken: json['access_token'] as String?,
-      expiresIn: json['expires_in'] as int?,
-      tokenType: json['token_type'] as String?,
-      refreshToken: json['refresh_token'] as String?,
-      expireDate: json['expire_date'] == null
-          ? null
-          : DateTime.parse(json['expire_date'] as String),
+      kind: json['kind'] as String?,
+      localId: json['localId'] as String?,
+      email: json['email'] as String?,
+      displayName: json['displayName'] as String?,
+      idToken: json['idToken'] as String?,
+      registered: json['registered'] as bool?,
+      expiresIn: (json['expiresIn'] as num?)?.toInt(),
+      expireDate:
+          json['expireDate'] == null
+              ? null
+              : DateTime.parse(json['expireDate'] as String),
     );
 
 Map<String, dynamic> _$AccessTokenResponseToJson(
-        AccessTokenResponse instance) =>
-    <String, dynamic>{
-      'access_token': instance.accessToken,
-      'expires_in': instance.expiresIn,
-      'token_type': instance.tokenType,
-      'refresh_token': instance.refreshToken,
-      'expire_date': instance.expireDate?.toIso8601String(),
-    };
+  AccessTokenResponse instance,
+) => <String, dynamic>{
+  'kind': instance.kind,
+  'localId': instance.localId,
+  'email': instance.email,
+  'displayName': instance.displayName,
+  'idToken': instance.idToken,
+  'registered': instance.registered,
+  'expiresIn': instance.expiresIn,
+  'expireDate': instance.expireDate?.toIso8601String(),
+};

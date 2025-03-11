@@ -1,7 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: non_constant_identifier_names
-
 part of 'theme_list.dart';
 
 // **************************************************************************
@@ -9,12 +7,11 @@ part of 'theme_list.dart';
 // **************************************************************************
 
 _$_ThemeList _$$_ThemeListFromJson(Map<String, dynamic> json) => _$_ThemeList(
-      list: (json['list'] as List<dynamic>)
+  list:
+      (json['list'] as List<dynamic>)
           .map((e) => AppTheme.fromJson(e as Map<String, dynamic>))
           .toList(),
-    );
+);
 
 Map<String, dynamic> _$$_ThemeListToJson(_$_ThemeList instance) =>
-    <String, dynamic>{
-      'list': instance.list,
-    };
+    <String, dynamic>{'list': instance.list};

@@ -38,8 +38,6 @@ class RegisterService {
     String? last_name,
     String? business_name,
   }) async {
-    var allied = jsonDecode(MyUtils.scopeAllied);
-    var pos = jsonDecode(MyUtils.scopePos);
     List<Map<String, String>> security_questions = [
       {
         "question": question,
@@ -77,8 +75,6 @@ class RegisterService {
       };
     }
     if (phone != null) body["phone"] = phone;
-    body["scopes"] = [allied, pos];
-
     return await _apiServices.selfSignUp(body: body);
   }
 

@@ -51,7 +51,7 @@ GoRoute rootRoute() {
         _logger.i("tienes credenciales? $isLoggedIn");
         return isLoggedIn
             ? StaticNames.salesName.path
-            : StaticNames.salesName.path;
+            : StaticNames.loginName.path;
       });
 }
 
@@ -84,20 +84,6 @@ final GoRouter router = GoRouter(
       builder: (context, state) {
         _logger.i(state.location);
         return const RegisterScreen();
-      },
-    ),
-    GoRoute(
-      path: StaticNames.authDeviceName.path,
-      name: StaticNames.authDeviceName.name,
-      parentNavigatorKey: _rootNavigatorKey,
-      builder: (context, state) {
-        _logger.i(state.location);
-        CredentialModel credentials = state.extra as CredentialModel;
-        return AuthDeviceScreen(
-          bloc: getIt<AuthDeviceBloc>(),
-          userEmail: credentials.email.toString(),
-          userPassword: credentials.password.toString(),
-        );
       },
     ),
     ShellRoute(

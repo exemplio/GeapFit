@@ -143,7 +143,7 @@ class Cache {
       AccessTokenResponse accessTokenResponse) async {
     var expiresIn = accessTokenResponse.expiresIn;
 
-    if (accessTokenResponse.refreshToken != null && expiresIn != null) {
+    if (accessTokenResponse.idToken != null && expiresIn != null) {
       accessTokenResponse.expireDate =
           DateTime.now().add(Duration(seconds: expiresIn - 10));
 

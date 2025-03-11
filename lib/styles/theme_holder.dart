@@ -11,7 +11,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../utils/utils.dart';
 import 'color_provider/color_provider.dart';
 import 'color_provider/color_provider_impl.dart';
-import 'color_provider/pinpagos_color_provider.dart';
 import 'decorations_style.dart';
 import 'domain/app_theme.dart';
 
@@ -89,6 +88,6 @@ class ThemeHolder {
 
   ColorProvider colorProvider() {
     //printCurrentTheme();
-    return _colorProviders[_currentTheme] ?? PinPagosColorProvider();
+    return _colorProviders[_currentTheme]!;
   }
 }

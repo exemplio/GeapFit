@@ -7,7 +7,7 @@ part 'initDataModel.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class Init {
-  AccessToken? accessToken;
+  AccessToken? idToken;
   Profile? profile;
   Profile? businessProfile;
   Country? country;
@@ -16,7 +16,7 @@ class Init {
   List<Inventory>? inventories;
 
   Init({
-    this.accessToken,
+    this.idToken,
     this.profile,
     this.businessProfile,
     this.country,
@@ -31,13 +31,13 @@ class Init {
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class AccessToken {
-  String? accessToken;
+  String? idToken;
   int? expiresIn;
   String? refreshToken;
   String? tokenType;
 
   AccessToken(
-      {this.accessToken, this.expiresIn, this.refreshToken, this.tokenType});
+      {this.idToken, this.expiresIn, this.refreshToken, this.tokenType});
 
   factory AccessToken.fromJson(Map<String, dynamic> json) =>
       _$AccessTokenFromJson(json);

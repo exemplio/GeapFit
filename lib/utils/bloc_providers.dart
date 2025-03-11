@@ -12,8 +12,4 @@ List<BlocProvider> blocProviders = [
   BlocProvider<LoginScreenBloc>(create: (context) => getIt<LoginScreenBloc>()),
   BlocProvider<RegisterBloc>(create: (context) => getIt<RegisterBloc>()),
   BlocProvider<WithdrawBloc>(create: (context) => getIt<WithdrawBloc>()),
-  /* BlocProvider<LoginScreenBloc>(create: (context) => LoginScreenBloc()),
-  BlocProvider<AuthDeviceBloc>(create: (context) => AuthDeviceBloc()),
-  BlocProvider<LogoutBloc>(create: (context) => LogoutBloc()),
-  BlocProvider<BluetoothScanBloc>(create: (context) => BluetoothScanBloc()),*/
 ];

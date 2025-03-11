@@ -1,129 +1,127 @@
+// dart format width=80
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 // **************************************************************************
 // InjectableConfigGenerator
 // **************************************************************************
 
-// ignore_for_file: unnecessary_lambdas
-// ignore_for_file: lines_longer_than_80_chars
+// ignore_for_file: type=lint
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:get_it/get_it.dart' as _i1;
-import 'package:injectable/injectable.dart' as _i2;
-import 'package:sports_management/di/injection_module.dart' as _i24;
-import 'package:sports_management/pages/auth_device/auth_device_bloc.dart'
-    as _i22;
-import 'package:sports_management/pages/auth_device/auth_device_service.dart'
-    as _i18;
+import 'package:get_it/get_it.dart' as _i174;
+import 'package:injectable/injectable.dart' as _i526;
+import 'package:sports_management/di/injection_module.dart' as _i427;
 import 'package:sports_management/pages/bottom_nav/bottom_nav_bloc.dart'
-    as _i11;
-import 'package:sports_management/pages/login/get_credentials.dart' as _i12;
-import 'package:sports_management/pages/login/login_bloc.dart' as _i20;
-import 'package:sports_management/pages/login/login_service.dart' as _i16;
-import 'package:sports_management/pages/logout/logout_bloc.dart' as _i23;
-import 'package:sports_management/pages/logout/logout_service.dart' as _i21;
-import 'package:sports_management/services/cacheService.dart' as _i3;
-import 'package:sports_management/services/get/fingerprint_service.dart'
-    as _i4;
-import 'package:sports_management/services/http/api_services.dart' as _i10;
-import 'package:sports_management/services/http/auth_interceptor.dart'
-    as _i19;
-import 'package:sports_management/services/http/cache_online_provider.dart'
-    as _i7;
-import 'package:sports_management/services/http/http_service.dart' as _i5;
-import 'package:sports_management/services/http/is_online_provider.dart'
-    as _i6;
-import 'package:sports_management/services/token_service.dart' as _i17;
-import 'package:sports_management/styles/profile_theme_selector.dart' as _i8;
-import 'package:sports_management/styles/theme_holder.dart' as _i13;
-import 'package:sports_management/styles/theme_loader.dart' as _i9;
-import 'package:sports_management/styles/theme_provider.dart' as _i14;
-import 'package:sports_management/styles/theme_selector.dart' as _i15;
-
+    as _i1051;
+import 'package:sports_management/pages/login/get_credentials.dart' as _i404;
+import 'package:sports_management/pages/login/login_bloc.dart' as _i127;
+import 'package:sports_management/pages/login/login_service.dart' as _i596;
+import 'package:sports_management/pages/logout/logout_bloc.dart' as _i616;
+import 'package:sports_management/pages/logout/logout_service.dart' as _i695;
+import 'package:sports_management/pages/register/register_bloc.dart' as _i17;
 import 'package:sports_management/pages/register/register_service.dart'
-    as _i25;
-import 'package:sports_management/pages/register/register_bloc.dart' as _i26;
-import 'package:sports_management/pages/withdraw/bloc/withdraw_bloc.dart'
-    as _i46;
+    as _i851;
+import 'package:sports_management/services/cacheService.dart' as _i99;
+import 'package:sports_management/services/get/fingerprint_service.dart'
+    as _i256;
+import 'package:sports_management/services/http/api_services.dart' as _i281;
+import 'package:sports_management/services/http/auth_interceptor.dart' as _i303;
+import 'package:sports_management/services/http/cache_online_provider.dart'
+    as _i323;
+import 'package:sports_management/services/http/http_service.dart' as _i989;
+import 'package:sports_management/services/http/is_online_provider.dart'
+    as _i716;
+import 'package:sports_management/services/token_service.dart' as _i636;
+import 'package:sports_management/styles/profile_theme_selector.dart' as _i604;
+import 'package:sports_management/styles/theme_holder.dart' as _i1052;
+import 'package:sports_management/styles/theme_loader.dart' as _i339;
+import 'package:sports_management/styles/theme_provider.dart' as _i287;
+import 'package:sports_management/styles/theme_selector.dart' as _i611;
 
-extension GetItInjectableX on _i1.GetIt {
+extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
-  _i1.GetIt init({
+  _i174.GetIt init({
     String? environment,
-    _i2.EnvironmentFilter? environmentFilter,
+    _i526.EnvironmentFilter? environmentFilter,
   }) {
-    final gh = _i2.GetItHelper(
-      this,
-      environment,
-      environmentFilter,
-    );
+    final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final injectionModule = _$InjectionModule();
-    gh.factory<_i3.Cache>(() => _i3.Cache());
-    gh.factory<_i4.FingerprintService>(() => _i4.FingerprintService());
-    gh.lazySingleton<_i5.HttpService>(() => injectionModule.httpService);
-    gh.factory<_i6.IsOnlineProvider>(
-        () => _i7.CacheOnlineProvider(gh<_i3.Cache>()));
-    gh.factory<_i8.ProfileThemeSelector>(() => _i8.ProfileThemeSelector());
-    gh.factory<_i9.ThemeLoader>(() => _i9.ThemeLoader());
-    gh.factory<_i10.ApiServices>(() => _i10.ApiServices(
-          gh<_i5.HttpService>(),
-          gh<_i6.IsOnlineProvider>(),
-        ));
-    gh.factory<_i11.BottomNavBloc>(() => _i11.BottomNavBloc(gh<_i3.Cache>()));
-    gh.factory<_i12.GetCredentials>(() => _i12.GetCredentials(
-          gh<_i10.ApiServices>(),
-          gh<_i4.FingerprintService>(),
-        ));
-    gh.singleton<_i13.ThemeHolder>(() => _i13.ThemeHolder(gh<_i9.ThemeLoader>()));
-    gh.singleton<_i14.ThemeProvider>(() => _i14.ThemeProvider(gh<_i13.ThemeHolder>()));
-    gh.factory<_i15.ThemeSelector>(
-        () => _i15.ThemeSelector(gh<_i14.ThemeProvider>()));
-    gh.factory<_i16.LoginService>(() => _i16.LoginService(
-          gh<_i3.Cache>(),
-          gh<_i12.GetCredentials>(),
-          gh<_i15.ThemeSelector>(),
-        ));
-    gh.factory<_i17.TokenService>(() => _i17.TokenService(
-          gh<_i3.Cache>(),
-          gh<_i16.LoginService>(),
-        ));
-    gh.factory<_i18.AuthDeviceService>(() => _i18.AuthDeviceService(
-          gh<_i17.TokenService>(),
-          gh<_i10.ApiServices>(),
-          gh<_i4.FingerprintService>(),
-        ));
-    gh.factory<_i19.AuthInterceptor>(() => _i19.AuthInterceptor(
-          gh<_i17.TokenService>(),
-          gh<_i3.Cache>(),
-        ));
-    gh.factory<_i20.LoginScreenBloc>(() => _i20.LoginScreenBloc(
-          gh<_i16.LoginService>(),
-        ));
-    gh.factory<_i21.LogoutService>(() => _i21.LogoutService(
-          gh<_i10.ApiServices>(),
-          gh<_i17.TokenService>(),
-        ));
-    gh.factory<_i22.AuthDeviceBloc>(() => _i22.AuthDeviceBloc(
-          gh<_i18.AuthDeviceService>(),
-          gh<_i16.LoginService>(),
-        ));
-    gh.factory<_i23.LogoutBloc>(() => _i23.LogoutBloc(
-          gh<_i21.LogoutService>(),
-          gh<_i3.Cache>(),
-          gh<_i14.ThemeProvider>(),
-        ));
-    gh.factory<_i25.RegisterService>(() => _i25.RegisterService(
-          gh<_i10.ApiServices>(),
-          gh<_i17.TokenService>(),
-        ));
-    gh.factory<_i46.WithdrawBloc>(() => _i46.WithdrawBloc());
-    gh.factory<_i26.RegisterBloc>(() => _i26.RegisterBloc(
-          gh<_i25.RegisterService>(),
-          gh<_i14.ThemeProvider>(),
-        ));
+    gh.factory<_i99.Cache>(() => _i99.Cache());
+    gh.factory<_i256.FingerprintService>(() => _i256.FingerprintService());
+    gh.factory<_i604.ProfileThemeSelector>(() => _i604.ProfileThemeSelector());
+    gh.factory<_i339.ThemeLoader>(() => _i339.ThemeLoader());
+    gh.lazySingleton<_i989.HttpService>(() => injectionModule.httpService);
+    gh.factory<_i1051.BottomNavBloc>(
+      () => _i1051.BottomNavBloc(gh<_i99.Cache>()),
+    );
+    gh.singleton<_i1052.ThemeHolder>(
+      () => _i1052.ThemeHolder(gh<_i339.ThemeLoader>()),
+    );
+    gh.factory<_i716.IsOnlineProvider>(
+      () => _i323.CacheOnlineProvider(gh<_i99.Cache>()),
+    );
+    gh.singleton<_i287.ThemeProvider>(
+      () => _i287.ThemeProvider(gh<_i1052.ThemeHolder>()),
+    );
+    gh.factory<_i611.ThemeSelector>(
+      () => _i611.ThemeSelector(gh<_i287.ThemeProvider>()),
+    );
+    gh.factory<_i281.ApiServices>(
+      () => _i281.ApiServices(
+        gh<_i989.HttpService>(),
+        gh<_i716.IsOnlineProvider>(),
+      ),
+    );
+    gh.factory<_i404.GetCredentials>(
+      () => _i404.GetCredentials(
+        gh<_i281.ApiServices>(),
+        gh<_i256.FingerprintService>(),
+      ),
+    );
+    gh.factory<_i596.LoginService>(
+      () => _i596.LoginService(
+        gh<_i99.Cache>(),
+        gh<_i404.GetCredentials>(),
+        gh<_i611.ThemeSelector>(),
+      ),
+    );
+    gh.factory<_i127.LoginScreenBloc>(
+      () => _i127.LoginScreenBloc(gh<_i596.LoginService>()),
+    );
+    gh.factory<_i636.TokenService>(
+      () => _i636.TokenService(gh<_i99.Cache>(), gh<_i596.LoginService>()),
+    );
+    gh.factory<_i695.LogoutService>(
+      () => _i695.LogoutService(
+        gh<_i281.ApiServices>(),
+        gh<_i636.TokenService>(),
+      ),
+    );
+    gh.factory<_i851.RegisterService>(
+      () => _i851.RegisterService(
+        gh<_i281.ApiServices>(),
+        gh<_i636.TokenService>(),
+      ),
+    );
+    gh.factory<_i303.AuthInterceptor>(
+      () => _i303.AuthInterceptor(gh<_i636.TokenService>(), gh<_i99.Cache>()),
+    );
+    gh.factory<_i17.RegisterBloc>(
+      () => _i17.RegisterBloc(
+        gh<_i851.RegisterService>(),
+        gh<_i287.ThemeProvider>(),
+      ),
+    );
+    gh.factory<_i616.LogoutBloc>(
+      () => _i616.LogoutBloc(
+        gh<_i695.LogoutService>(),
+        gh<_i99.Cache>(),
+        gh<_i287.ThemeProvider>(),
+      ),
+    );
     return this;
   }
 }
 
-class _$InjectionModule extends _i24.InjectionModule {}
+class _$InjectionModule extends _i427.InjectionModule {}

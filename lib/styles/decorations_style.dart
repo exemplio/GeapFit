@@ -100,15 +100,13 @@ class MyTheme {
         inputDecorationTheme: InputDecorationTheme(
           focusColor: colorProvider.primary(),
           enabledBorder: OutlineInputBorder(
-            borderSide:
-                BorderSide(width: 2, color: colorProvider.primaryLight()),
+            borderRadius: BorderRadius.circular(15.0),
           ),
           border: const OutlineInputBorder(),
           iconColor: colorProvider.primaryLight(),
           fillColor: colorProvider.primaryLight(),
           focusedBorder: OutlineInputBorder(
-            borderSide:
-                BorderSide(width: 2, color: colorProvider.primaryLight()),
+            borderRadius: BorderRadius.circular(15.0),
           ),
         ),
         colorScheme: ColorScheme.fromSwatch().copyWith(

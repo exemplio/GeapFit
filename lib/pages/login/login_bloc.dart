@@ -44,7 +44,6 @@ class LoginScreenBloc extends Bloc<LoginEvent, LoginState> {
   final _logger = Logger();
   final LoginService _loginService;
   String userEmail = "";
-  bool biometric = false;
   String typeDniSelected = "V";
   bool expired = false;
   bool useEmail = false;
@@ -63,10 +62,6 @@ class LoginScreenBloc extends Bloc<LoginEvent, LoginState> {
     updatePassword('');
   }
 
-  setBiometric(bool value) {
-    biometric = value;
-  }
-
   setValidation(bool value) {
     useEmail = value;
   }
@@ -77,40 +72,17 @@ class LoginScreenBloc extends Bloc<LoginEvent, LoginState> {
 
   Future<void> _onLoginTryEvent(Emitter<LoginState> emitter) async {
     emitter(const LoginLoadingState());
-
+    print("SI PASA ACA");
     var result = await _login();
 
     var errorMessage = Optional.ofNullable(result.msg)
         .map((p0) => p0.message)
         .orElse(result.errorMessage ?? "Error al loguearse");
-
     if (result.success) {
-      if (errorMessage == "AUTHORIZATION_EMAIL_SENDED") {
+    print("Si devolvio algo bro");
+    print(result);
+    print(errorMessage);
         emitter(GoToAuthDeviceState(userEmail, _passwordController.value));
-      } else {
-        var res = await _loginService.getRole();
-        if (res.success) {
-            crypt.Key key = crypt.Key.fromBase64(MyUtils.cryptoKey());
-            crypt.IV iv = crypt.IV.fromBase64(MyUtils.cryptoIV());
-            final encrypter = crypt.Encrypter(crypt.AES(key));
-            final encryptedEmail = encrypter.encrypt(userEmail, iv: iv);
-            final encryptedPassword =
-                encrypter.encrypt(_passwordController.value, iv: iv);
-          await _cache.saveLastCredentials(CredentialModel(
-            email: encryptedEmail.base64,
-            password: encryptedPassword.base64));
-          await _loginService.saveProfile();
-          emitter(const LoginSuccessState());
-        } else {
-          await getIt<TokenService>()
-              .token()
-              .then((value) => value.obj)
-              .then((value) => getIt<ApiServices>().closeSession(value!));
-          var errorMessage = res.errorMessage ?? "Error al loguearse";
-          _logger.i(errorMessage);
-          emitter(LoginErrorState(errorMessage: errorMessage));
-        }
-      }
     } else {
       if (errorMessage == "AUTHORIZATION_EMAIL_SENDED") {
         emitter(GoToAuthDeviceState(userEmail, _passwordController.value));
@@ -153,22 +125,9 @@ class LoginScreenBloc extends Bloc<LoginEvent, LoginState> {
     if (value == null || value == "") {
       return "El usuario no puede estar vacío";
     }
-
-    if (!biometric) {
-      if (useEmail) {
-        if (!MyUtils.REX_EMAIL.hasMatch(value)) {
-          return "Ingresa un email válido";
-        }
-      } else {
-        if (!MyUtils.REX_CI.hasMatch(value) && !MyUtils.isNumeric(value)) {
-          return "Ingresa un número de documento válido";
-        }
-        if (value.length < 4) {
-          return "Longitud de número inválida";
-        }
-      }
-    }
-
+    if (!MyUtils.REX_EMAIL.hasMatch(value)) {
+      return "Ingresa un email válido";
+    }      
     return null;
   }
 
@@ -191,17 +150,11 @@ class LoginScreenBloc extends Bloc<LoginEvent, LoginState> {
       );
 
   Future<Result<Void>> _login() async {
-    String parsedEmail = _userNameController.value;
-    if (!biometric) {
-      if (!useEmail) {
-        if (MyUtils.REX_CI.hasMatch(parsedEmail)) {
-          parsedEmail = "$typeDniSelected${parsedEmail.substring(1)}";
-        } else {
-          parsedEmail = "$typeDniSelected${parsedEmail.padLeft(9, "0")}";
-        }
-        updateUserName(parsedEmail);
-      }
+    String parsedEmail = _userNameController.value;    
+    if (MyUtils.REX_CI.hasMatch(parsedEmail)) {
+      parsedEmail = parsedEmail.substring(1);
     }
+    updateUserName(parsedEmail);          
     bool isCI = MyUtils.REX_CI.hasMatch(parsedEmail);
     var retries = 0;
     return RetryWhenStream(

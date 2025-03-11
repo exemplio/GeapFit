@@ -4,13 +4,11 @@ part 'password_grant_request.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class PasswordGrantRequest {
-  String clientId;
-  String username;
+  String email;
   String password;
-  String fingerprint;
 
   PasswordGrantRequest(
-      this.clientId, this.username, this.password, this.fingerprint);
+      this.email, this.password);
 
   factory PasswordGrantRequest.fromJson(Map<String, dynamic> json) =>
       _$PasswordGrantRequestFromJson(json);

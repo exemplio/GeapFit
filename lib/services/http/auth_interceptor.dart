@@ -18,7 +18,7 @@ class AuthInterceptor implements InterceptorContract {
 
   @override
   Future<RequestData> interceptRequest({required RequestData data}) async {
-    if (data.url.contains(MyUtils.authContextPath)) {
+    if (data.url.contains(MyUtils.type)) {
       data.headers.update("x-paguetodo-id", (value) => MyUtils.authId,
           ifAbsent: () => MyUtils.authId);
     } else {
@@ -27,11 +27,11 @@ class AuthInterceptor implements InterceptorContract {
 
       if (!MyUtils.nonAuthServices.contains(resource)) {
         var result = await _tokenService.token();
-        var accessToken = result.obj;
-        if (result.success && accessToken != null) {
-          var header = "Bearer $accessToken";
+        var idToken = result.obj;
+        if (result.success && idToken != null) {
+          var header = "Bearer $idToken";
 
-          data.headers.update("authorization", (value) => "Bearer $accessToken",
+          data.headers.update("authorization", (value) => "Bearer $idToken",
               ifAbsent: () => header);
 
           var credentialResponse = await _cache.credentialResponse();

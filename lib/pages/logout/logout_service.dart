@@ -17,9 +17,9 @@ class LogoutService {
     return _tokenService.token().then((value) => value.obj).then(_close);
   }
 
-  Future<Result<Void>> _close(String? accessToken) async {
-    if (accessToken != null) {
-      return _apiServices.closeSession(accessToken);
+  Future<Result<Void>> _close(String? idToken) async {
+    if (idToken != null) {
+      return _apiServices.closeSession(idToken);
     }
 
     return Result.success(null);

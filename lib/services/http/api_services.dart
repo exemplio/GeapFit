@@ -55,16 +55,13 @@ class ApiServices {
   }
 
   Future<Result<AccessTokenResponse>> passwordGrant(
-      PasswordGrantRequest request, bool isCI) {
-    String path = isCI
-        ? StaticNamesPath.signInCI.path
-        : StaticNamesPath.passwordGrant.path;
-    var uri = url("${MyUtils.type}${MyUtils.authContextPath}$path",
-        queryParameters: {"grant_type": "password"});
+      PasswordGrantRequest request) {
+    String path = StaticNamesPath.passwordGrant.path;
+    var uri = url("${MyUtils.type}$path",
+        queryParameters: {"key": MyUtils.apiKey});
     var headers = {
       HttpHeaders.contentTypeHeader: ContentType.json.toString(),
     };
-
     return httpCall(
         (client) =>
             client.post(uri, body: jsonEncode(request), headers: headers),
@@ -72,13 +69,13 @@ class ApiServices {
   }
 
   Future<Result<AccessTokenResponse>> refreshToken(
-      String accessToken, String refreshToken) {
+      String idToken, String refreshToken) {
     var uri = url(
-        "${MyUtils.type}${MyUtils.authContextPath}${StaticNamesPath.refresh.path}",
+        "${MyUtils.type}${MyUtils.type}${StaticNamesPath.refresh.path}",
         queryParameters: {"refresh_token": refreshToken});
     var headers = {
       HttpHeaders.contentTypeHeader: ContentType.json.toString(),
-      HttpHeaders.authorizationHeader: "Bearer $accessToken",
+      HttpHeaders.authorizationHeader: "Bearer $idToken",
       "app-id": MyUtils.clientId,
     };
 
@@ -86,45 +83,11 @@ class ApiServices {
         parseJson: (json) => AccessTokenResponse.fromJson(json));
   }
 
-  Future<Result<Message>> authDevice(
-      String accessToken, AuthDeviceRequest request) {
-    var uri = url(
-        "${MyUtils.type}${MyUtils.authContextPath}${StaticNamesPath.device.path}");
-    var headers = {
-      HttpHeaders.contentTypeHeader: ContentType.json.toString(),
-      HttpHeaders.authorizationHeader: "Bearer $accessToken",
-    };
-
-    return httpCall(
-            (client) =>
-                client.post(uri, body: jsonEncode(request), headers: headers),
-            parseJson: (json) => Message.fromJson(json))
-        .then((value) => Result(value.success, value.obj, value.error,
-            value.stackTrace, value.errorMessage, value.obj));
-  }
-
-  Future<Result<Message>> authDeviceCode(
-      String accessToken, AuthDeviceCodeRequest request) {
-    var uri = url(
-        "${MyUtils.type}${MyUtils.authContextPath}${StaticNamesPath.device.path}",queryParameters: request.toJson());
-    var headers = {
-      HttpHeaders.contentTypeHeader: ContentType.json.toString(),
-      HttpHeaders.authorizationHeader: "Bearer $accessToken",
-    };
-
-    return httpCall(
-            (client) =>
-                client.put(uri,body: jsonEncode(request), headers: headers),
-            parseJson: (json) => Message.fromJson(json))
-        .then((value) => Result(value.success, value.obj, value.error,
-            value.stackTrace, value.errorMessage, value.obj));
-  }
-
   Future<Result> recoverExpiredPassword(
       String email, Map<String, dynamic> body) async {
     Map<String, dynamic> params = {"app-id": MyUtils.clientId, "email": email};
     var uri = url(
-        "${MyUtils.type}${MyUtils.authContextPath}${StaticNamesPath.recoverExpired.path}",
+        "${MyUtils.type}${MyUtils.type}${StaticNamesPath.recoverExpired.path}",
         queryParameters: params);
 
     var headers = {
@@ -141,7 +104,7 @@ class ApiServices {
     Map<String, String> params = {};
     params["app-id"] = MyUtils.clientId;
     var uri = url(
-        "${MyUtils.type}${MyUtils.authContextPath}${StaticNamesPath.sendRecover.path}",
+        "${MyUtils.type}${MyUtils.type}${StaticNamesPath.sendRecover.path}",
         queryParameters: params);
     var headers = {
       HttpHeaders.contentTypeHeader: ContentType.json.toString(),
@@ -164,7 +127,7 @@ class ApiServices {
     };
 
     var uri = url(
-        "${MyUtils.type}${MyUtils.authContextPath}${StaticNamesPath.resend.path}",
+        "${MyUtils.type}${MyUtils.type}${StaticNamesPath.resend.path}",
         queryParameters: params);
     return httpCall((client) => client.get(uri, headers: headers),
         parseJson: (json) => json);
@@ -181,7 +144,7 @@ class ApiServices {
     };
 
     var uri = url(
-        "${MyUtils.type}${MyUtils.authContextPath}${StaticNamesPath.recover.path}",
+        "${MyUtils.type}${MyUtils.type}${StaticNamesPath.recover.path}",
         queryParameters: params);
     return httpCall((client) => client.get(uri, headers: headers),
         parseJson: (json) => json);
@@ -204,25 +167,25 @@ class ApiServices {
         parseJson: (json) => json);
   }
 
-  Future<Result<Void>> closeSession(String accessToken) {
+  Future<Result<Void>> closeSession(String idToken) {
     var uri = url(
-        "${MyUtils.type}${MyUtils.authContextPath}${StaticNamesPath.closeSession.path}");
+        "${MyUtils.type}${MyUtils.type}${StaticNamesPath.closeSession.path}");
     var headers = {
       HttpHeaders.contentTypeHeader: ContentType.json.toString(),
-      HttpHeaders.authorizationHeader: "Bearer $accessToken",
+      HttpHeaders.authorizationHeader: "Bearer $idToken",
     };
 
     return httpCall((client) => client.put(uri, headers: headers));
   }
 
   Future<Result<Message>> sendAuthDeviceCode(
-      String accessToken, String fingerprint) {
+      String idToken, String fingerprint) {
     var uri = url(
-        "${MyUtils.type}${MyUtils.authContextPath}${StaticNamesPath.resendCode.path}",
+        "${MyUtils.type}${MyUtils.type}${StaticNamesPath.resendCode.path}",
         queryParameters: {"fingerprint": fingerprint});
     var headers = {
       HttpHeaders.contentTypeHeader: ContentType.json.toString(),
-      HttpHeaders.authorizationHeader: "Bearer $accessToken",
+      HttpHeaders.authorizationHeader: "Bearer $idToken",
     };
 
     return httpCall((client) => client.get(uri, headers: headers),
@@ -232,22 +195,13 @@ class ApiServices {
   }
 
   Future<Result<CredentialResponse>> credentials(Map<String, String> body) {
-    var uri = url("${MyUtils.typeDemo}${StaticNamesPath.credentials.path}");
+    var uri = url("${MyUtils.type}${StaticNamesPath.credentials.path}");
     var headers = {
       HttpHeaders.contentTypeHeader: "application/x-www-form-urlencoded",
     };
 
     return httpCall((client) => client.post(uri, body: body, headers: headers),
         parseJson: (json) => CredentialResponse.fromJson(json));
-  }
-
-  Future<Result<Void>> fix({required String account}) {
-    var headers = {
-      HttpHeaders.contentTypeHeader: ContentType.text.toString(),
-    };
-    var uri = url("${MyUtils.type}${MyUtils.urlContextPath}${StaticNamesPath.fix.path}");
-
-    return httpCall((client) => client.post(uri, body: account, headers: headers));
   }
 
 
@@ -277,7 +231,7 @@ class ApiServices {
 
   Future<Result<Init>> init(String businessId) async {
     Map<String, String> params = {};
-    params["client_id"] = MyUtils.clientIdRole;
+    params["client_id"] = MyUtils.apiKey;
     params["role_owner_id"] = businessId;
 
     var headers = {
@@ -337,7 +291,7 @@ class ApiServices {
 
   Future<Result<String>> balancePayment({required Map<String, dynamic> body, required Map<String, String> params}) async {
 
-    var uri = url("${MyUtils.type}${MyUtils.urlContextPath}${StaticNamesPath.balancePayment.path}", queryParameters: params);
+    var uri = url("${MyUtils.type}${MyUtils.type}${StaticNamesPath.balancePayment.path}", queryParameters: params);
 
     var headers = {
       HttpHeaders.contentTypeHeader: ContentType.json.toString(),
@@ -351,7 +305,7 @@ class ApiServices {
   }
 
   Future<Result<AccessTokenResponse>> authorize(String auth) {
-    var uri = url("${MyUtils.typeDemo}${StaticNamesPath.authorize.path}");
+    var uri = url("${MyUtils.type}${StaticNamesPath.authorize.path}");
 
     var headers = {
       HttpHeaders.authorizationHeader: "Basic $auth",
@@ -364,7 +318,7 @@ class ApiServices {
     Future<Result<Message>> selfSignUp({required Map<String, dynamic> body}) async {
     Map<String, String> params = {};
     params["app-id"] = MyUtils.clientId;
-    var uri = url("${MyUtils.type}${MyUtils.authContextPath}${StaticNamesPath.selfSignUp.path}", queryParameters: params);
+    var uri = url("${MyUtils.type}${MyUtils.type}${StaticNamesPath.selfSignUp.path}", queryParameters: params);
     var headers = {
       HttpHeaders.contentTypeHeader: ContentType.json.toString(),
       HttpHeaders.acceptHeader: ContentType.json.toString(),
@@ -386,7 +340,7 @@ class ApiServices {
         "app-id": MyUtils.clientId,
       };
       
-    var uri = url("${MyUtils.type}${MyUtils.authContextPath}${StaticNamesPath.securityQuestions.path}", queryParameters: params);
+    var uri = url("${MyUtils.type}${MyUtils.type}${StaticNamesPath.securityQuestions.path}", queryParameters: params);
       return httpCall((client) => client.get(uri, headers: headers), parseJson: (json)=> json);
   }
 

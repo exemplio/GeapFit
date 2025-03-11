@@ -17,20 +17,11 @@ AuthDeviceRequest _$AuthDeviceRequestFromJson(Map<String, dynamic> json) =>
       ),
     );
 
-Map<String, dynamic> _$AuthDeviceRequestToJson(AuthDeviceRequest instance) {
-  final val = <String, dynamic>{
-    'fingerprint': instance.fingerprint,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('name', instance.name);
-  val['type'] = instance.type;
-  writeNotNull('custom_id', instance.customId);
-  writeNotNull('features', instance.features);
-  return val;
-}
+Map<String, dynamic> _$AuthDeviceRequestToJson(AuthDeviceRequest instance) =>
+    <String, dynamic>{
+      'fingerprint': instance.fingerprint,
+      if (instance.name case final value?) 'name': value,
+      'type': instance.type,
+      if (instance.customId case final value?) 'custom_id': value,
+      if (instance.features case final value?) 'features': value,
+    };

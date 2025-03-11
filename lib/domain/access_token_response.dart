@@ -2,20 +2,33 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'access_token_response.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable()
 class AccessTokenResponse {
-  String? accessToken;
+  String? kind;
+  String? localId;
+  String? email;
+  String? displayName;
+  String? idToken;
+  bool? registered;
   int? expiresIn;
-  String? tokenType;
-  String? refreshToken;
   DateTime? expireDate;
 
-  AccessTokenResponse(
-      {this.accessToken,
-      this.expiresIn,
-      this.tokenType,
-      this.refreshToken,
-      this.expireDate});
+
+  AccessTokenResponse({
+    required this.kind,
+    required this.localId,
+    required this.email,
+    required this.displayName,
+    required this.idToken,
+    required this.registered,
+    required this.expiresIn,
+    required this.expireDate,
+  });
+
+  @override
+  String toString() {
+    return 'AccessTokenResponse{accessToken: $kind, tokenType: $localId}';
+  }
 
   factory AccessTokenResponse.fromJson(Map<String, dynamic> json) =>
       _$AccessTokenResponseFromJson(json);

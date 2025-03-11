@@ -10,8 +10,8 @@ getToken() async {
   if (res != null) {
     var result = json.decode(res);
     var res2 = json.decode(result) as Map<String, dynamic>;
-    if (res2.containsKey("access_token")) {
-      return res2["access_token"];
+    if (res2.containsKey("id_token")) {
+      return res2["id_token"];
     } else {
       return null;
     }

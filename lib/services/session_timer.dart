@@ -91,9 +91,9 @@ class SessionTimer {
     }
     _isLoading = true;
     // Navigator.pop(context);
-    var tokenJson = await _cache.getCacheJson("access_token");
+    var tokenJson = await _cache.getCacheJson("id_token");
     //  print(tokenJson);
-    var data = await _apiServices.closeSession(tokenJson["access_token"]);
+    var data = await _apiServices.closeSession(tokenJson["id_token"]);
     if (data.success) {
       await _cache.emptyCacheData();
       RestartWidget.restartApp(navigatorKey.currentState!.context);
@@ -117,16 +117,16 @@ class SessionTimer {
     // }
     time2 = 10;
     var data = await _cache.getAccessTokenResponse();
-    if (data!.accessToken != null && data.refreshToken != null) {
-      //  print(data.accessToken);
+    if (data!.idToken != null && data.idToken != null) {
+      //  print(data.idToken);
       var result = await _apiServices
-          .refreshToken(data.accessToken!, data.refreshToken!)
+          .refreshToken(data.idToken!, data.idToken!)
           .onError((error, stacktrace) => Result.fail(error, stacktrace));
       if (result.success) {
         final AccessTokenResponse res = result.obj!;
-        String access_token = res.accessToken ?? "";
+        String id_token = res.idToken ?? "";
         int expires_in = res.expiresIn ?? 0;
-        if (access_token != "" && expires_in != 0) {
+        if (id_token != "" && expires_in != 0) {
           _cache.saveAccessTokenResponse(res, Duration(seconds: expires_in));
           Navigator.pop(context);
           startTimer();

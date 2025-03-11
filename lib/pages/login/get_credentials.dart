@@ -25,12 +25,13 @@ class GetCredentials {
 
   Future<Result<CredentialResponse>> credentials(
       String email, String password) {
+        print("object");
     return Future(() {
       var publicKey = MyUtils.publicKey;
       var result = Cryptom.encrypt(password, publicKey);
       Map<String, String> body = {
         "client_id": MyUtils.clientId.toString(),
-        "username": email,
+        "email": email,
         "password": result
       };
 
@@ -39,8 +40,8 @@ class GetCredentials {
   }
 
   Future<Result<AccessTokenResponse>> refreshToken(
-      String accessToken, String refreshToken) {
-    return _apiServices.refreshToken(accessToken, refreshToken);
+      String idToken, String refreshToken) {
+    return _apiServices.refreshToken(idToken, refreshToken);
   }
 
   Future<Result<AccessTokenResponse>> authorize(
@@ -51,19 +52,8 @@ class GetCredentials {
   }
 
   Future<Result<AccessTokenResponse>> passwordGrant(
-      String email, String password, bool isCI) {
-    return _fingerprintService.fingerprint().then((fingerprint) {
-      var result = Cryptom.encrypt(password, MyUtils.publicKey);
-      return PasswordGrantRequest(MyUtils.clientId, email, result, fingerprint);
-    }).then((value) => _apiServices.passwordGrant(value, isCI));
-  }
-
-  Future<Result<Message>> authDevice(String accessToken) {
-    return _fingerprintService
-        .fingerprint()
-        .then((value) => AuthDeviceRequest.check(value, "MOBILE",
-            features: {"platform": "FLUTTER"}))
-        .then((value) => _apiServices.authDevice(accessToken, value));
+      String email, String password, bool isCI) {      
+      return _apiServices.passwordGrant(PasswordGrantRequest(email, password));
   }
 
   Future<Result<Profile>> profile() {

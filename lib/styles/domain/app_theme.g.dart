@@ -1,7 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: non_constant_identifier_names
-
 part of 'app_theme.dart';
 
 // **************************************************************************
@@ -9,12 +7,12 @@ part of 'app_theme.dart';
 // **************************************************************************
 
 _$_AppTheme _$$_AppThemeFromJson(Map<String, dynamic> json) => _$_AppTheme(
-      name: json['name'] as String,
-      dflt: json['dflt'] as bool? ?? false,
-      filter: Filter.fromJson(json['filter'] as Map<String, dynamic>),
-      colors: AppColors.fromJson(json['colors'] as Map<String, dynamic>),
-      assetsImg: AppAssets.fromJson(json['assets_img'] as Map<String, dynamic>),
-    );
+  name: json['name'] as String,
+  dflt: json['dflt'] as bool? ?? false,
+  filter: Filter.fromJson(json['filter'] as Map<String, dynamic>),
+  colors: AppColors.fromJson(json['colors'] as Map<String, dynamic>),
+  assetsImg: AppAssets.fromJson(json['assets_img'] as Map<String, dynamic>),
+);
 
 Map<String, dynamic> _$$_AppThemeToJson(_$_AppTheme instance) =>
     <String, dynamic>{

@@ -7,9 +7,9 @@ part of 'network_connectivity.dart';
 // **************************************************************************
 
 NetworkState _$NetworkStateFromJson(Map<String, dynamic> json) => NetworkState(
-      $enumDecode(_$ConnectivityResultEnumMap, json['result']),
-      json['is_online'] as bool,
-    );
+  $enumDecode(_$ConnectivityResultEnumMap, json['result']),
+  json['is_online'] as bool,
+);
 
 Map<String, dynamic> _$NetworkStateToJson(NetworkState instance) =>
     <String, dynamic>{
