@@ -8,9 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:sports_management/pages/register/register_service.dart';
-import 'package:sports_management/services/http/result.dart';
-import 'package:sports_management/utils/utils.dart';
+import 'package:geap_fit/pages/register/register_service.dart';
+import 'package:geap_fit/services/http/result.dart';
+import 'package:geap_fit/utils/utils.dart';
 
 import '../../styles/theme_provider.dart';
 import '../../utils/encrypt_password.dart';

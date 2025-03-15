@@ -1,7 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:optional/optional.dart';
-import 'package:sports_management/utils/translate.dart';
+import 'package:geap_fit/utils/translate.dart';
 
 class ListModel{
   String? PREPAY;

@@ -1,6 +1,6 @@
 import 'package:injectable/injectable.dart';
-import 'package:sports_management/domain/credential_response.dart';
-import 'package:sports_management/pages/login/login_service.dart';
+import 'package:geap_fit/domain/credential_response.dart';
+import 'package:geap_fit/pages/login/login_service.dart';
 
 import 'cacheService.dart';
 import 'http/result.dart';

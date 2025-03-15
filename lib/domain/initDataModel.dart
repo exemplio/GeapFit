@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sports_management/services/http/domain/productModel.dart';
+import 'package:geap_fit/services/http/domain/productModel.dart';
 
 part 'initDataModel.g.dart';
 

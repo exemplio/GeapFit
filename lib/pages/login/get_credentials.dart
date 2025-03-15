@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:injectable/injectable.dart';
-import 'package:sports_management/domain/access_token_response.dart';
-import 'package:sports_management/domain/credential_response.dart';
-import 'package:sports_management/domain/profile.dart';
-import 'package:sports_management/pages/client/models/initModel.dart';
-import 'package:sports_management/services/http/domain/password_grant_request.dart';
-import 'package:sports_management/services/http/domain/role_request.dart';
-import 'package:sports_management/services/http/result.dart';
+import 'package:geap_fit/domain/access_token_response.dart';
+import 'package:geap_fit/domain/credential_response.dart';
+import 'package:geap_fit/domain/profile.dart';
+import 'package:geap_fit/pages/client/models/initModel.dart';
+import 'package:geap_fit/services/http/domain/password_grant_request.dart';
+import 'package:geap_fit/services/http/domain/role_request.dart';
+import 'package:geap_fit/services/http/result.dart';
 
 import '../../services/http/api_services.dart';
 import '../../utils/encrypt_password.dart';

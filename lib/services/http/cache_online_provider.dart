@@ -1,5 +1,5 @@
 import 'package:injectable/injectable.dart';
-import 'package:sports_management/services/http/is_online_provider.dart';
+import 'package:geap_fit/services/http/is_online_provider.dart';
 
 import '../cacheService.dart';
 

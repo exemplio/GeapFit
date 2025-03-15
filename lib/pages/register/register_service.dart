@@ -4,10 +4,10 @@ import 'dart:async';
 import 'dart:ffi';
 
 import 'package:injectable/injectable.dart';
-import 'package:sports_management/domain/message.dart';
-import 'package:sports_management/services/http/api_services.dart';
-import 'package:sports_management/services/http/result.dart';
-import 'package:sports_management/services/token_service.dart';
+import 'package:geap_fit/domain/message.dart';
+import 'package:geap_fit/services/http/api_services.dart';
+import 'package:geap_fit/services/http/result.dart';
+import 'package:geap_fit/services/token_service.dart';
 
 @injectable
 class RegisterService {

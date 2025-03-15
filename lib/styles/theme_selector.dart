@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:optional/optional.dart';
-import 'package:sports_management/domain/profile.dart';
-import 'package:sports_management/styles/theme_provider.dart';
+import 'package:geap_fit/domain/profile.dart';
+import 'package:geap_fit/styles/theme_provider.dart';
 
 @injectable
 class ThemeSelector {

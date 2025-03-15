@@ -4,8 +4,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart';
-import 'package:sports_management/services/http/result.dart';
-import 'package:sports_management/utils/translate.dart';
+import 'package:geap_fit/services/http/result.dart';
+import 'package:geap_fit/utils/translate.dart';
 
 import '../../domain/message.dart';
 

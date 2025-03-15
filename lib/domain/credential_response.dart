@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sports_management/domain/profile.dart';
+import 'package:geap_fit/domain/profile.dart';
 
 
 part 'credential_response.g.dart';

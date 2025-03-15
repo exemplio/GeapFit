@@ -1,7 +1,7 @@
 // ignore_for_file: non_constant_identifier_names, no_leading_underscores_for_local_identifiers, depend_on_referenced_packages, file_names
 
 import 'package:intl/intl.dart';
-import 'package:sports_management/utils/translate.dart';
+import 'package:geap_fit/utils/translate.dart';
 
 import '../../../utils/utils.dart';
 

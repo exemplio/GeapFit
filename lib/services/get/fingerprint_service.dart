@@ -2,7 +2,7 @@
 
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
-import 'package:sports_management/utils/utils.dart';
+import 'package:geap_fit/utils/utils.dart';
 import 'package:uuid/uuid.dart';
 
 @injectable

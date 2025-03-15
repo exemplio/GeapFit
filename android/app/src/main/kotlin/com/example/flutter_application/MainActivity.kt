@@ -1,4 +1,4 @@
-package com.testing.sports_management
+package com.exemplio.geap_fit
 
 import io.flutter.embedding.android.FlutterActivity
 

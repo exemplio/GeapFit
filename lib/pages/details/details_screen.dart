@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:number_paginator/number_paginator.dart';
-import 'package:sports_management/pages/details/bloc/details_bloc.dart';
-import 'package:sports_management/styles/bg.dart';
-import 'package:sports_management/styles/text.dart';
-import 'package:sports_management/utils/error_message.dart';
+import 'package:geap_fit/pages/details/bloc/details_bloc.dart';
+import 'package:geap_fit/styles/bg.dart';
+import 'package:geap_fit/styles/text.dart';
+import 'package:geap_fit/utils/error_message.dart';
 import '../../widgets/calendary.dart';
 import 'models/details_report_model.dart';
 

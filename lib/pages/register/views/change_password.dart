@@ -2,16 +2,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sports_management/di/injection.dart';
-import 'package:sports_management/services/http/api_services.dart';
-import 'package:sports_management/services/http/result.dart';
-import 'package:sports_management/styles/bg.dart';
-import 'package:sports_management/styles/text.dart';
-import 'package:sports_management/styles/theme_provider.dart';
-import 'package:sports_management/utils/encrypt_password.dart';
-import 'package:sports_management/utils/staticNamesRoutes.dart';
-import 'package:sports_management/utils/utils.dart';
-import 'package:sports_management/widgets/alert_dialog.dart';
+import 'package:geap_fit/di/injection.dart';
+import 'package:geap_fit/services/http/api_services.dart';
+import 'package:geap_fit/services/http/result.dart';
+import 'package:geap_fit/styles/bg.dart';
+import 'package:geap_fit/styles/text.dart';
+import 'package:geap_fit/styles/theme_provider.dart';
+import 'package:geap_fit/utils/encrypt_password.dart';
+import 'package:geap_fit/utils/staticNamesRoutes.dart';
+import 'package:geap_fit/utils/utils.dart';
+import 'package:geap_fit/widgets/alert_dialog.dart';
 
 class ChangePassword extends StatefulWidget {
   String email;

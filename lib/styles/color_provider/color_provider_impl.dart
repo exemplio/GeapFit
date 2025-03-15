@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:sports_management/styles/color_provider/color_provider.dart';
+import 'package:geap_fit/styles/color_provider/color_provider.dart';
 
 class ColorProviderImpl extends ColorProvider {
   final Color _primary;

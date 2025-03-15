@@ -3,8 +3,8 @@
 import 'package:http_interceptor/http_interceptor.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
-import 'package:sports_management/services/cacheService.dart';
-import 'package:sports_management/services/token_service.dart';
+import 'package:geap_fit/services/cacheService.dart';
+import 'package:geap_fit/services/token_service.dart';
 
 import '../../utils/utils.dart';
 

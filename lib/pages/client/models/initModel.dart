@@ -1,6 +1,6 @@
 // ignore_for_file: file_names
 
-import 'package:sports_management/services/http/domain/productModel.dart';
+import 'package:geap_fit/services/http/domain/productModel.dart';
 import '../../../services/http/domain/role_request.dart';
 
 class Init {
@@ -12,30 +12,32 @@ class Init {
   InitData? initData;
   List<Inventories>? inventories;
 
-  Init(
-      {this.idToken,
-        this.profile,
-        this.businessProfile,
-        this.country,
-        this.role,
-        this.initData,
-        this.inventories});
+  Init({
+    this.idToken,
+    this.profile,
+    this.businessProfile,
+    this.country,
+    this.role,
+    this.initData,
+    this.inventories,
+  });
 
   Init.fromJson(Map<String, dynamic> json) {
-    idToken = json['id_token'] != null
-        ? AccessToken.fromJson(json['id_token'])
-        : null;
+    idToken =
+        json['id_token'] != null
+            ? AccessToken.fromJson(json['id_token'])
+            : null;
     profile =
-    json['profile'] != null ? ProfileModel.fromJson(json['profile']) : null;
-    businessProfile = json['business_profile'] != null
-        ? ProfileModel.fromJson(json['business_profile'])
-        : null;
+        json['profile'] != null ? ProfileModel.fromJson(json['profile']) : null;
+    businessProfile =
+        json['business_profile'] != null
+            ? ProfileModel.fromJson(json['business_profile'])
+            : null;
     country =
-    json['country'] != null ? Country.fromJson(json['country']) : null;
+        json['country'] != null ? Country.fromJson(json['country']) : null;
     role = json['role'] != null ? Role.fromJson(json['role']) : null;
-    initData = json['init_data'] != null
-        ? InitData.fromJson(json['init_data'])
-        : null;
+    initData =
+        json['init_data'] != null ? InitData.fromJson(json['init_data']) : null;
     if (json['inventories'] != null) {
       inventories = <Inventories>[];
       json['inventories'].forEach((v) {
@@ -77,8 +79,12 @@ class AccessToken {
   String? refreshToken;
   String? tokenType;
 
-  AccessToken(
-      {this.idToken, this.expiresIn, this.refreshToken, this.tokenType});
+  AccessToken({
+    this.idToken,
+    this.expiresIn,
+    this.refreshToken,
+    this.tokenType,
+  });
 
   AccessToken.fromJson(Map<String, dynamic> json) {
     idToken = json['id_token'];
@@ -113,21 +119,22 @@ class ProfileModel {
   String? phoneDeflt;
   List<String>? bankAccounts;
 
-  ProfileModel(
-      {this.realm,
-        this.id,
-        this.emailDeflt,
-        this.firstName,
-        this.lastName,
-        this.businessName,
-        this.alias,
-        this.country,
-        this.lock,
-        this.idDoc,
-        this.idDocType,
-        this.type,
-        this.phoneDeflt,
-        this.bankAccounts});
+  ProfileModel({
+    this.realm,
+    this.id,
+    this.emailDeflt,
+    this.firstName,
+    this.lastName,
+    this.businessName,
+    this.alias,
+    this.country,
+    this.lock,
+    this.idDoc,
+    this.idDocType,
+    this.type,
+    this.phoneDeflt,
+    this.bankAccounts,
+  });
 
   ProfileModel.fromJson(Map<String, dynamic> json) {
     realm = json['realm'];
@@ -186,18 +193,19 @@ class Country {
   List<String>? currencies;
   Info? info;
 
-  Country(
-      {this.realm,
-        this.alpha2,
-        this.alpha3,
-        this.isoNumber,
-        this.name,
-        this.shortName,
-        this.capital,
-        this.states,
-        this.currency,
-        this.currencies,
-        this.info});
+  Country({
+    this.realm,
+    this.alpha2,
+    this.alpha3,
+    this.isoNumber,
+    this.name,
+    this.shortName,
+    this.capital,
+    this.states,
+    this.currency,
+    this.currencies,
+    this.info,
+  });
 
   Country.fromJson(Map<String, dynamic> json) {
     realm = json['realm'];
@@ -207,7 +215,7 @@ class Country {
     name = json['name'];
     shortName = json['short_name'];
     capital =
-    json['capital'] != null ? Capital.fromJson(json['capital']) : null;
+        json['capital'] != null ? Capital.fromJson(json['capital']) : null;
     // if (json['states'] != null) {
     //   if(json['states'].length != 0) {
     //     states = [];
@@ -273,8 +281,7 @@ class Capital {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['name'] = name;
     if (municipalities != null) {
-      data['municipalities'] =
-          municipalities?.map((v) => v).toList();
+      data['municipalities'] = municipalities?.map((v) => v).toList();
     }
     if (cities != null) {
       data['cities'] = cities?.map((v) => v).toList();
@@ -305,12 +312,6 @@ class Info {
   }
 }
 
-
-
-
-
-
-
 class InitData {
   List<Inventories>? inventories;
   Ally? ally;
@@ -339,7 +340,6 @@ class InitData {
   }
 }
 
-
 class Inventories {
   String? realm;
   String? businessId;
@@ -360,25 +360,26 @@ class Inventories {
   List<ProductModel>? products;
   String? internalSapCode;
 
-  Inventories(
-      {this.realm,
-        this.businessId,
-        this.type,
-        this.id,
-        this.businessName,
-        this.businessEmail,
-        this.idDoc,
-        this.idDocType,
-        this.allyStatus,
-        this.name,
-        this.unit,
-        this.balance,
-        this.minLimit,
-        this.transactionFee,
-        this.feeChargeType,
-        this.externalSapCode,
-        this.products,
-        this.internalSapCode});
+  Inventories({
+    this.realm,
+    this.businessId,
+    this.type,
+    this.id,
+    this.businessName,
+    this.businessEmail,
+    this.idDoc,
+    this.idDocType,
+    this.allyStatus,
+    this.name,
+    this.unit,
+    this.balance,
+    this.minLimit,
+    this.transactionFee,
+    this.feeChargeType,
+    this.externalSapCode,
+    this.products,
+    this.internalSapCode,
+  });
 
   Inventories.fromJson(Map<String, dynamic> json) {
     realm = json['realm'];
@@ -432,9 +433,6 @@ class Inventories {
   }
 }
 
-
-
-
 class Ally {
   String? realm;
   String? businessId;
@@ -450,20 +448,21 @@ class Ally {
   String? status;
   List<String>? paymentMethods;
 
-  Ally(
-      {this.realm,
-        this.businessId,
-        this.id,
-        this.businessName,
-        this.businessEmail,
-        this.businessIdDoc,
-        this.businessIdDocType,
-        this.allyName,
-        this.allyEmail,
-        this.allyIdDoc,
-        this.allyIdDocType,
-        this.status,
-        this.paymentMethods});
+  Ally({
+    this.realm,
+    this.businessId,
+    this.id,
+    this.businessName,
+    this.businessEmail,
+    this.businessIdDoc,
+    this.businessIdDocType,
+    this.allyName,
+    this.allyEmail,
+    this.allyIdDoc,
+    this.allyIdDocType,
+    this.status,
+    this.paymentMethods,
+  });
 
   Ally.fromJson(Map<String, dynamic> json) {
     realm = json['realm'];

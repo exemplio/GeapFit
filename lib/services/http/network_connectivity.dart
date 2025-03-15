@@ -6,7 +6,7 @@ import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:logger/logger.dart';
-import 'package:sports_management/utils/utils.dart';
+import 'package:geap_fit/utils/utils.dart';
 
 part 'network_connectivity.g.dart';
 

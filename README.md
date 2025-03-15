@@ -1,4 +1,4 @@
-# sports_management
+# geap_fit
 
 A new Flutter project.
 

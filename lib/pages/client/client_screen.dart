@@ -3,12 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sports_management/pages/client/bloc/client_eq_bloc.dart';
+import 'package:geap_fit/pages/client/bloc/client_eq_bloc.dart';
 import 'package:lottie/lottie.dart';
-import 'package:sports_management/styles/bg.dart';
-import 'package:sports_management/styles/text.dart';
-import 'package:sports_management/styles/theme_provider.dart';
-import 'package:sports_management/utils/staticNamesRoutes.dart';
+import 'package:geap_fit/styles/bg.dart';
+import 'package:geap_fit/styles/text.dart';
+import 'package:geap_fit/styles/theme_provider.dart';
+import 'package:geap_fit/utils/staticNamesRoutes.dart';
 import '../../di/injection.dart';
 import '../../services/http/domain/productModel.dart';
 import 'models/initModel.dart';
@@ -24,8 +24,7 @@ class SalesScreen extends StatefulWidget {
 
 class _SalesScreenState extends State<SalesScreen> {
   bool refreshState = false;
-  List<String> listCompanies = [
-  ];
+  List<String> listCompanies = [];
   bool collapsePostpaid = false;
   final _colorProvider = getIt<ThemeProvider>().colorProvider();
 
@@ -41,68 +40,80 @@ class _SalesScreenState extends State<SalesScreen> {
     _bloc().add(SalesRefreshProductEvent());
   }
 
-  Widget _showErrorMessage(
-      {String errorMessage = "NO HAY SERVICIOS DISPONIBLE"}) {
+  Widget _showErrorMessage({
+    String errorMessage = "NO HAY SERVICIOS DISPONIBLE",
+  }) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Center(
-            child: Lottie.asset("assets/img/warning.json",
-                repeat: false, width: 100, height: 100)),
+          child: Lottie.asset(
+            "assets/img/warning.json",
+            repeat: false,
+            width: 100,
+            height: 100,
+          ),
+        ),
         const SizedBox(height: 10),
         Text(errorMessage),
       ],
     );
   }
 
-  Widget _showErrorMessageService(
-      {String errorMessage = "Test screen"}) {
+  Widget _showErrorMessageService({String errorMessage = "Test screen"}) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        const SizedBox(height: 10),
-        Center(
-          child: Text(errorMessage),
-        ),
-      ],
+      children: [const SizedBox(height: 10), Center(child: Text(errorMessage))],
     );
   }
 
   Widget _returnCantv(ProductModel product) {
     if (product.name == "CANTV_INTERNET" || product.name == "CANTV") {
-      return const Text("CANTV",
-          textAlign: TextAlign.center,
-          style: TitleTextStyle(
-              color: ColorUtil.dark_gray,
-              fontSize: 14,
-              fontWeight: FontWeight.bold));
+      return const Text(
+        "CANTV",
+        textAlign: TextAlign.center,
+        style: TitleTextStyle(
+          color: ColorUtil.dark_gray,
+          fontSize: 14,
+          fontWeight: FontWeight.bold,
+        ),
+      );
     } else {
-      return Text(product.formattedName ?? "",
-          textAlign: TextAlign.center,
-          style: const TitleTextStyle(
-              color: ColorUtil.dark_gray,
-              fontSize: 14,
-              fontWeight: FontWeight.bold));
+      return Text(
+        product.formattedName ?? "",
+        textAlign: TextAlign.center,
+        style: const TitleTextStyle(
+          color: ColorUtil.dark_gray,
+          fontSize: 14,
+          fontWeight: FontWeight.bold,
+        ),
+      );
     }
   }
 
   Widget _returnCantvMini(ProductModel product) {
     if (product.name == "CANTV_INTERNET" || product.name == "CANTV") {
-      return const Text("CANTV",
-          textAlign: TextAlign.center,
-          style: TitleTextStyle(
-              color: ColorUtil.dark_gray,
-              fontSize: 12,
-              fontWeight: FontWeight.bold));
+      return const Text(
+        "CANTV",
+        textAlign: TextAlign.center,
+        style: TitleTextStyle(
+          color: ColorUtil.dark_gray,
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+        ),
+      );
     } else {
-      return Text(product.formattedName ?? "",
-          textAlign: TextAlign.center,
-          style: const TitleTextStyle(
-              color: ColorUtil.dark_gray,
-              fontSize: 12,
-              fontWeight: FontWeight.bold));
+      return Text(
+        product.formattedName ?? "",
+        textAlign: TextAlign.center,
+        style: const TitleTextStyle(
+          color: ColorUtil.dark_gray,
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+        ),
+      );
     }
   }
 
@@ -119,20 +130,31 @@ class _SalesScreenState extends State<SalesScreen> {
         child: Column(
           children: [
             Padding(
-                padding: const EdgeInsets.all(5),
-                child: isExistsImage != -1
-                    ? Image.asset("assets/img/$company.png",
-                    width: 80, height: 40)
-                    : Image.asset("assets/img/not_found.png",
-                    width: 80, height: 40)),
+              padding: const EdgeInsets.all(5),
+              child:
+                  isExistsImage != -1
+                      ? Image.asset(
+                        "assets/img/$company.png",
+                        width: 80,
+                        height: 40,
+                      )
+                      : Image.asset(
+                        "assets/img/not_found.png",
+                        width: 80,
+                        height: 40,
+                      ),
+            ),
             const SizedBox(width: 5),
             _returnCantv(product),
-            Text(product.category ?? "",
-                textAlign: TextAlign.center,
-                style: const TitleTextStyle(
-                    color: ColorUtil.dark_gray,
-                    fontSize: 12,
-                    fontWeight: FontWeight.normal))
+            Text(
+              product.category ?? "",
+              textAlign: TextAlign.center,
+              style: const TitleTextStyle(
+                color: ColorUtil.dark_gray,
+                fontSize: 12,
+                fontWeight: FontWeight.normal,
+              ),
+            ),
           ],
         ),
       ),
@@ -152,20 +174,31 @@ class _SalesScreenState extends State<SalesScreen> {
         child: Column(
           children: [
             Padding(
-                padding: const EdgeInsets.all(5),
-                child: isExistsImage != -1
-                    ? Image.asset("assets/img/$company.png",
-                    width: 80, height: 40)
-                    : Image.asset("assets/img/not_found.png",
-                    width: 80, height: 40)),
+              padding: const EdgeInsets.all(5),
+              child:
+                  isExistsImage != -1
+                      ? Image.asset(
+                        "assets/img/$company.png",
+                        width: 80,
+                        height: 40,
+                      )
+                      : Image.asset(
+                        "assets/img/not_found.png",
+                        width: 80,
+                        height: 40,
+                      ),
+            ),
             const SizedBox(width: 5),
             _returnCantvMini(product),
-            Text(product.category ?? "",
-                textAlign: TextAlign.center,
-                style: const TitleTextStyle(
-                    color: ColorUtil.dark_gray,
-                    fontSize: 10,
-                    fontWeight: FontWeight.normal)),
+            Text(
+              product.category ?? "",
+              textAlign: TextAlign.center,
+              style: const TitleTextStyle(
+                color: ColorUtil.dark_gray,
+                fontSize: 10,
+                fontWeight: FontWeight.normal,
+              ),
+            ),
           ],
         ),
       ),
@@ -190,15 +223,22 @@ class _SalesScreenState extends State<SalesScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(profile?.businessName ?? "",
-                        style: const TitleTextStyle(
-                            fontSize: 16, color: ColorUtil.black)),
+                    Text(
+                      profile?.businessName ?? "",
+                      style: const TitleTextStyle(
+                        fontSize: 16,
+                        color: ColorUtil.black,
+                      ),
+                    ),
                     const SizedBox(height: 5),
-                    Text(profile?.idDoc ?? "",
-                        style: const TitleTextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: ColorUtil.dark_gray)),
+                    Text(
+                      profile?.idDoc ?? "",
+                      style: const TitleTextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: ColorUtil.dark_gray,
+                      ),
+                    ),
                     // SizedBox(height: 5),
                     // Text(profile?.emailDeflt ?? "", style: TitleTextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: ColorUtil.dark_gray)),
                   ],
@@ -223,13 +263,14 @@ class _SalesScreenState extends State<SalesScreen> {
   Widget _loadingCenter() {
     return const Center(
       child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(width: 50, height: 50, child: CircularProgressIndicator()),
-            SizedBox(height: 10),
-            Text("Cargando servicios")
-          ]),
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(width: 50, height: 50, child: CircularProgressIndicator()),
+          SizedBox(height: 10),
+          Text("Cargando servicios"),
+        ],
+      ),
     );
   }
 
@@ -276,8 +317,10 @@ class _SalesScreenState extends State<SalesScreen> {
             }
             if (state is SalesLoadedProductState) {
               var products = state.products ?? [];
-              var saveData = products.where((element) =>
-              element.name == "CANTV_INTERNET" || element.name == "CANTV");
+              var saveData = products.where(
+                (element) =>
+                    element.name == "CANTV_INTERNET" || element.name == "CANTV",
+              );
               var profile = state.profile;
               String? save = "";
               String? save1 = "";
@@ -295,24 +338,23 @@ class _SalesScreenState extends State<SalesScreen> {
               if (!(save1 == "CANTV" && save2 == "CANTV_INTERNET")) {
                 if (save == "CANTV") {
                   products.retainWhere(
-                          (element) => element.name != "CANTV_INTERNET");
+                    (element) => element.name != "CANTV_INTERNET",
+                  );
                   save = "";
                 } else if (save == "CANTV_INTERNET") {
                   products.retainWhere((element) => element.name != "CANTV");
                   save = "";
                 }
               } else {
-                products
-                    .retainWhere((element) => element.name != "CANTV_INTERNET");
+                products.retainWhere(
+                  (element) => element.name != "CANTV_INTERNET",
+                );
                 save = "";
               }
               if (products.isEmpty) {
                 return _showErrorMessage();
               }
-              double screenHeight = MediaQuery
-                  .of(context)
-                  .size
-                  .height;
+              double screenHeight = MediaQuery.of(context).size.height;
               if (screenHeight > 432) {
                 return CustomScrollView(
                   slivers: [
@@ -327,27 +369,26 @@ class _SalesScreenState extends State<SalesScreen> {
                             child: Column(
                               children: [
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment
-                                      .spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     const Text(
                                       "SERVICIOS DISPONIBLES",
                                       style: TitleTextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.normal),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal,
+                                      ),
                                     ),
                                     IconButton(
                                       onPressed: () {
                                         _refresh();
                                       },
                                       icon: const Icon(Icons.refresh),
-                                    )
+                                    ),
                                   ],
                                 ),
-                                const Row(
-                                  children: [],
-                                )
+                                const Row(children: []),
                               ],
                             ),
                           ),
@@ -358,30 +399,33 @@ class _SalesScreenState extends State<SalesScreen> {
                       padding: const EdgeInsets.all(10),
                       // Espaciado alrededor del contenido
                       sliver: SliverGrid(
-                        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                          maxCrossAxisExtent: 325,
-                          childAspectRatio: 12 / 11,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
-                        ),
-                        delegate: SliverChildBuilderDelegate(
-                              (BuildContext context, int index) {
-                            return InkWell(
-                              borderRadius: const BorderRadius.all(
-                                  Radius.circular(20)),
-                              radius: 10,
-                              focusColor: _colorProvider.primaryLight(),
-                              highlightColor: _colorProvider.primaryLight(),
-                              splashColor: _colorProvider.primaryLight(),
-                              onTap: () =>
-                                  context.goNamed(
-                                      StaticNames.product.name,
-                                      extra: products[index]),
-                              child: _product(products[index]),
-                            );
-                          },
-                          childCount: products.length,
-                        ),
+                        gridDelegate:
+                            const SliverGridDelegateWithMaxCrossAxisExtent(
+                              maxCrossAxisExtent: 325,
+                              childAspectRatio: 12 / 11,
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 10,
+                            ),
+                        delegate: SliverChildBuilderDelegate((
+                          BuildContext context,
+                          int index,
+                        ) {
+                          return InkWell(
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(20),
+                            ),
+                            radius: 10,
+                            focusColor: _colorProvider.primaryLight(),
+                            highlightColor: _colorProvider.primaryLight(),
+                            splashColor: _colorProvider.primaryLight(),
+                            onTap:
+                                () => context.goNamed(
+                                  StaticNames.product.name,
+                                  extra: products[index],
+                                ),
+                            child: _product(products[index]),
+                          );
+                        }, childCount: products.length),
                       ),
                     ),
                   ],
@@ -397,27 +441,26 @@ class _SalesScreenState extends State<SalesScreen> {
                             child: Column(
                               children: [
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment
-                                      .spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     const Text(
                                       "SERVICIOS DISPONIBLES",
                                       style: TitleTextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.normal),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal,
+                                      ),
                                     ),
                                     IconButton(
                                       onPressed: () {
                                         _refresh();
                                       },
                                       icon: const Icon(Icons.refresh),
-                                    )
+                                    ),
                                   ],
                                 ),
-                                const Row(
-                                  children: [],
-                                )
+                                const Row(children: []),
                               ],
                             ),
                           ),
@@ -428,30 +471,33 @@ class _SalesScreenState extends State<SalesScreen> {
                       padding: const EdgeInsets.all(10),
                       // Espaciado alrededor del contenido
                       sliver: SliverGrid(
-                        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                          maxCrossAxisExtent: 162,
-                          childAspectRatio: 12 / 11,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
-                        ),
-                        delegate: SliverChildBuilderDelegate(
-                              (BuildContext context, int index) {
-                            return InkWell(
-                              borderRadius: const BorderRadius.all(
-                                  Radius.circular(20)),
-                              radius: 10,
-                              focusColor: _colorProvider.primaryLight(),
-                              highlightColor: _colorProvider.primaryLight(),
-                              splashColor: _colorProvider.primaryLight(),
-                              onTap: () =>
-                                  context.goNamed(
-                                      StaticNames.product.name,
-                                      extra: products[index]),
-                              child: _productMini(products[index]),
-                            );
-                          },
-                          childCount: products.length,
-                        ),
+                        gridDelegate:
+                            const SliverGridDelegateWithMaxCrossAxisExtent(
+                              maxCrossAxisExtent: 162,
+                              childAspectRatio: 12 / 11,
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 10,
+                            ),
+                        delegate: SliverChildBuilderDelegate((
+                          BuildContext context,
+                          int index,
+                        ) {
+                          return InkWell(
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(20),
+                            ),
+                            radius: 10,
+                            focusColor: _colorProvider.primaryLight(),
+                            highlightColor: _colorProvider.primaryLight(),
+                            splashColor: _colorProvider.primaryLight(),
+                            onTap:
+                                () => context.goNamed(
+                                  StaticNames.product.name,
+                                  extra: products[index],
+                                ),
+                            child: _productMini(products[index]),
+                          );
+                        }, childCount: products.length),
                       ),
                     ),
                   ],

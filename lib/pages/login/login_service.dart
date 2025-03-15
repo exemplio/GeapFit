@@ -3,10 +3,10 @@
 import 'dart:ffi';
 
 import 'package:injectable/injectable.dart';
-import 'package:sports_management/domain/access_token_response.dart';
-import 'package:sports_management/domain/credential_response.dart';
-import 'package:sports_management/pages/login/get_credentials.dart';
-import 'package:sports_management/utils/utils.dart';
+import 'package:geap_fit/domain/access_token_response.dart';
+import 'package:geap_fit/domain/credential_response.dart';
+import 'package:geap_fit/pages/login/get_credentials.dart';
+import 'package:geap_fit/utils/utils.dart';
 import '../../services/cacheService.dart';
 import '../../services/http/domain/role_request.dart';
 import '../../services/http/result.dart';

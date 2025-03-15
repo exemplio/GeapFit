@@ -1,6 +1,6 @@
 // ignore_for_file: file_names
 
-import 'package:sports_management/utils/utils.dart';
+import 'package:geap_fit/utils/utils.dart';
 
 import './path_name.dart';
 

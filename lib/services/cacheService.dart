@@ -5,12 +5,12 @@ import 'dart:convert';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 import 'package:optional/optional.dart';
-import 'package:sports_management/domain/access_token_response.dart';
-import 'package:sports_management/domain/credentialModel.dart';
-import 'package:sports_management/domain/profile.dart';
-import 'package:sports_management/pages/client/models/initModel.dart';
-import 'package:sports_management/services/http/network_connectivity.dart';
-import 'package:sports_management/utils/utils.dart';
+import 'package:geap_fit/domain/access_token_response.dart';
+import 'package:geap_fit/domain/credentialModel.dart';
+import 'package:geap_fit/domain/profile.dart';
+import 'package:geap_fit/pages/client/models/initModel.dart';
+import 'package:geap_fit/services/http/network_connectivity.dart';
+import 'package:geap_fit/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../domain/credential_response.dart';

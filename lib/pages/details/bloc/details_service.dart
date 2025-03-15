@@ -1,9 +1,9 @@
 // ignore_for_file: depend_on_referenced_packages, unused_element
 
-import 'package:sports_management/di/injection.dart';
-import 'package:sports_management/pages/details/models/details_report_model.dart';
-import 'package:sports_management/services/cacheService.dart';
-import 'package:sports_management/services/http/result.dart';
+import 'package:geap_fit/di/injection.dart';
+import 'package:geap_fit/pages/details/models/details_report_model.dart';
+import 'package:geap_fit/services/cacheService.dart';
+import 'package:geap_fit/services/http/result.dart';
 import 'package:logger/logger.dart';
 import '../../../services/http/api_services.dart';
 

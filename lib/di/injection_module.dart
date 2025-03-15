@@ -1,6 +1,6 @@
 import 'package:injectable/injectable.dart';
-import 'package:sports_management/services/http/http_service.dart';
-import 'package:sports_management/services/http/service_module.dart';
+import 'package:geap_fit/services/http/http_service.dart';
+import 'package:geap_fit/services/http/service_module.dart';
 
 @module
 abstract class InjectionModule {

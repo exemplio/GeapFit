@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:bloc/bloc.dart';
 import 'package:optional/optional.dart';
-import 'package:sports_management/pages/store/bloc/store_service.dart';
+import 'package:geap_fit/pages/store/bloc/store_service.dart';
 import '../models/store_model.dart';
 
 part 'store_event.dart';

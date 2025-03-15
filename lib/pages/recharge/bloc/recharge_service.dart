@@ -1,7 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:sports_management/services/cacheService.dart';
-import 'package:sports_management/services/http/api_services.dart';
+import 'package:geap_fit/services/cacheService.dart';
+import 'package:geap_fit/services/http/api_services.dart';
 
 import '../../../di/injection.dart';
 import '../../../services/http/result.dart';

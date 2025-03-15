@@ -4,7 +4,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:sports_management/utils/utils.dart';
+import 'package:geap_fit/utils/utils.dart';
 
 import '../../../di/injection.dart';
 import '../../../services/cacheService.dart';
@@ -27,7 +27,8 @@ class SalesEqBloc extends Bloc<SalesEqEvent, SalesEqState> {
         case SalesInitialEvent:
           if (products != [] && profile != null) {
             emitter(
-                SalesLoadedProductState(products: products, profile: profile));
+              SalesLoadedProductState(products: products, profile: profile),
+            );
           } else {
             emitter(SalesLoadingProductState());
             getProducts();
@@ -38,7 +39,8 @@ class SalesEqBloc extends Bloc<SalesEqEvent, SalesEqState> {
           break;
         case SalesLoadedProductEvent:
           emitter(
-              SalesLoadedProductState(products: products, profile: profile));
+            SalesLoadedProductState(products: products, profile: profile),
+          );
           break;
         case SalesRefreshProductEvent:
           products = [];

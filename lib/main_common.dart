@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 import "package:flutter/services.dart";
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
-import 'package:sports_management/di/injection.dart';
-import 'package:sports_management/services/http/dev_http_overrides.dart';
-import 'package:sports_management/services/http/network_connectivity.dart';
-import 'package:sports_management/styles/theme_provider.dart';
-import 'package:sports_management/utils/bloc_providers.dart';
-import 'package:sports_management/utils/utils.dart';
+import 'package:geap_fit/di/injection.dart';
+import 'package:geap_fit/services/http/dev_http_overrides.dart';
+import 'package:geap_fit/services/http/network_connectivity.dart';
+import 'package:geap_fit/styles/theme_provider.dart';
+import 'package:geap_fit/utils/bloc_providers.dart';
+import 'package:geap_fit/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'routes/routes.dart';
 import 'services/cacheService.dart';
@@ -34,10 +34,13 @@ void mainCommon(String env) async {
 
   final networkConnectivity = NetworkConnectivity.instance;
   networkConnectivity.initialise();
-  networkConnectivity.stream
-      .listen((event) => getIt<Cache>().saveNetworkState(event));
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  networkConnectivity.stream.listen(
+    (event) => getIt<Cache>().saveNetworkState(event),
+  );
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   await getIt<ThemeProvider>().loadThemes();
 
   runApp(MyApp());
@@ -53,8 +56,9 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: blocProviders,
       child: ChangeNotifierProvider(
-          create: (context) => getIt<ThemeProvider>(),
-          child: Consumer<ThemeProvider>(builder: (context, state, child) {
+        create: (context) => getIt<ThemeProvider>(),
+        child: Consumer<ThemeProvider>(
+          builder: (context, state, child) {
             _logger.i("app_theme_name ${state.appTheme().name}");
             return MaterialApp.router(
               theme: state.theme(),
@@ -62,7 +66,9 @@ class MyApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               routerConfig: router,
             );
-          })),
+          },
+        ),
+      ),
     );
   }
 }

@@ -1,4 +1,4 @@
-import 'package:sports_management/domain/message.dart';
+import 'package:geap_fit/domain/message.dart';
 
 class Result<T> {
   bool success = false;

@@ -6,8 +6,8 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
-import 'package:sports_management/utils/get_credentials.dart';
-import 'package:sports_management/utils/utils.dart';
+import 'package:geap_fit/utils/get_credentials.dart';
+import 'package:geap_fit/utils/utils.dart';
 
 class Request {
   static Future sendPos(data) async {

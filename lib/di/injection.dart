@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
-import 'package:sports_management/di/injection.config.dart';
+import 'package:geap_fit/di/injection.config.dart';
 
 GetIt getIt = GetIt.instance;
 

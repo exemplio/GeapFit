@@ -6,7 +6,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:number_paginator/number_paginator.dart';
-import 'package:sports_management/pages/store/models/store_model.dart';
+import 'package:geap_fit/pages/store/models/store_model.dart';
 import 'package:logger/logger.dart';
 import '../models/details_report_model.dart';
 import 'details_service.dart';

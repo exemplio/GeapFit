@@ -2,9 +2,9 @@
 
 import 'package:http/http.dart';
 import 'package:http_interceptor/http/intercepted_client.dart';
-import 'package:sports_management/di/injection.dart';
-import 'package:sports_management/services/http/auth_interceptor.dart';
-import 'package:sports_management/services/http/http_service.dart';
+import 'package:geap_fit/di/injection.dart';
+import 'package:geap_fit/services/http/auth_interceptor.dart';
+import 'package:geap_fit/services/http/http_service.dart';
 
 import 'logging_interceptor.dart';
 

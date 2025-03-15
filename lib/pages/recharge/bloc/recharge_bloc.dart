@@ -7,10 +7,10 @@ import 'package:currency_text_input_formatter/currency_text_input_formatter.dart
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:sports_management/pages/recharge/bloc/recharge_service.dart';
+import 'package:geap_fit/pages/recharge/bloc/recharge_service.dart';
 import 'package:logger/logger.dart';
-import 'package:sports_management/pages/store/models/collect_channel_model.dart';
-import 'package:sports_management/utils/translate.dart';
+import 'package:geap_fit/pages/store/models/collect_channel_model.dart';
+import 'package:geap_fit/utils/translate.dart';
 
 part 'recharge_event.dart';
 part 'recharge_state.dart';

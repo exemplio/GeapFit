@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:optional/optional.dart';
-import 'package:sports_management/styles/domain/app_theme.dart';
+import 'package:geap_fit/styles/domain/app_theme.dart';
 
 import 'domain/theme_list.dart';
 

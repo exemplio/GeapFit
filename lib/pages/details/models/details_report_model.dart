@@ -2,9 +2,9 @@
 
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:intl/intl.dart';
-import 'package:sports_management/utils/translate.dart';
+import 'package:geap_fit/utils/translate.dart';
 import 'package:logger/logger.dart';
-import 'package:sports_management/utils/utils.dart';
+import 'package:geap_fit/utils/utils.dart';
 
 final _logger = Logger();
 

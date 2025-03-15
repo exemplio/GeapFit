@@ -1,4 +1,4 @@
-import 'package:sports_management/pages/store/models/store_model.dart';
+import 'package:geap_fit/pages/store/models/store_model.dart';
 
 import '../../store/models/collect_channel_model.dart';
 

@@ -5,7 +5,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
-import 'package:sports_management/styles/theme_loader.dart';
+import 'package:geap_fit/styles/theme_loader.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utils/utils.dart';
@@ -35,8 +35,9 @@ class ThemeHolder {
 
     for (var theme in list) {
       var colorProvider = ColorProviderImpl(
-          Color(int.parse(theme.colors.primary)),
-          Color(int.parse(theme.colors.primaryLight)));
+        Color(int.parse(theme.colors.primary)),
+        Color(int.parse(theme.colors.primaryLight)),
+      );
 
       _colorProviders.putIfAbsent(theme.name, () => colorProvider);
       _themes.putIfAbsent(theme.name, () => theme);

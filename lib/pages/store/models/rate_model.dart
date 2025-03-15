@@ -1,5 +1,5 @@
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
-import 'package:sports_management/utils/utils.dart';
+import 'package:geap_fit/utils/utils.dart';
 
 class CurrencyRate {
   Rate? rate;

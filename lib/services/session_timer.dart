@@ -3,11 +3,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:sports_management/di/injection.dart';
-import 'package:sports_management/services/cacheService.dart';
-import 'package:sports_management/services/http/result.dart';
-import 'package:sports_management/utils/global.dart';
-import 'package:sports_management/widgets/restart.dart';
+import 'package:geap_fit/di/injection.dart';
+import 'package:geap_fit/services/cacheService.dart';
+import 'package:geap_fit/services/http/result.dart';
+import 'package:geap_fit/utils/global.dart';
+import 'package:geap_fit/widgets/restart.dart';
 
 import '../domain/access_token_response.dart';
 import 'http/api_services.dart';

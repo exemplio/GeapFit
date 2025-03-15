@@ -4,7 +4,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:sports_management/services/http/domain/productModel.dart';
+import 'package:geap_fit/services/http/domain/productModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../services/http/result.dart';

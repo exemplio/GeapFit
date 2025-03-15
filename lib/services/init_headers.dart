@@ -1,5 +1,5 @@
-import 'package:sports_management/services/cacheService.dart';
-import 'package:sports_management/utils/utils.dart';
+import 'package:geap_fit/services/cacheService.dart';
+import 'package:geap_fit/utils/utils.dart';
 
 import '../domain/access_token_response.dart';
 import '../pages/client/models/initModel.dart';

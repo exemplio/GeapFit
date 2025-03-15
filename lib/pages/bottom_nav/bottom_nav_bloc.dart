@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
-import 'package:sports_management/services/cacheService.dart';
+import 'package:geap_fit/services/cacheService.dart';
 
 part 'bottom_nav_event.dart';
 part 'bottom_nav_state.dart';

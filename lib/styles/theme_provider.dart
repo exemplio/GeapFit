@@ -5,7 +5,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
-import 'package:sports_management/styles/theme_holder.dart';
+import 'package:geap_fit/styles/theme_holder.dart';
 
 import 'color_provider/color_provider.dart';
 import 'domain/app_theme.dart';

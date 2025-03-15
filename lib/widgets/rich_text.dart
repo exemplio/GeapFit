@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:sports_management/styles/bg.dart';
-import 'package:sports_management/styles/text.dart';
+import 'package:geap_fit/styles/bg.dart';
+import 'package:geap_fit/styles/text.dart';
 
 class MRichText extends RichText {
   MRichText({super.key, required super.text});
