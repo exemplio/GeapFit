@@ -21,8 +21,10 @@ class _LogoutScreenState extends State<LogoutScreen> {
 
   // final _cache = Cache();
 
-  Widget buttonText =
-      Text("CERRAR SESIÓN", style: subtitleStyleText("white", 15));
+  Widget buttonText = Text(
+    "CERRAR SESIÓN",
+    style: subtitleStyleText("white", 15),
+  );
 
   @override
   void initState() {
@@ -57,14 +59,14 @@ class _LogoutScreenState extends State<LogoutScreen> {
       },
       builder: (context, state) {
         return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        title: const Text(
-          "SPORT",
-          style: TitleTextStyle(fontSize: 24, color: ColorUtil.white),
-        ),
-        centerTitle: true,
-      ),
+          appBar: AppBar(
+            elevation: 0,
+            title: const Text(
+              "GEAP FIT",
+              style: TitleTextStyle(fontSize: 24, color: ColorUtil.white),
+            ),
+            centerTitle: true,
+          ),
           body: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -73,18 +75,24 @@ class _LogoutScreenState extends State<LogoutScreen> {
                 Row(
                   children: [
                     Expanded(
-                        child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 10),
-                            margin: const EdgeInsets.fromLTRB(1, 15, 4, 5),
-                            child: TextButton(
-                                style: TextButton.styleFrom(
-                                    backgroundColor: ColorUtil.error,
-                                    padding: const EdgeInsets.all(20)),
-                                onPressed: closeSession,
-                                child: buttonText))),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 10,
+                        ),
+                        margin: const EdgeInsets.fromLTRB(1, 15, 4, 5),
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                            backgroundColor: ColorUtil.error,
+                            padding: const EdgeInsets.all(20),
+                          ),
+                          onPressed: closeSession,
+                          child: buttonText,
+                        ),
+                      ),
+                    ),
                   ],
-                )
+                ),
               ],
             ),
           ),

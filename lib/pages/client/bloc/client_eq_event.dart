@@ -1,20 +1,25 @@
 part of 'client_eq_bloc.dart';
 
-abstract class SalesEqEvent {
-  const SalesEqEvent();
+abstract class ClientEqEvent {
+  const ClientEqEvent();
 }
-class SalesInitialEvent extends SalesEqEvent {
-  SalesInitialEvent();
+
+class ClientInitialEvent extends ClientEqEvent {
+  ClientInitialEvent();
 }
-class SalesLoadedProductEvent extends SalesEqEvent {
-  SalesLoadedProductEvent();
+
+class ClientLoadedProductEvent extends ClientEqEvent {
+  ClientLoadedProductEvent();
 }
-class SalesLoadingProductEvent extends SalesEqEvent {
-  SalesLoadingProductEvent();
+
+class ClientLoadingProductEvent extends ClientEqEvent {
+  ClientLoadingProductEvent();
 }
-class SalesErrorProductEvent extends SalesEqEvent {
-  SalesErrorProductEvent();
+
+class ClientErrorProductEvent extends ClientEqEvent {
+  ClientErrorProductEvent();
 }
-class SalesRefreshProductEvent extends SalesEqEvent {
-  SalesRefreshProductEvent();
+
+class ClientRefreshProductEvent extends ClientEqEvent {
+  ClientRefreshProductEvent();
 }

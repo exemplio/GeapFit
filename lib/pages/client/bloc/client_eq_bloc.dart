@@ -15,37 +15,37 @@ import '../models/initModel.dart';
 part 'client_eq_state.dart';
 part 'client_eq_event.dart';
 
-class SalesEqBloc extends Bloc<SalesEqEvent, SalesEqState> {
+class ClientEqBloc extends Bloc<ClientEqEvent, ClientEqState> {
   final _cache = Cache();
   final _apiServices = getIt<ApiServices>();
   List<ProductModel> products = [];
   ProfileModel? profile;
 
-  SalesEqBloc() : super(SalesInitialState()) {
-    on<SalesEqEvent>((event, emitter) async {
+  ClientEqBloc() : super(ClientInitialState()) {
+    on<ClientEqEvent>((event, emitter) async {
       switch (event.runtimeType) {
-        case SalesInitialEvent:
+        case ClientInitialEvent:
           if (products != [] && profile != null) {
             emitter(
-              SalesLoadedProductState(products: products, profile: profile),
+              ClientLoadedProductState(products: products, profile: profile),
             );
           } else {
-            emitter(SalesLoadingProductState());
+            emitter(ClientLoadingProductState());
             getProducts();
           }
           break;
-        case SalesErrorProductEvent:
-          emitter(SalesErrorProductState());
+        case ClientErrorProductEvent:
+          emitter(ClientErrorProductState());
           break;
-        case SalesLoadedProductEvent:
+        case ClientLoadedProductEvent:
           emitter(
-            SalesLoadedProductState(products: products, profile: profile),
+            ClientLoadedProductState(products: products, profile: profile),
           );
           break;
-        case SalesRefreshProductEvent:
+        case ClientRefreshProductEvent:
           products = [];
           profile = null;
-          emitter(SalesLoadingProductState());
+          emitter(ClientLoadingProductState());
           getProducts();
           break;
       }
@@ -53,11 +53,11 @@ class SalesEqBloc extends Bloc<SalesEqEvent, SalesEqState> {
   }
   void init() {
     products = [];
-    add(SalesInitialEvent());
+    add(ClientInitialEvent());
   }
 
   Future<void> getProducts() async {
-    add(SalesLoadingProductEvent());
+    add(ClientLoadingProductEvent());
     Init? init = await _cache.getInitData();
     var businessId = init?.businessProfile?.id;
     var initData = await _apiServices.init(businessId ?? "");
@@ -70,7 +70,7 @@ class SalesEqBloc extends Bloc<SalesEqEvent, SalesEqState> {
     }
 
     if (inventories?.length == null) {
-      add(SalesErrorProductEvent());
+      add(ClientErrorProductEvent());
     }
 
     if (inventories!.isNotEmpty) {
@@ -78,7 +78,7 @@ class SalesEqBloc extends Bloc<SalesEqEvent, SalesEqState> {
       for (var inv in inventories) {
         if (inv.products!.isNotEmpty) {
           products.addAll(inv.products!);
-          add(SalesLoadedProductEvent());
+          add(ClientLoadedProductEvent());
         }
       }
       products = MyUtils.orderList(products);

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sports_management/styles/bg.dart';
-import 'package:sports_management/styles/color_provider/color_provider.dart';
-import 'package:sports_management/styles/text.dart';
-
+import 'package:geap_fit/styles/bg.dart';
+import 'package:geap_fit/styles/color_provider/color_provider.dart';
+import 'package:geap_fit/styles/text.dart';
 
 const double _iconSize = 25;
-
 
 class MyTheme {
   static const Color grayLight = Color.fromARGB(255, 242, 243, 245);
@@ -14,105 +12,48 @@ class MyTheme {
   static const Color error = Color.fromARGB(255, 228, 52, 46);
   static const Color warning = Color.fromARGB(255, 255, 251, 9);
   static const Color labelColor = Color.fromARGB(255, 53, 53, 53);
-  static String? fontFamily = "Big Shoulders Stencil" /* GoogleFonts.roboto().fontFamily */;
+  static String? fontFamily = "Roboto";
 
   ThemeData theme(ColorProvider colorProvider) {
     return ThemeData(
-        drawerTheme: const DrawerThemeData(shape: BeveledRectangleBorder()),
-        bottomSheetTheme: const BottomSheetThemeData(
-          backgroundColor: Colors.white,
-          surfaceTintColor: Colors.white,
+      fontFamily: fontFamily, // Set the default font family
+      textTheme: const TextTheme(
+        displayLarge: TextStyle(fontSize: 72, fontWeight: FontWeight.bold),
+        displayMedium: TextStyle(fontSize: 56, fontWeight: FontWeight.bold),
+        displaySmall: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
+        headlineLarge: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+        headlineMedium: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+        headlineSmall: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        titleLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        titleMedium: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        titleSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        bodyLarge: TextStyle(fontSize: 16),
+        bodyMedium: TextStyle(fontSize: 14),
+        bodySmall: TextStyle(fontSize: 12),
+        labelLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        labelMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+        labelSmall: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+      ),
+      inputDecorationTheme: const InputDecorationTheme(
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.black, width: 1.0),
         ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ElevatedButton.styleFrom(
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10))),
-        )),
-        textButtonTheme: TextButtonThemeData(
-            style: TextButton.styleFrom(
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-        )),
-        appBarTheme: AppBarTheme(
-            titleTextStyle: const TextStyle(color: Colors.white),
-            backgroundColor: colorProvider.primary(),
-            elevation: 0,
-            iconTheme: const IconThemeData(color: Colors.white)),
-        textTheme: TextTheme(
-          labelLarge: const TextStyle(color: labelColor, fontSize: 16),
-          labelMedium: const TextStyle(color: labelColor, fontSize: 12),
-          labelSmall: const TextStyle(color: labelColor, fontSize: 8),
-          displayLarge:
-              const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-          titleLarge:
-              const TextStyle(fontSize: 20.0, fontStyle: FontStyle.italic),
-          bodyMedium: TextStyle(fontSize: 16.0, fontFamily: fontFamily),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.black, width: 2.0),
         ),
-        iconTheme: const IconThemeData(
-          color: Colors.white,
+        errorBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.red, width: 1.0),
         ),
-        datePickerTheme: const DatePickerThemeData(
-            surfaceTintColor: Colors.white,
-            backgroundColor: Colors.white,
-            dividerColor: Color(0xFF4A148C)),
-        iconButtonTheme: IconButtonThemeData(
-            style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.all(Colors.transparent),
-                iconColor: WidgetStateProperty.all(colorProvider.primary()))),
-        dialogTheme: DialogTheme(
-          backgroundColor: Colors.white,
-          surfaceTintColor: Colors.white,
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10))),
-          titleTextStyle: TitleTextStyle(
-            color: ColorUtil.black,
-            fontSize: 20,
-            fontFamily: fontFamily,
-          ),
+        focusedErrorBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.red, width: 2.0),
         ),
-        snackBarTheme:
-            const SnackBarThemeData(contentTextStyle: TextStyle(fontSize: 14)),
-        navigationBarTheme: NavigationBarThemeData(
-          height: 50,
-          backgroundColor: colorProvider.primary(),
-          surfaceTintColor: warning,
-          elevation: 0,
-          indicatorColor: colorProvider.primaryLight(),
-          indicatorShape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10))),
-          labelTextStyle: WidgetStateTextStyle.resolveWith(
-              (states) => const TextStyle(fontSize: 10, color: secondary)),
-          iconTheme: WidgetStateProperty.resolveWith((states) {
-            if (states.contains(WidgetState.selected)) {
-              return const IconThemeData(color: secondary, size: _iconSize);
-            }
-
-            return const IconThemeData(color: gray, size: _iconSize);
-          }),
-          labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-        ),
-        fontFamily: fontFamily,
-        primaryColor: colorProvider.primary(),
-        textSelectionTheme: TextSelectionThemeData(
-            selectionColor: gray,
-            cursorColor: colorProvider.primaryLight(),
-            selectionHandleColor: colorProvider.primaryLight()),
-        inputDecorationTheme: InputDecorationTheme(
-          focusColor: colorProvider.primary(),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(25.0),
-          ),
-          border: const OutlineInputBorder(),
-          iconColor: colorProvider.primaryLight(),
-          fillColor: colorProvider.primaryLight(),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-        ),
-        colorScheme: ColorScheme.fromSwatch().copyWith(
-            primary: colorProvider.primary(),
-            secondary: colorProvider.primaryLight(),
-            surface: Colors.white,
-            error: error));
+      ),
+      colorScheme: ColorScheme.fromSwatch().copyWith(
+        primary: colorProvider.primary(),
+        secondary: colorProvider.primaryLight(),
+        surface: colorProvider.primaryLight(),
+        error: error,
+      ),
+    );
   }
 }

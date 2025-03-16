@@ -12,32 +12,26 @@
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:geap_fit/di/injection_module.dart' as _i427;
-import 'package:geap_fit/pages/bottom_nav/bottom_nav_bloc.dart'
-    as _i1051;
+import 'package:geap_fit/pages/bottom_nav/bottom_nav_bloc.dart' as _i1051;
 import 'package:geap_fit/pages/login/get_credentials.dart' as _i404;
 import 'package:geap_fit/pages/login/login_bloc.dart' as _i127;
 import 'package:geap_fit/pages/login/login_service.dart' as _i596;
 import 'package:geap_fit/pages/logout/logout_bloc.dart' as _i616;
 import 'package:geap_fit/pages/logout/logout_service.dart' as _i695;
 import 'package:geap_fit/pages/register/register_bloc.dart' as _i17;
-import 'package:geap_fit/pages/register/register_service.dart'
-    as _i851;
+import 'package:geap_fit/pages/register/register_service.dart' as _i851;
 import 'package:geap_fit/services/cacheService.dart' as _i99;
-import 'package:geap_fit/services/get/fingerprint_service.dart'
-    as _i256;
+import 'package:geap_fit/services/get/fingerprint_service.dart' as _i256;
 import 'package:geap_fit/services/http/api_services.dart' as _i281;
 import 'package:geap_fit/services/http/auth_interceptor.dart' as _i303;
-import 'package:geap_fit/services/http/cache_online_provider.dart'
-    as _i323;
+import 'package:geap_fit/services/http/cache_online_provider.dart' as _i323;
 import 'package:geap_fit/services/http/http_service.dart' as _i989;
-import 'package:geap_fit/services/http/is_online_provider.dart'
-    as _i716;
+import 'package:geap_fit/services/http/is_online_provider.dart' as _i716;
 import 'package:geap_fit/services/token_service.dart' as _i636;
 import 'package:geap_fit/styles/profile_theme_selector.dart' as _i604;
 import 'package:geap_fit/styles/theme_holder.dart' as _i1052;
 import 'package:geap_fit/styles/theme_loader.dart' as _i339;
 import 'package:geap_fit/styles/theme_provider.dart' as _i287;
-import 'package:geap_fit/styles/theme_selector.dart' as _i611;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -64,9 +58,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i287.ThemeProvider>(
       () => _i287.ThemeProvider(gh<_i1052.ThemeHolder>()),
     );
-    gh.factory<_i611.ThemeSelector>(
-      () => _i611.ThemeSelector(gh<_i287.ThemeProvider>()),
-    );
     gh.factory<_i281.ApiServices>(
       () => _i281.ApiServices(
         gh<_i989.HttpService>(),
@@ -77,11 +68,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i404.GetCredentials(gh<_i281.ApiServices>()),
     );
     gh.factory<_i596.LoginService>(
-      () => _i596.LoginService(
-        gh<_i99.Cache>(),
-        gh<_i404.GetCredentials>(),
-        gh<_i611.ThemeSelector>(),
-      ),
+      () => _i596.LoginService(gh<_i99.Cache>(), gh<_i404.GetCredentials>()),
     );
     gh.factory<_i127.LoginScreenBloc>(
       () => _i127.LoginScreenBloc(gh<_i596.LoginService>()),

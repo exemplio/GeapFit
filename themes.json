@@ -2,14 +2,9 @@
   {
     "name": "default-theme",
     "dflt": true,
-    "filter": {
-      "id_docs": [
-        "J403399646"
-      ]
-    },
     "colors": {
       "primary": "0xFF000000",
-      "primary_light": "0xFFFCA069"
+      "primary_light": "0xFFFFFFFF"
     },
     "assets_img": {
       "uri": "assets/img",

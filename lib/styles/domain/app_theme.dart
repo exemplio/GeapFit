@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:geap_fit/styles/domain/app_assets.dart';
 import 'package:geap_fit/styles/domain/app_colors.dart';
-import 'package:geap_fit/styles/domain/filter.dart';
 
 part 'app_theme.freezed.dart';
 part 'app_theme.g.dart';
@@ -19,7 +18,6 @@ class AppTheme with _$AppTheme {
   const factory AppTheme({
     required String name,
     @Default(false) bool dflt,
-    required Filter filter,
     required AppColors colors,
     required AppAssets assetsImg,
   }) = _AppTheme;

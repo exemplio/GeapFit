@@ -448,12 +448,12 @@ class _LoginScreenState extends State<LoginScreen>
 
   void _goNext() {
     // _sessionTimer.startTimer();flutter pub add flutter_blue_plus
-    context.go(StaticNames.salesName.path);
+    context.go(StaticNames.clients.path);
   }
 
   void _goToAuthDevice(String userEmail, String userPassword) {
     context.go(
-      StaticNames.salesName.path,
+      StaticNames.clients.path,
       extra: CredentialModel(email: userEmail, password: userPassword),
     );
   }

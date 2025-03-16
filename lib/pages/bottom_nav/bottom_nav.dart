@@ -13,7 +13,7 @@ class BottomNavScreen extends StatefulWidget {
   final BottomNavBloc bloc;
 
   const BottomNavScreen({Key? key, required this.child, required this.bloc})
-      : super(key: key);
+    : super(key: key);
   final Widget child;
 
   @override
@@ -28,54 +28,59 @@ class _BottomNavScreenState extends State<BottomNavScreen>
 
   List<ScaffoldWithNavBarTabItem> tabs = [
     ScaffoldWithNavBarTabItem(
-        initialLocation: StaticNames.salesName.path,
-        icon: const Icon(Icons.point_of_sale_sharp),
-        label: "Clientes"),
+      initialLocation: StaticNames.clients.path,
+      icon: const Icon(Icons.point_of_sale_sharp),
+      label: "Clientes",
+    ),
     ScaffoldWithNavBarTabItem(
-        initialLocation: StaticNames.store.path,
-        icon: const Icon(Icons.store),
-        label: "Agenda"),
+      initialLocation: StaticNames.agenda.path,
+      icon: const Icon(Icons.view_agenda),
+      label: "Agenda",
+    ),
     ScaffoldWithNavBarTabItem(
-        initialLocation: StaticNames.logoutName.path,
-        icon: const Icon(Icons.exit_to_app),
-        label: "Librería"),
+      initialLocation: StaticNames.library.path,
+      icon: const Icon(Icons.exit_to_app),
+      label: "Librería",
+    ),
     ScaffoldWithNavBarTabItem(
-        initialLocation: StaticNames.logoutName.path,
-        icon: const Icon(Icons.exit_to_app),
-        label: "Negocio"),
+      initialLocation: StaticNames.business.path,
+      icon: const Icon(Icons.exit_to_app),
+      label: "Negocio",
+    ),
     ScaffoldWithNavBarTabItem(
-        initialLocation: StaticNames.logoutName.path,
-        icon: const Icon(Icons.exit_to_app),
-        label: "Chat"),
+      initialLocation: StaticNames.chat.path,
+      icon: const Icon(Icons.exit_to_app),
+      label: "Chat",
+    ),
   ];
 
   List<NavigationDestinationTabItem> destinations = [
     NavigationDestinationTabItem(
-      initialLocation: StaticNames.salesName.path,
+      initialLocation: StaticNames.clients.path,
       selectedIcon: const Icon(Icons.photo_camera_front_outlined),
       icon: const Icon(Icons.photo_camera_front_outlined),
       label: "Clientes",
     ),
     NavigationDestinationTabItem(
-      initialLocation: StaticNames.store.path,
+      initialLocation: StaticNames.agenda.path,
       selectedIcon: const Icon(Icons.view_agenda),
       icon: const Icon(Icons.view_agenda),
       label: "Agenda",
     ),
     NavigationDestinationTabItem(
-      initialLocation: StaticNames.logoutName.path,
+      initialLocation: StaticNames.library.path,
       selectedIcon: const Icon(Icons.library_books),
       icon: const Icon(Icons.library_books),
       label: "Librería",
     ),
     NavigationDestinationTabItem(
-      initialLocation: StaticNames.logoutName.path,
+      initialLocation: StaticNames.business.path,
       selectedIcon: const Icon(Icons.business),
       icon: const Icon(Icons.business),
       label: "Negocio",
     ),
     NavigationDestinationTabItem(
-      initialLocation: StaticNames.logoutName.path,
+      initialLocation: StaticNames.chat.path,
       selectedIcon: const Icon(Icons.chat),
       icon: const Icon(Icons.chat),
       label: "Chat",
@@ -85,8 +90,9 @@ class _BottomNavScreenState extends State<BottomNavScreen>
   int get _currentIndex => _locationToTabIndex(GoRouter.of(context).location);
 
   int _locationToTabIndex(String location) {
-    final index =
-        tabs.indexWhere((t) => location.startsWith(t.initialLocation));
+    final index = tabs.indexWhere(
+      (t) => location.startsWith(t.initialLocation),
+    );
     return index < 0 ? 0 : index;
   }
 
@@ -142,14 +148,15 @@ class _BottomNavScreenState extends State<BottomNavScreen>
       builder: (context, state) {
         if (true) {
           return Scaffold(
-              resizeToAvoidBottomInset: false,
-              body: widget.child,
-              bottomNavigationBar: NavigationBar(
-                onDestinationSelected: (index) =>
-                    _onDestinationTapped(context, index),
-                selectedIndex: _currentIndex,
-                destinations: destinations,
-              ));
+            resizeToAvoidBottomInset: false,
+            body: widget.child,
+            bottomNavigationBar: NavigationBar(
+              onDestinationSelected:
+                  (index) => _onDestinationTapped(context, index),
+              selectedIndex: _currentIndex,
+              destinations: destinations,
+            ),
+          );
         }
       },
     );

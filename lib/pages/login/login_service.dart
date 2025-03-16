@@ -10,31 +10,35 @@ import 'package:geap_fit/utils/utils.dart';
 import '../../services/cacheService.dart';
 import '../../services/http/domain/role_request.dart';
 import '../../services/http/result.dart';
-import '../../styles/theme_selector.dart';
 
 @injectable
 class LoginService {
   final Cache _cache;
   final GetCredentials _getCredentials;
-  final ThemeSelector _themeSelector;
-  LoginService(this._cache, this._getCredentials, this._themeSelector);
+  LoginService(this._cache, this._getCredentials);
 
   Future<Result<Void>> passwordGrant(
-      String email, String password, bool isCI) async {
+    String email,
+    String password,
+    bool isCI,
+  ) async {
     return _getCredentials
         .passwordGrant(email, password, isCI)
         .then((value) => MyUtils.nextResult(value, _authDevice));
   }
 
   Future<Result<AccessTokenResponse>> refreshToken(
-      String idToken, String refreshToken) {
+    String idToken,
+    String refreshToken,
+  ) {
     return _getCredentials
         .refreshToken(idToken, refreshToken)
         .then((value) => MyUtils.nextResult(value, _saveAccessToken));
   }
 
   Future<Result<AccessTokenResponse>> _saveAccessToken(
-      Result<AccessTokenResponse> result) async {
+    Result<AccessTokenResponse> result,
+  ) async {
     var accessTokenResponse = result.obj;
     if (accessTokenResponse != null) {
       await _cache.saveAccessToken(accessTokenResponse);
@@ -63,7 +67,8 @@ class LoginService {
   }
 
   Future<Result<AccessTokenResponse>> auth(
-      CredentialResponse? credentialResponse) {
+    CredentialResponse? credentialResponse,
+  ) {
     // var clientId = credentialResponse?.integration?.client?.id;
 
     // if (credentialResponse != null &&
@@ -78,7 +83,9 @@ class LoginService {
   }
 
   Future<Result<AccessTokenResponse>> authorize(
-      String clientId, String secret) {
+    String clientId,
+    String secret,
+  ) {
     return _getCredentials.authorize(clientId, secret).then((result) {
       if (result.success) {
         var accessTokenResponse = result.obj;
@@ -97,7 +104,6 @@ class LoginService {
       if (value.success) {
         var profile = value.obj;
         if (profile != null) {
-          _themeSelector.selectThemeFromProfile(profile);
           return _cache.saveProfile(profile).then((v) => Result.result(value));
         }
       }
@@ -112,9 +118,10 @@ class LoginService {
         if (role != null) {
           var roles = role.roles ?? [];
           if (roles.isNotEmpty) {
-            var result = roles
-                .where((Role role) => role.appName == "SERVICEPAY_POS")
-                .first;
+            var result =
+                roles
+                    .where((Role role) => role.appName == "SERVICEPAY_POS")
+                    .first;
             if (result.businessId != null) {
               return saveInitData(result.businessId ?? "");
             }

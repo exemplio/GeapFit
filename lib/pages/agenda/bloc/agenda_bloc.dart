@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:bloc/bloc.dart';
 import 'package:optional/optional.dart';
-import 'package:geap_fit/pages/store/bloc/store_service.dart';
+import 'package:geap_fit/pages/agenda/bloc/agenda_service.dart';
 import '../models/store_model.dart';
 
-part 'store_event.dart';
-part 'store_state.dart';
+part 'agenda_event.dart';
+part 'agenda_state.dart';
 
 class StoreBloc extends Bloc<StoreEvent, StoreState> {
   StoreBloc() : super(StoreLoadingState()) {
@@ -22,17 +22,25 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
           emit(StoreInitialState(inventory: inventory));
           break;
         case StoreLoadedEvent:
-          emit(StoreLoadedState(
+          emit(
+            StoreLoadedState(
               inventory: inventory,
               consigned: consigned,
-              listTypes: listTypes));
+              listTypes: listTypes,
+            ),
+          );
           break;
         case StoreErrorEvent:
           emit(StoreErrorState(errorMessage: errorMessage));
           break;
         case StoreGoNextEvent:
-          emit(StoreGoNextState(
-              next: next, product: mproduct, listTypes: listTypes));
+          emit(
+            StoreGoNextState(
+              next: next,
+              product: mproduct,
+              listTypes: listTypes,
+            ),
+          );
           break;
       }
     });
@@ -45,8 +53,11 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
   Results? consigned;
   Results? mproduct;
 
-  void goNext(
-      {required String path, Results? product, List<String>? listTypes}) {
+  void goNext({
+    required String path,
+    Results? product,
+    List<String>? listTypes,
+  }) {
     next = path;
     mproduct = product;
     listTypes = listTypes;
@@ -64,10 +75,11 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
               listTypes.add(inventory!.results![i].type!);
             }
           }
-          var consignedResult = inventory?.results
-              ?.where((x) => x.type == "POSTPAID" && (x.minLimit ?? 0) > 0)
-              .firstOptional
-              .orElseNull;
+          var consignedResult =
+              inventory?.results
+                  ?.where((x) => x.type == "POSTPAID" && (x.minLimit ?? 0) > 0)
+                  .firstOptional
+                  .orElseNull;
           if (consignedResult != null) {
             consigned = consignedResult;
           }
@@ -75,7 +87,8 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
         } else {
           listTypes = [];
           _logger.i(result.errorMessage);
-          errorMessage = result.errorMessage ??
+          errorMessage =
+              result.errorMessage ??
               "El aliado no posee actualmente un inventario asignado";
           add(const StoreErrorEvent());
         }

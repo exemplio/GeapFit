@@ -66,7 +66,7 @@ class LoginScreenBloc extends Bloc<LoginEvent, LoginState> {
         .map((p0) => p0.message)
         .orElse(result.errorMessage ?? "Error al loguearse");
     if (result.success) {
-        emitter(GoToAuthDeviceState(userEmail, _passwordController.value));
+      emitter(GoToAuthDeviceState(userEmail, _passwordController.value));
     } else {
       if (errorMessage == "AUTHORIZATION_EMAIL_SENDED") {
         emitter(GoToAuthDeviceState(userEmail, _passwordController.value));
@@ -106,12 +106,11 @@ class LoginScreenBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   String? _validateUserName(String? value) {
-    if (value == null || value == "") {
-      return "El usuario no puede estar vacío";
+    if (!(value == null || value == "")) {
+      if (!MyUtils.REX_EMAIL.hasMatch(value)) {
+        return "Debe ingresar un email válido";
+      }
     }
-    if (!MyUtils.REX_EMAIL.hasMatch(value)) {
-      return "Ingresa un email válido";
-    }      
     return null;
   }
 
@@ -124,38 +123,37 @@ class LoginScreenBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   Stream<bool> get validateForm => Rx.combineLatest2(
-        userNameStream.map((event) => _validateUserName(event) == null),
-        passwordStream.map((event) => _validatePassword(event) == null),
-        (
-          a,
-          b,
-        ) =>
-            a && b,
-      );
+    userNameStream.map((event) => _validateUserName(event) == null),
+    passwordStream.map((event) => _validatePassword(event) == null),
+    (a, b) => a && b,
+  );
 
   Future<Result<Void>> _login() async {
-    String parsedEmail = _userNameController.value;    
+    String parsedEmail = _userNameController.value;
     if (MyUtils.REX_CI.hasMatch(parsedEmail)) {
       parsedEmail = parsedEmail.substring(1);
     }
-    updateUserName(parsedEmail);          
+    updateUserName(parsedEmail);
     bool isCI = MyUtils.REX_CI.hasMatch(parsedEmail);
     var retries = 0;
     return RetryWhenStream(
-        () => Rx.combineLatest2(userNameStream, passwordStream,
-                (userName, password) {
-              return _loginService
-                  .passwordGrant(userName, password, isCI)
-                  .asStream()
-                  .timeout(const Duration(seconds: 90));
-            }).flatMap((value) => value), (error, stackTrace) {
-      retries += 1;
-      if (retries < 5) {
-        return Stream.value("");
-      } else {
-        return Stream.error(error, stackTrace);
-      }
-    }).first.onError(Result.fail);
+      () => Rx.combineLatest2(userNameStream, passwordStream, (
+        userName,
+        password,
+      ) {
+        return _loginService
+            .passwordGrant(userName, password, isCI)
+            .asStream()
+            .timeout(const Duration(seconds: 90));
+      }).flatMap((value) => value),
+      (error, stackTrace) {
+        retries += 1;
+        if (retries < 5) {
+          return Stream.value("");
+        } else {
+          return Stream.error(error, stackTrace);
+        }
+      },
+    ).first.onError(Result.fail);
   }
-  
 }
