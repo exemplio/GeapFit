@@ -7,14 +7,12 @@ import 'package:injectable/injectable.dart';
 import 'package:geap_fit/domain/message.dart';
 import 'package:geap_fit/services/http/api_services.dart';
 import 'package:geap_fit/services/http/result.dart';
-import 'package:geap_fit/services/token_service.dart';
 
 @injectable
 class RegisterService {
   final ApiServices _apiServices;
-  final TokenService _tokenService;
 
-  RegisterService(this._apiServices, this._tokenService);
+  RegisterService(this._apiServices);
 
   Future<Result<Void>> _getQuestions() async {
     return Result.success(null);
@@ -37,14 +35,8 @@ class RegisterService {
     String? business_name,
   }) async {
     List<Map<String, String>> security_questions = [
-      {
-        "question": question,
-        "answer": answer,
-      },
-      {
-        "question": question2,
-        "answer": answer2,
-      },
+      {"question": question, "answer": answer},
+      {"question": question2, "answer": answer2},
     ];
 
     Map<String, dynamic> body = {};

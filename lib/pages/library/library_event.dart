@@ -1,16 +1,33 @@
+// ignore_for_file: must_be_immutable
+
 part of 'library_bloc.dart';
 
-abstract class LibraryEvent extends Equatable {
+@immutable
+abstract class LibraryEvent {
   const LibraryEvent();
-
-  @override
-  List<Object> get props => [];
 }
 
-class ExecuteLibraryEvent extends LibraryEvent {
-  const ExecuteLibraryEvent();
+class LibraryInitialEvent extends LibraryEvent {
+  const LibraryInitialEvent();
 }
 
-class InitEvent extends LibraryEvent {
-  const InitEvent();
+class LibraryLoadingEvent extends LibraryEvent {
+  bool isLoading = true;
+  LibraryLoadingEvent(this.isLoading);
+}
+
+class LibrarySuccessEvent extends LibraryEvent {
+  const LibrarySuccessEvent();
+}
+
+class LibraryLoadedEvent extends LibraryEvent {
+  const LibraryLoadedEvent();
+}
+
+class LibraryErrorEvent extends LibraryEvent {
+  const LibraryErrorEvent();
+}
+
+class LibraryGoNextEvent extends LibraryEvent {
+  const LibraryGoNextEvent();
 }

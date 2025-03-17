@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geap_fit/services/cacheService.dart';
 import 'package:go_router/go_router.dart';
 import 'package:geap_fit/di/injection.dart';
 import 'package:geap_fit/pages/agenda/models/store_model.dart';
@@ -24,6 +25,7 @@ class AgendaScreen extends StatefulWidget {
 class _AgendaScreenState extends State<AgendaScreen> {
   final _colorProvider = getIt<ThemeProvider>().colorProvider();
   StoreBloc _bloc() => widget.bloc;
+  final Cache _cache = Cache();
 
   @override
   void initState() {
@@ -257,6 +259,13 @@ class _AgendaScreenState extends State<AgendaScreen> {
           style: TitleTextStyle(fontSize: 24, color: ColorUtil.black),
         ),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.exit_to_app),
+            // tooltip: 'Increase volume by 10',
+            onPressed: () => closeSession(),
+          ),
+        ],
       ),
       //backgroundColor: _colorProvider.primaryLight(),
       body: BlocConsumer<StoreBloc, StoreState>(
@@ -336,6 +345,11 @@ class _AgendaScreenState extends State<AgendaScreen> {
         },
       ),
     );
+  }
+
+  void closeSession() {
+    _cache.emptyCacheData();
+    context.go(StaticNames.loginName.path);
   }
 
   @override

@@ -150,11 +150,33 @@ class _BottomNavScreenState extends State<BottomNavScreen>
           return Scaffold(
             resizeToAvoidBottomInset: false,
             body: widget.child,
-            bottomNavigationBar: NavigationBar(
-              onDestinationSelected:
-                  (index) => _onDestinationTapped(context, index),
-              selectedIndex: _currentIndex,
-              destinations: destinations,
+            bottomNavigationBar: BottomNavigationBar(
+              showSelectedLabels: true,
+              showUnselectedLabels: true,
+              type: BottomNavigationBarType.fixed,
+              selectedItemColor: Colors.blue,
+              unselectedItemColor: Colors.blueGrey,
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.photo_camera_front_outlined),
+                  label: 'Clientes',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.view_agenda),
+                  label: 'Agenda',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.library_books),
+                  label: 'Librería',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.business),
+                  label: 'Negocio',
+                ),
+                BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Chat'),
+              ],
+              currentIndex: _currentIndex,
+              onTap: (index) => _onDestinationTapped(context, index),
             ),
           );
         }

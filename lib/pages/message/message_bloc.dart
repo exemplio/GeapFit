@@ -8,34 +8,34 @@ import 'package:bloc/bloc.dart';
 import 'package:optional/optional.dart';
 import 'package:geap_fit/pages/agenda/bloc/agenda_service.dart';
 
-part 'chat_event.dart';
-part 'chat_state.dart';
+part 'message_event.dart';
+part 'message_state.dart';
 
-class ChatBloc extends Bloc<ChatEvent, ChatState> {
-  ChatBloc() : super(ChatLoadingState()) {
-    on<ChatEvent>((event, emit) async {
+class MessageBloc extends Bloc<MessageEvent, MessageState> {
+  MessageBloc() : super(MessageLoadingState()) {
+    on<MessageEvent>((event, emit) async {
       switch (event.runtimeType) {
-        case ChatLoadingEvent:
-          emit(ChatLoadingState(inventory: inventory));
+        case MessageLoadingEvent:
+          emit(MessageLoadingState(inventory: inventory));
           break;
-        case ChatInitialEvent:
-          emit(ChatInitialState(inventory: inventory));
+        case MessageInitialEvent:
+          emit(MessageInitialState(inventory: inventory));
           break;
-        case ChatLoadedEvent:
+        case MessageLoadedEvent:
           emit(
-            ChatLoadedState(
+            MessageLoadedState(
               inventory: inventory,
               consigned: consigned,
               listTypes: listTypes,
             ),
           );
           break;
-        case ChatErrorEvent:
-          emit(ChatErrorState(errorMessage: errorMessage));
+        case MessageErrorEvent:
+          emit(MessageErrorState(errorMessage: errorMessage));
           break;
-        case ChatGoNextEvent:
+        case MessageGoNextEvent:
           emit(
-            ChatGoNextState(
+            MessageGoNextState(
               next: next,
               product: mproduct,
               listTypes: listTypes,
@@ -61,7 +61,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     next = path;
     mproduct = product;
     listTypes = listTypes;
-    add(const ChatGoNextEvent());
+    add(const MessageGoNextEvent());
   }
 
   Future<void> mInventory() async {
@@ -83,21 +83,21 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           if (consignedResult != null) {
             consigned = consignedResult;
           }
-          add(const ChatLoadedEvent());
+          add(const MessageLoadedEvent());
         } else {
           listTypes = [];
           _logger.i(result.errorMessage);
           errorMessage =
               result.errorMessage ??
               "El aliado no posee actualmente un inventario asignado";
-          add(const ChatErrorEvent());
+          add(const MessageErrorEvent());
         }
       }
     } else {
       listTypes = [];
       _logger.i(result.errorMessage);
       errorMessage = result.errorMessage ?? "Error al obtener el inventario";
-      add(const ChatErrorEvent());
+      add(const MessageErrorEvent());
     }
   }
 }

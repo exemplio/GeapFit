@@ -6,34 +6,48 @@ import 'package:geap_fit/pages/chat/api.dart';
 import 'package:geap_fit/pages/chat/core/storage.dart';
 import 'package:geap_fit/pages/chat/core/variables.dart';
 import 'package:geap_fit/pages/chat/models/people.dart';
-import 'package:geap_fit/pages/library/library_bloc.dart';
 import 'package:geap_fit/services/cacheService.dart';
+import 'package:geap_fit/widgets/message_item.dart';
 import 'package:geap_fit/widgets/people_item.dart';
 import 'package:go_router/go_router.dart';
 import 'package:geap_fit/di/injection.dart';
-import 'package:geap_fit/pages/agenda/models/store_model.dart';
 import 'package:geap_fit/styles/theme_provider.dart';
-import 'package:geap_fit/utils/error_message.dart';
 import 'package:geap_fit/utils/staticNamesRoutes.dart';
+import 'package:intl/intl.dart';
 import '../../styles/bg.dart';
 import '../../styles/text.dart';
-import 'chat_bloc.dart';
+import 'message_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:collection/collection.dart';
 
-class ChatScreen extends StatefulWidget {
-  ChatBloc bloc;
-  ChatScreen({Key? key, required this.bloc}) : super(key: key);
+class MessageScreen extends StatefulWidget {
+  MessageBloc bloc;
+  MessageScreen({Key? key, required this.bloc}) : super(key: key);
 
   @override
-  State<ChatScreen> createState() => _ChatScreenState();
+  State<MessageScreen> createState() => _MessageScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _MessageScreenState extends State<MessageScreen> {
   final _colorProvider = getIt<ThemeProvider>().colorProvider();
-  ChatBloc _bloc() => widget.bloc;
+  MessageBloc _bloc() => widget.bloc;
   final Cache _cache = Cache();
+
+  var messageController = TextEditingController();
+
+  // Kullanicinin bu sayfaya erisimi yoksa welcomeScreen'e gonderiyoruz.
+  getUser() async {
+    Storage storage = Storage();
+
+    var user = await storage.loadUser();
+
+    if (user == null) {
+      Navigator.of(
+        context,
+      ).pushNamedAndRemoveUntil("/welcome", (route) => false);
+    }
+  }
 
   @override
   void initState() {
@@ -50,18 +64,6 @@ class _ChatScreenState extends State<ChatScreen> {
     });
     getUser();
     getRandomPeople();
-  }
-
-  getUser() async {
-    Storage storage = Storage();
-
-    var user = await storage.loadUser();
-
-    if (user == null) {
-      Navigator.of(
-        context,
-      ).pushNamedAndRemoveUntil("/welcome", (route) => false);
-    }
   }
 
   Widget _loadingCenter() {
@@ -123,8 +125,42 @@ class _ChatScreenState extends State<ChatScreen> {
     setState(() {});
   }
 
+  sendMessage(_, index, func) {
+    dynamic currentTime = DateFormat(
+      'hh:mm a',
+    ).format(DateTime.now().add(const Duration(hours: 3)));
+
+    setState(() {
+      messages[index].add(
+        MessageItem(
+          message: messageController.text,
+          time: currentTime,
+          isMe: false,
+        ),
+      );
+
+      peopleList[index].lastMessage = messageController.text;
+      peopleList[index].unreadCount = -1;
+      peopleList[index].dateTime = currentTime;
+    });
+    func();
+    messageController.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
+    // List<dynamic> arguments =
+    // ModalRoute.of(context)!.settings.arguments as List<dynamic>;
+    // final People people = arguments[0];
+    final People people = People(
+      name: "TEST",
+      avatarUrl: "TEST",
+      lastMessage: "TEST",
+      dateTime: "TEST",
+      unreadCount: 1,
+    );
+    final int index = 1;
+    final Function func = forceUpdate;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -142,10 +178,10 @@ class _ChatScreenState extends State<ChatScreen> {
         ],
       ),
       //backgroundColor: _colorProvider.primaryLight(),
-      body: BlocConsumer<ChatBloc, ChatState>(
+      body: BlocConsumer<MessageBloc, MessageState>(
         bloc: _bloc(),
         listener: (context, state) {
-          if (state is ChatGoNextState) {
+          if (state is MessageGoNextState) {
             if (state.product != null) {
               context.goNamed(state.next, extra: state.product);
             } else {
@@ -157,7 +193,7 @@ class _ChatScreenState extends State<ChatScreen> {
           }
         },
         builder: (context, state) {
-          if (state is ChatLoadedState) {
+          if (state is MessageLoadedState) {
             var inventory = state.inventory?.results?[0];
             var consigned = state.consigned;
 
@@ -165,7 +201,7 @@ class _ChatScreenState extends State<ChatScreen> {
               // return _inventory(inventory, consigned);
             }
           }
-          if (state is ChatLoadingState) {
+          if (state is MessageLoadingState) {
             // _bloc().mInventory();
             // return _loadingCenter();
           }
@@ -173,38 +209,86 @@ class _ChatScreenState extends State<ChatScreen> {
             body: SafeArea(
               child: Container(
                 width: double.infinity,
-                color: const Color.fromARGB(255, 241, 241, 241),
-                child: Column(
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.only(
-                        top: 25,
-                        bottom: 5,
-                        right: 20,
-                        left: 20,
-                      ),
-                      child: SizedBox(),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          right: 20,
-                          left: 20,
-                          bottom: 5,
-                        ),
-                        child: ListView.builder(
-                          itemCount: peopleList.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return PeopleItem(
-                              people: peopleList[index],
-                              index: index,
-                              func: forceUpdate,
-                            );
-                          },
+                decoration: const BoxDecoration(
+                  color: Color.fromARGB(255, 241, 241, 241),
+                ),
+                child: Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.only(top: 140),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: SingleChildScrollView(
+                            child: Column(children: [...messages[index]]),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                      Container(
+                        width: double.infinity,
+                        height: 120,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(30),
+                            topRight: Radius.circular(30),
+                          ),
+                        ),
+                        child: Container(
+                          margin: const EdgeInsets.all(30),
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 241, 241, 241),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 15,
+                              horizontal: 25,
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: TextField(
+                                    onSubmitted:
+                                        (value) =>
+                                            sendMessage(value, index, func),
+                                    controller: messageController,
+                                    decoration: InputDecoration.collapsed(
+                                      hintText: 'Type here...',
+                                      hintStyle: TextStyle(
+                                        fontSize: 17,
+                                        color: Colors.black.withOpacity(0.5),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                VerticalDivider(
+                                  color: Colors.black.withOpacity(0.2),
+                                ),
+                                const Gap(15),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.mood,
+                                      size: 25,
+                                      color: Colors.black.withOpacity(0.5),
+                                    ),
+                                    const Gap(17),
+                                    Icon(
+                                      Icons.photo_camera,
+                                      size: 25,
+                                      color: Colors.black.withOpacity(0.5),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -1,7 +1,15 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'package:flutter/material.dart';
+import 'package:geap_fit/pages/business/business_bloc.dart';
+import 'package:geap_fit/pages/business/business_screen.dart';
+import 'package:geap_fit/pages/chat/chat_bloc.dart';
+import 'package:geap_fit/pages/chat/chat_screen.dart';
 import 'package:geap_fit/pages/library/library_bloc.dart';
+import 'package:geap_fit/pages/library/library_service.dart';
+import 'package:geap_fit/pages/message/message_bloc.dart';
+import 'package:geap_fit/pages/message/message_screen.dart';
+import 'package:geap_fit/services/http/domain/productModel.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 import 'package:geap_fit/pages/pages.dart';
@@ -112,7 +120,7 @@ final GoRouter router = GoRouter(
           builder: (context, state) {
             _logger.i(state.location);
             // ApiServices ;
-            return ClientScreen(bloc: ClientEqBloc());
+            return LibraryScreen(bloc: LibraryBloc());
           },
         ),
         GoRoute(
@@ -122,7 +130,7 @@ final GoRouter router = GoRouter(
           builder: (context, state) {
             _logger.i(state.location);
             // ApiServices ;
-            return ClientScreen(bloc: ClientEqBloc());
+            return BusinessScreen(bloc: BusinessBloc());
           },
         ),
         GoRoute(
@@ -132,8 +140,21 @@ final GoRouter router = GoRouter(
           builder: (context, state) {
             _logger.i(state.location);
             // ApiServices ;
-            return ClientScreen(bloc: ClientEqBloc());
+            return ChatScreen(bloc: ChatBloc());
           },
+          routes: [
+            GoRoute(
+              parentNavigatorKey: _shellNavigatorKey,
+              name: StaticNames.product.name,
+              path: StaticNames.product.path,
+              builder: (context, state) {
+                _logger.i(state.location);
+                var product = state.extra;
+                // _logger.i(product.formattedName);
+                return MessageScreen(bloc: MessageBloc());
+              },
+            ),
+          ],
         ),
       ],
     ),

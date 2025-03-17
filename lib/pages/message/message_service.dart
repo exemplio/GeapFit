@@ -12,7 +12,7 @@ class ChatService {
   ChatService(this._apiServices);
 
   // Future<Result<Void>> closeSession() {
-  //   return _tokenService.token().then((value) => value.obj).then(_close);
+  // return _tokenService.token().then((value) => value.obj).then(_close);
   // }
 
   Future<Result<Void>> _close(String? idToken) async {

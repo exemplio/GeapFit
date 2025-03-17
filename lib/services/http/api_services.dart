@@ -15,7 +15,6 @@ import 'package:geap_fit/services/http/domain/password_grant_request.dart';
 import 'package:geap_fit/services/http/http_util.dart';
 import 'package:geap_fit/services/http/is_online_provider.dart';
 import 'package:geap_fit/services/http/result.dart';
-import 'package:geap_fit/services/init_headers.dart';
 import 'package:geap_fit/utils/staticNamesServices.dart';
 import '../../domain/access_token_response.dart';
 import '../../domain/credential_response.dart';
@@ -249,8 +248,8 @@ class ApiServices {
 
   Future<Result<Roles>> roles() async {
     var headers = {HttpHeaders.contentTypeHeader: ContentType.json.toString()};
-    var token = await initHeaders();
-    headers.addAll(token);
+    // var token = await initHeaders();
+    // headers.addAll(token);
     var uri = url("${MyUtils.type}${StaticNamesPath.roles.path}");
 
     return httpCall(
@@ -263,7 +262,7 @@ class ApiServices {
     Map<String, String> params = {};
 
     var headers = {HttpHeaders.contentTypeHeader: ContentType.json.toString()};
-    var token = await initHeaders();
+    // var token = await initHeaders();
     // headers.addAll(token);
 
     var uri = url(

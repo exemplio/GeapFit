@@ -1,16 +1,33 @@
+// ignore_for_file: must_be_immutable
+
 part of 'business_bloc.dart';
 
-abstract class BusinessEvent extends Equatable {
+@immutable
+abstract class BusinessEvent {
   const BusinessEvent();
-
-  @override
-  List<Object> get props => [];
 }
 
-class ExecuteBusinessEvent extends BusinessEvent {
-  const ExecuteBusinessEvent();
+class BusinessInitialEvent extends BusinessEvent {
+  const BusinessInitialEvent();
 }
 
-class InitEvent extends BusinessEvent {
-  const InitEvent();
+class BusinessLoadingEvent extends BusinessEvent {
+  bool isLoading = true;
+  BusinessLoadingEvent(this.isLoading);
+}
+
+class BusinessSuccessEvent extends BusinessEvent {
+  const BusinessSuccessEvent();
+}
+
+class BusinessLoadedEvent extends BusinessEvent {
+  const BusinessLoadedEvent();
+}
+
+class BusinessErrorEvent extends BusinessEvent {
+  const BusinessErrorEvent();
+}
+
+class BusinessGoNextEvent extends BusinessEvent {
+  const BusinessGoNextEvent();
 }

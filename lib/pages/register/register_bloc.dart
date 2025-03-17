@@ -13,7 +13,6 @@ import 'package:geap_fit/services/http/result.dart';
 import 'package:geap_fit/utils/utils.dart';
 
 import '../../styles/theme_provider.dart';
-import '../../utils/encrypt_password.dart';
 import '../../utils/translate.dart';
 
 part 'register_event.dart';
@@ -35,16 +34,18 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController answerController = TextEditingController(text: "hola");
   TextEditingController answer2Controller = TextEditingController(text: "hola");
-  TextEditingController question1Controller =
-      TextEditingController(text: "345");
-  TextEditingController question2Controller =
-      TextEditingController(text: "SEGUNDO NOMBRE DE TU MADRE");
+  TextEditingController question1Controller = TextEditingController(
+    text: "345",
+  );
+  TextEditingController question2Controller = TextEditingController(
+    text: "SEGUNDO NOMBRE DE TU MADRE",
+  );
   TextEditingController typeController = TextEditingController(text: "Natural");
   List<dynamic> show1 = [];
   List<dynamic> show2 = [];
 
   RegisterBloc(this._registerService, this.themeProvider)
-      : super(const RegisterInitialState()) {
+    : super(const RegisterInitialState()) {
     on<RegisterEvent>((event, emit) {
       _logger.i(event);
       switch (event.runtimeType) {
@@ -61,8 +62,11 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
           emit(const RegisterLoadedState());
           break;
         case RegisterErrorEvent:
-          emit(RegisterErrorState(
-              errorMessage: (event as RegisterErrorEvent).errorMessage));
+          emit(
+            RegisterErrorState(
+              errorMessage: (event as RegisterErrorEvent).errorMessage,
+            ),
+          );
           break;
       }
     });
@@ -86,11 +90,11 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       var id_doc_type = "CI";
       var last_name = lastNameController.text.toUpperCase();
       var business_name = businessNameController.text.toUpperCase();
-      var password =
-          Cryptom.encrypt(passwordController.text, MyUtils.publicKey);
-      var phone = phoneController.text == ""
-          ? null
-          : '$typePhoneSelected${maskFormatter.unmaskText(phoneController.text)}';
+      var password = passwordController.text;
+      var phone =
+          phoneController.text == ""
+              ? null
+              : '$typePhoneSelected${maskFormatter.unmaskText(phoneController.text)}';
       var answer = answerController.text;
       var answer2 = answerController.text;
       var question = question1Controller.text;
@@ -99,20 +103,21 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
           typeController.text == "Natural" ? "NATURAL_PERSON" : "LEGAL_PERSON";
       var result = await _registerService
           .selfSignUp(
-              country: country,
-              email: email,
-              first_name: first_name,
-              id_doc: id_doc,
-              id_doc_type: id_doc_type,
-              last_name: last_name,
-              business_name: business_name,
-              password: password,
-              phone: phone,
-              answer: answer,
-              answer2: answer2,
-              question: question,
-              question2: question2,
-              type: type)
+            country: country,
+            email: email,
+            first_name: first_name,
+            id_doc: id_doc,
+            id_doc_type: id_doc_type,
+            last_name: last_name,
+            business_name: business_name,
+            password: password,
+            phone: phone,
+            answer: answer,
+            answer2: answer2,
+            question: question,
+            question2: question2,
+            type: type,
+          )
           .onError((error, stackTrace) => Result.fail(error, stackTrace))
           .timeout(
             const Duration(seconds: 90),
@@ -123,9 +128,13 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         add(const RegisterSuccessEvent());
       } else {
         errorMessage = result.errorMessage;
-        add(RegisterErrorEvent(
-            errorMessage:
-                translate(errorMessage ?? "Error al realizar el pago")));
+        add(
+          RegisterErrorEvent(
+            errorMessage: translate(
+              errorMessage ?? "Error al realizar el pago",
+            ),
+          ),
+        );
       }
       Navigator.pop(context);
     } catch (e) {
@@ -144,9 +153,13 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         }
       }
     } else {
-      add(RegisterErrorEvent(
-          errorMessage: resultado.errorMessage ??
-              "Error al consultar datos para registro"));
+      add(
+        RegisterErrorEvent(
+          errorMessage:
+              resultado.errorMessage ??
+              "Error al consultar datos para registro",
+        ),
+      );
     }
     return null;
   }
@@ -216,9 +229,10 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   }
 
   var maskFormatter = MaskTextInputFormatter(
-      mask: '###-####',
-      filter: {"#": RegExp(r'[0-9]')},
-      type: MaskAutoCompletionType.lazy);
+    mask: '###-####',
+    filter: {"#": RegExp(r'[0-9]')},
+    type: MaskAutoCompletionType.lazy,
+  );
 
   String? passwordValidator() {
     if (passwordController.text != passwordConfirmationController.text) {
@@ -239,8 +253,9 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     answerController = TextEditingController(text: "hola");
     answer2Controller = TextEditingController(text: "hola");
     question1Controller = TextEditingController(text: "345");
-    question2Controller =
-        TextEditingController(text: "SEGUNDO NOMBRE DE TU MADRE");
+    question2Controller = TextEditingController(
+      text: "SEGUNDO NOMBRE DE TU MADRE",
+    );
     typeController = TextEditingController(text: "Natural");
     show1 = [];
     show2 = [];

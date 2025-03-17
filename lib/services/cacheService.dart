@@ -14,7 +14,6 @@ import 'package:geap_fit/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../domain/credential_response.dart';
-import 'get/fingerprint_service.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 
 @injectable
@@ -85,11 +84,7 @@ class Cache {
       var prefs = await _prefs();
       var accessTokenResponse = await getAccessTokenResponse();
 
-      var fingerprint = (await _prefs()).getString(FingerprintService.key);
-
       await prefs.clear();
-
-      await prefs.setString(FingerprintService.key, fingerprint!);
 
       if (accessTokenResponse != null) {
         await saveAccessToken(accessTokenResponse);
@@ -200,10 +195,6 @@ class Cache {
 
   Future<void> saveProfile(Profile profile) {
     return _savePrefs("profile", profile);
-  }
-
-  Future<Profile?> getProfile() {
-    return _getFromPrefs("profile", (json) => Profile.fromJson(json));
   }
 
   Future<void> saveInitData(Document init) {

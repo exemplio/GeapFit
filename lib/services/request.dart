@@ -6,7 +6,6 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
-import 'package:geap_fit/utils/get_credentials.dart';
 import 'package:geap_fit/utils/utils.dart';
 
 class Request {}

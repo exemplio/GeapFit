@@ -71,7 +71,7 @@ class _ClientScreenState extends State<ClientScreen> {
     );
   }
 
-  Widget _product(Fields product) {
+  Widget _cliente(Fields product) {
     // var company = product.company?.toLowerCase();
     // int isExistsImage = listCompanies.indexOf(company ?? "");
 
@@ -291,7 +291,7 @@ class _ClientScreenState extends State<ClientScreen> {
                                 StaticNames.product.name,
                                 extra: products[index],
                               ),
-                          child: _product(products[index]),
+                          child: _cliente(products[index]),
                         );
                       }, childCount: products.length),
                     ),
@@ -306,25 +306,9 @@ class _ClientScreenState extends State<ClientScreen> {
     );
   }
 
-  Widget buttonText = Text(
-    "CERRAR SESIÓN",
-    style: subtitleStyleText("white", 15),
-  );
-
-  void executeLogoutEvent() {
+  void closeSession() {
     _cache.emptyCacheData();
     context.go(StaticNames.loginName.path);
-  }
-
-  void closeSession() {
-    setState(() {
-      buttonText = const SizedBox(
-        width: 25,
-        height: 25,
-        child: CircularProgressIndicator(color: ColorUtil.white),
-      );
-    });
-    executeLogoutEvent();
   }
 
   @override

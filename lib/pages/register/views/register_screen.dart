@@ -11,7 +11,6 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:geap_fit/di/injection.dart';
 import 'package:geap_fit/styles/theme_provider.dart';
 import 'package:geap_fit/utils/staticNamesRoutes.dart';
-import 'package:geap_fit/utils/terms.dart';
 import 'package:geap_fit/utils/uppercase.dart';
 import 'package:geap_fit/utils/utils.dart';
 import 'package:geap_fit/widgets/alert_dialog.dart';
@@ -45,7 +44,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   void initState() {
-    terms = getTerms();
     _bloc().init();
     //_loadAnswers("8");
     super.initState();

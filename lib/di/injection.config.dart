@@ -19,13 +19,11 @@ import 'package:geap_fit/pages/login/login_service.dart' as _i596;
 import 'package:geap_fit/pages/register/register_bloc.dart' as _i17;
 import 'package:geap_fit/pages/register/register_service.dart' as _i851;
 import 'package:geap_fit/services/cacheService.dart' as _i99;
-import 'package:geap_fit/services/get/fingerprint_service.dart' as _i256;
 import 'package:geap_fit/services/http/api_services.dart' as _i281;
 import 'package:geap_fit/services/http/auth_interceptor.dart' as _i303;
 import 'package:geap_fit/services/http/cache_online_provider.dart' as _i323;
 import 'package:geap_fit/services/http/http_service.dart' as _i989;
 import 'package:geap_fit/services/http/is_online_provider.dart' as _i716;
-import 'package:geap_fit/services/token_service.dart' as _i636;
 import 'package:geap_fit/styles/profile_theme_selector.dart' as _i604;
 import 'package:geap_fit/styles/theme_holder.dart' as _i1052;
 import 'package:geap_fit/styles/theme_loader.dart' as _i339;
@@ -40,7 +38,6 @@ extension GetItInjectableX on _i174.GetIt {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final injectionModule = _$InjectionModule();
     gh.factory<_i99.Cache>(() => _i99.Cache());
-    gh.factory<_i256.FingerprintService>(() => _i256.FingerprintService());
     gh.factory<_i604.ProfileThemeSelector>(() => _i604.ProfileThemeSelector());
     gh.factory<_i339.ThemeLoader>(() => _i339.ThemeLoader());
     gh.lazySingleton<_i989.HttpService>(() => injectionModule.httpService);
@@ -71,17 +68,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i127.LoginScreenBloc>(
       () => _i127.LoginScreenBloc(gh<_i596.LoginService>()),
     );
-    gh.factory<_i636.TokenService>(
-      () => _i636.TokenService(gh<_i99.Cache>(), gh<_i596.LoginService>()),
-    );
     gh.factory<_i851.RegisterService>(
-      () => _i851.RegisterService(
-        gh<_i281.ApiServices>(),
-        gh<_i636.TokenService>(),
-      ),
+      () => _i851.RegisterService(gh<_i281.ApiServices>()),
     );
     gh.factory<_i303.AuthInterceptor>(
-      () => _i303.AuthInterceptor(gh<_i636.TokenService>(), gh<_i99.Cache>()),
+      () => _i303.AuthInterceptor(gh<_i99.Cache>()),
     );
     gh.factory<_i17.RegisterBloc>(
       () => _i17.RegisterBloc(

@@ -1,16 +1,38 @@
+// ignore_for_file: must_be_immutable
+
 part of 'chat_bloc.dart';
 
-abstract class ChatState extends Equatable {
-  const ChatState();
-
-  @override
-  List<Object> get props => [];
+@immutable
+abstract class ChatState {
+  InventoryModel? inventory;
+  Results? consigned;
+  List<String>? listTypes = [];
+  ChatState({this.inventory, this.consigned, this.listTypes});
 }
 
-class ChatInitial extends ChatState {
-  const ChatInitial();
+class ChatInitialState extends ChatState {
+  ChatInitialState({super.inventory, super.consigned, super.listTypes});
 }
 
-class GotoLoginState extends ChatState {
-  const GotoLoginState();
+class ChatLoadingState extends ChatState {
+  ChatLoadingState({super.inventory, super.consigned, super.listTypes});
+}
+
+class ChatSuccessState extends ChatState {
+  ChatSuccessState({super.inventory, super.consigned, super.listTypes});
+}
+
+class ChatLoadedState extends ChatState {
+  ChatLoadedState({super.inventory, super.consigned, super.listTypes});
+}
+
+class ChatErrorState extends ChatState {
+  String errorMessage;
+  ChatErrorState({required this.errorMessage});
+}
+
+class ChatGoNextState extends ChatState {
+  String next;
+  Results? product;
+  ChatGoNextState({required this.next, this.product, super.listTypes});
 }

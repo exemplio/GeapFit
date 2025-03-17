@@ -58,14 +58,6 @@ class LoginService {
     return Result.failMsg("No hay access token para el dispositivo");
   }
 
-  Future<Result<Void>> login(String email, String password) {
-    return _getCredentials.credentials(email, password).then((result) {
-      return MyUtils.nextResult(result, (result) {
-        return auth(result.obj).then((value) => Result.result(value));
-      });
-    });
-  }
-
   Future<Result<AccessTokenResponse>> auth(
     CredentialResponse? credentialResponse,
   ) {
@@ -105,27 +97,6 @@ class LoginService {
         var profile = value.obj;
         if (profile != null) {
           return _cache.saveProfile(profile).then((v) => Result.result(value));
-        }
-      }
-      return Result.result(value);
-    });
-  }
-
-  Future<Result<Void>> getRole() {
-    return _getCredentials.role().then((value) {
-      if (value.success) {
-        var role = value.obj; // ?
-        if (role != null) {
-          var roles = role.roles ?? [];
-          if (roles.isNotEmpty) {
-            var result =
-                roles
-                    .where((Role role) => role.appName == "SERVICEPAY_POS")
-                    .first;
-            if (result.businessId != null) {
-              return saveInitData(result.businessId ?? "");
-            }
-          }
         }
       }
       return Result.result(value);

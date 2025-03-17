@@ -1,16 +1,33 @@
+// ignore_for_file: must_be_immutable
+
 part of 'chat_bloc.dart';
 
-abstract class ChatEvent extends Equatable {
+@immutable
+abstract class ChatEvent {
   const ChatEvent();
-
-  @override
-  List<Object> get props => [];
 }
 
-class ExecuteChatEvent extends ChatEvent {
-  const ExecuteChatEvent();
+class ChatInitialEvent extends ChatEvent {
+  const ChatInitialEvent();
 }
 
-class InitEvent extends ChatEvent {
-  const InitEvent();
+class ChatLoadingEvent extends ChatEvent {
+  bool isLoading = true;
+  ChatLoadingEvent(this.isLoading);
+}
+
+class ChatSuccessEvent extends ChatEvent {
+  const ChatSuccessEvent();
+}
+
+class ChatLoadedEvent extends ChatEvent {
+  const ChatLoadedEvent();
+}
+
+class ChatErrorEvent extends ChatEvent {
+  const ChatErrorEvent();
+}
+
+class ChatGoNextEvent extends ChatEvent {
+  const ChatGoNextEvent();
 }

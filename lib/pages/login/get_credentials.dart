@@ -10,7 +10,6 @@ import 'package:geap_fit/services/http/domain/role_request.dart';
 import 'package:geap_fit/services/http/result.dart';
 
 import '../../services/http/api_services.dart';
-import '../../utils/encrypt_password.dart';
 import '../../utils/utils.dart';
 
 @injectable
@@ -18,23 +17,6 @@ class GetCredentials {
   final ApiServices _apiServices;
 
   GetCredentials(this._apiServices);
-
-  Future<Result<CredentialResponse>> credentials(
-    String email,
-    String password,
-  ) {
-    return Future(() {
-      var publicKey = MyUtils.publicKey;
-      var result = Cryptom.encrypt(password, publicKey);
-      Map<String, String> body = {
-        "client_id": MyUtils.clientId.toString(),
-        "email": email,
-        "password": result,
-      };
-
-      return _apiServices.credentials(body);
-    });
-  }
 
   Future<Result<AccessTokenResponse>> refreshToken(
     String idToken,

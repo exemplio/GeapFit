@@ -10,7 +10,6 @@ import 'package:logger/logger.dart';
 import 'package:geap_fit/domain/credentialModel.dart';
 import 'package:geap_fit/services/cacheService.dart';
 import 'package:geap_fit/styles/theme_holder.dart';
-import 'package:geap_fit/utils/get_credentials.dart';
 import 'package:geap_fit/utils/utils.dart';
 import 'package:geap_fit/widgets/alert_dialog.dart';
 import 'package:encrypt/encrypt.dart' as crypt;
@@ -34,6 +33,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen>
     with SingleTickerProviderStateMixin {
   final _logger = Logger();
+  final Cache cache = Cache();
 
   late final LocalAuthentication auth;
   bool isSupported = false;
