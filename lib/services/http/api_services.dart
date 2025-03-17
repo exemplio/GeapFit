@@ -37,6 +37,10 @@ class ApiServices {
     return Uri.https(MyUtils.base, unencodedPath, queryParameters);
   }
 
+  Uri urlAuth(String unencodedPath, {Map<String, dynamic>? queryParameters}) {
+    return Uri.https(MyUtils.baseAuth, unencodedPath, queryParameters);
+  }
+
   Future<Result<T>> httpCall<T>(
     Future<Response> Function(Client client) f, {
     T Function(dynamic json)? parseJson,
@@ -57,8 +61,8 @@ class ApiServices {
     PasswordGrantRequest request,
   ) {
     String path = StaticNamesPath.passwordGrant.path;
-    var uri = url(
-      "${MyUtils.type}$path",
+    var uri = urlAuth(
+      "${MyUtils.typeAuth}$path",
       queryParameters: {"key": MyUtils.apiKey},
     );
     var headers = {HttpHeaders.contentTypeHeader: ContentType.json.toString()};
@@ -255,55 +259,21 @@ class ApiServices {
     );
   }
 
-  Future<Result<Init>> init(String businessId) async {
+  Future<Result<Document>> getClients() async {
     Map<String, String> params = {};
-    params["client_id"] = MyUtils.apiKey;
-    params["role_owner_id"] = businessId;
 
     var headers = {HttpHeaders.contentTypeHeader: ContentType.json.toString()};
     var token = await initHeaders();
-    headers.addAll(token);
+    // headers.addAll(token);
 
     var uri = url(
-      "${MyUtils.type}${StaticNamesPath.init.path}",
+      "${MyUtils.type}${StaticNamesPath.getClients.path}",
       queryParameters: params,
     );
 
     return httpCall(
       (client) => client.get(uri, headers: headers),
-      parseJson: (json) => Init.fromJson(json),
-    );
-  }
-
-  Future<Result<InventoryModel>> inventory({
-    required Map<String, String> params,
-  }) async {
-    var headers = {HttpHeaders.contentTypeHeader: ContentType.json.toString()};
-
-    var uri = url(
-      "${MyUtils.type}${StaticNamesPath.inventory.path}",
-      queryParameters: params,
-    );
-
-    return httpCall(
-      (client) => client.get(uri, headers: headers),
-      parseJson: (json) => InventoryModel.fromJson(json),
-    );
-  }
-
-  Future<Result<CollectChannel>> getBanks({
-    required Map<String, String> params,
-  }) async {
-    var headers = {HttpHeaders.contentTypeHeader: ContentType.json.toString()};
-
-    var uri = url(
-      "${MyUtils.type}${StaticNamesPath.banks.path}",
-      queryParameters: params,
-    );
-
-    return httpCall(
-      (client) => client.get(uri, headers: headers),
-      parseJson: (json) => CollectChannel.fromJson(json),
+      parseJson: (json) => Document.fromJson(json),
     );
   }
 
@@ -321,27 +291,6 @@ class ApiServices {
     return httpCall(
       (client) => client.post(uri, headers: headers, body: jsonEncode(body)),
       parseJson: (json) => CurrencyRate.fromJson(json),
-    );
-  }
-
-  Future<Result<String>> balancePayment({
-    required Map<String, dynamic> body,
-    required Map<String, String> params,
-  }) async {
-    var uri = url(
-      "${MyUtils.type}${MyUtils.type}${StaticNamesPath.balancePayment.path}",
-      queryParameters: params,
-    );
-
-    var headers = {
-      HttpHeaders.contentTypeHeader: ContentType.json.toString(),
-      HttpHeaders.acceptHeader: ContentType.json.toString(),
-      "app-id": MyUtils.clientId,
-    };
-
-    return httpCall(
-      (client) => client.post(uri, body: jsonEncode(body), headers: headers),
-      parseJson: (json) => jsonEncode(json),
     );
   }
 

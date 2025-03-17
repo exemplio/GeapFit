@@ -498,3 +498,101 @@ class Ally {
     return data;
   }
 }
+
+class FirestoreResponse {
+  List<Document>? documents;
+
+  FirestoreResponse({this.documents});
+
+  FirestoreResponse.fromJson(Map<String, dynamic> json) {
+    if (json['documents'] != null) {
+      documents = <Document>[];
+      json['documents'].forEach((v) {
+        documents?.add(Document.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (documents != null) {
+      data['documents'] = documents?.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Document {
+  String? name;
+  Fields? fields;
+  String? createTime;
+  String? updateTime;
+
+  Document({this.name, this.fields, this.createTime, this.updateTime});
+
+  Document.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    fields = json['fields'] != null ? Fields.fromJson(json['fields']) : null;
+    createTime = json['createTime'];
+    updateTime = json['updateTime'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    if (fields != null) {
+      data['fields'] = fields?.toJson();
+    }
+    data['createTime'] = createTime;
+    data['updateTime'] = updateTime;
+    print('$createTime $updateTime');
+    return data;
+  }
+}
+
+class Fields {
+  FieldValue? first;
+  FieldValue? born;
+  FieldValue? last;
+
+  Fields({this.first, this.born, this.last});
+
+  Fields.fromJson(Map<String, dynamic> json) {
+    first = json['first'] != null ? FieldValue.fromJson(json['first']) : null;
+    born = json['born'] != null ? FieldValue.fromJson(json['born']) : null;
+    last = json['last'] != null ? FieldValue.fromJson(json['last']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (first != null) {
+      data['first'] = first?.toJson();
+    }
+    if (born != null) {
+      data['born'] = born?.toJson();
+    }
+    if (last != null) {
+      data['last'] = last?.toJson();
+    }
+    return data;
+  }
+}
+
+class FieldValue {
+  String? stringValue;
+  String? integerValue;
+
+  FieldValue({this.stringValue, this.integerValue});
+
+  FieldValue.fromJson(Map<String, dynamic> json) {
+    stringValue = json['stringValue'];
+    integerValue = json['integerValue'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['stringValue'] = stringValue;
+    data['integerValue'] = integerValue;
+    return data;
+  }
+}

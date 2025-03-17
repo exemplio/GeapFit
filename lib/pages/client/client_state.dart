@@ -1,9 +1,9 @@
 // ignore_for_file: must_be_immutable
 
-part of 'client_eq_bloc.dart';
+part of 'client_bloc.dart';
 
 abstract class ClientEqState extends Equatable {
-  List<ProductModel>? products = [];
+  List<Fields>? products = [];
   ProfileModel? profile;
   ClientEqState({this.products, this.profile});
 

@@ -20,14 +20,16 @@ class GetCredentials {
   GetCredentials(this._apiServices);
 
   Future<Result<CredentialResponse>> credentials(
-      String email, String password) {
+    String email,
+    String password,
+  ) {
     return Future(() {
       var publicKey = MyUtils.publicKey;
       var result = Cryptom.encrypt(password, publicKey);
       Map<String, String> body = {
         "client_id": MyUtils.clientId.toString(),
         "email": email,
-        "password": result
+        "password": result,
       };
 
       return _apiServices.credentials(body);
@@ -35,28 +37,37 @@ class GetCredentials {
   }
 
   Future<Result<AccessTokenResponse>> refreshToken(
-      String idToken, String refreshToken) {
+    String idToken,
+    String refreshToken,
+  ) {
     return _apiServices.refreshToken(idToken, refreshToken);
   }
 
   Future<Result<AccessTokenResponse>> authorize(
-      String clientId, String secret) {
+    String clientId,
+    String secret,
+  ) {
     var auth = utf8.fuse(base64).encode("$clientId:$secret");
 
     return _apiServices.authorize(auth);
   }
 
   Future<Result<AccessTokenResponse>> passwordGrant(
-      String email, String password, bool isCI) {      
-      return _apiServices.passwordGrant(PasswordGrantRequest(email, password));
+    String email,
+    String password,
+    bool isCI,
+  ) {
+    return _apiServices.passwordGrant(PasswordGrantRequest(email, password));
   }
 
   Future<Result<Profile>> profile() {
     return _apiServices.profile();
   }
-  Future<Result<Init>> init(String businessId) {
-    return _apiServices.init(businessId);
+
+  Future<Result<Document>> getClients() {
+    return _apiServices.getClients();
   }
+
   Future<Result<Roles>> role() {
     return _apiServices.roles();
   }

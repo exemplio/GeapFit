@@ -6,19 +6,19 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:geap_fit/utils/utils.dart';
 
-import '../../../di/injection.dart';
-import '../../../services/cacheService.dart';
-import '../../../services/http/api_services.dart';
-import '../../../services/http/domain/productModel.dart';
-import '../models/initModel.dart';
+import '../../di/injection.dart';
+import '../../services/cacheService.dart';
+import '../../services/http/api_services.dart';
+import '../../services/http/domain/productModel.dart';
+import 'models/initModel.dart';
 
-part 'client_eq_state.dart';
-part 'client_eq_event.dart';
+part 'client_state.dart';
+part 'client_event.dart';
 
 class ClientEqBloc extends Bloc<ClientEqEvent, ClientEqState> {
   final _cache = Cache();
   final _apiServices = getIt<ApiServices>();
-  List<ProductModel> products = [];
+  List<Fields> products = [];
   ProfileModel? profile;
 
   ClientEqBloc() : super(ClientInitialState()) {
@@ -58,30 +58,50 @@ class ClientEqBloc extends Bloc<ClientEqEvent, ClientEqState> {
 
   Future<void> getProducts() async {
     add(ClientLoadingProductEvent());
-    Init? init = await _cache.getInitData();
-    var businessId = init?.businessProfile?.id;
-    var initData = await _apiServices.init(businessId ?? "");
-    Init guardarInitData = initData.obj ?? Init();
-    List<Inventories>? inventories = guardarInitData.inventories;
-    ProfileModel? model = init?.profile;
 
-    if (model != null) {
-      profile = model;
+    var initData = await _apiServices.getClients();
+
+    Document? guardarInitData;
+
+    // Safely cast initData.obj to Document?
+    guardarInitData = initData.obj;
+    if (initData.obj is Document) {
+    } else {
+      print("initData.obj is not a Document");
     }
 
-    if (inventories?.length == null) {
+    // Handle the case when guardarInitData is null
+    if (guardarInitData == null) {
+      print("guardarInitData is null");
+    } else {
+      print(guardarInitData);
+    }
+
+    // Assign guardarInitData to a List<Document>
+    List<Document> inventories = [];
+    if (guardarInitData != null) {
+      inventories.add(guardarInitData);
+    }
+    print(inventories);
+
+    if (inventories.isEmpty) {
       add(ClientErrorProductEvent());
     }
 
-    if (inventories!.isNotEmpty) {
+    if (inventories.isNotEmpty) {
       products = [];
+      print("TAMBIEN LLEGA ACA");
       for (var inv in inventories) {
-        if (inv.products!.isNotEmpty) {
-          products.addAll(inv.products!);
+        print(guardarInitData);
+        print("----");
+        print(inv.fields);
+        if (inv.fields != null) {
+          // products.addAll(inv.fields!);
+          products = inv.fields as List<Fields>? ?? [];
           add(ClientLoadedProductEvent());
         }
       }
-      products = MyUtils.orderList(products);
+      // products = MyUtils.orderList(products);
     }
   }
 }

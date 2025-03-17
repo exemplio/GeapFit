@@ -12,7 +12,7 @@ import 'package:geap_fit/utils/staticNamesRoutes.dart';
 import '../di/injection.dart';
 import '../pages/bottom_nav/bottom_nav.dart';
 import '../pages/bottom_nav/bottom_nav_bloc.dart';
-import '../pages/client/bloc/client_eq_bloc.dart';
+import '../pages/client/client_bloc.dart';
 import '../services/cacheService.dart';
 
 final _rootNavigatorKey = Globalkeys.rootNavigatorKey;
@@ -86,15 +86,6 @@ final GoRouter router = GoRouter(
         return BottomNavScreen(bloc: getIt<BottomNavBloc>(), child: child);
       },
       routes: [
-        GoRoute(
-          parentNavigatorKey: _shellNavigatorKey,
-          path: StaticNames.logoutName.path,
-          name: StaticNames.logoutName.name,
-          builder: (context, state) {
-            _logger.i(state.location);
-            return const LogoutScreen();
-          },
-        ),
         GoRoute(
           name: StaticNames.clients.name,
           parentNavigatorKey: _shellNavigatorKey,

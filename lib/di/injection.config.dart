@@ -16,8 +16,6 @@ import 'package:geap_fit/pages/bottom_nav/bottom_nav_bloc.dart' as _i1051;
 import 'package:geap_fit/pages/login/get_credentials.dart' as _i404;
 import 'package:geap_fit/pages/login/login_bloc.dart' as _i127;
 import 'package:geap_fit/pages/login/login_service.dart' as _i596;
-import 'package:geap_fit/pages/logout/logout_bloc.dart' as _i616;
-import 'package:geap_fit/pages/logout/logout_service.dart' as _i695;
 import 'package:geap_fit/pages/register/register_bloc.dart' as _i17;
 import 'package:geap_fit/pages/register/register_service.dart' as _i851;
 import 'package:geap_fit/services/cacheService.dart' as _i99;
@@ -76,12 +74,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i636.TokenService>(
       () => _i636.TokenService(gh<_i99.Cache>(), gh<_i596.LoginService>()),
     );
-    gh.factory<_i695.LogoutService>(
-      () => _i695.LogoutService(
-        gh<_i281.ApiServices>(),
-        gh<_i636.TokenService>(),
-      ),
-    );
     gh.factory<_i851.RegisterService>(
       () => _i851.RegisterService(
         gh<_i281.ApiServices>(),
@@ -94,13 +86,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i17.RegisterBloc>(
       () => _i17.RegisterBloc(
         gh<_i851.RegisterService>(),
-        gh<_i287.ThemeProvider>(),
-      ),
-    );
-    gh.factory<_i616.LogoutBloc>(
-      () => _i616.LogoutBloc(
-        gh<_i695.LogoutService>(),
-        gh<_i99.Cache>(),
         gh<_i287.ThemeProvider>(),
       ),
     );

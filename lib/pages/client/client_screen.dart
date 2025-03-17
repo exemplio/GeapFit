@@ -2,8 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geap_fit/services/cacheService.dart';
 import 'package:go_router/go_router.dart';
-import 'package:geap_fit/pages/client/bloc/client_eq_bloc.dart';
+import 'package:geap_fit/pages/client/client_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:geap_fit/styles/bg.dart';
 import 'package:geap_fit/styles/text.dart';
@@ -26,6 +27,7 @@ class _ClientScreenState extends State<ClientScreen> {
   bool refreshState = false;
   List<String> listCompanies = [];
   bool collapsePostpaid = false;
+  final Cache _cache = Cache();
   final _colorProvider = getIt<ThemeProvider>().colorProvider();
 
   ClientEqBloc _bloc() => widget.bloc;
@@ -69,9 +71,9 @@ class _ClientScreenState extends State<ClientScreen> {
     );
   }
 
-  Widget _product(ProductModel product) {
-    var company = product.company?.toLowerCase();
-    int isExistsImage = listCompanies.indexOf(company ?? "");
+  Widget _product(Fields product) {
+    // var company = product.company?.toLowerCase();
+    // int isExistsImage = listCompanies.indexOf(company ?? "");
 
     return Card(
       surfaceTintColor: Colors.white,
@@ -81,24 +83,9 @@ class _ClientScreenState extends State<ClientScreen> {
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(5),
-              child:
-                  isExistsImage != -1
-                      ? Image.asset(
-                        "assets/img/$company.png",
-                        width: 80,
-                        height: 40,
-                      )
-                      : Image.asset(
-                        "assets/img/not_found.png",
-                        width: 80,
-                        height: 40,
-                      ),
-            ),
             const SizedBox(width: 5),
             Text(
-              product.category ?? "",
+              product.born?.integerValue ?? "",
               textAlign: TextAlign.center,
               style: const TitleTextStyle(
                 color: ColorUtil.dark_gray,
@@ -190,6 +177,13 @@ class _ClientScreenState extends State<ClientScreen> {
           style: TitleTextStyle(fontSize: 24, color: ColorUtil.black),
         ),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.exit_to_app),
+            // tooltip: 'Increase volume by 10',
+            onPressed: () => closeSession(),
+          ),
+        ],
       ),
       body: SafeArea(
         child: BlocConsumer<ClientEqBloc, ClientEqState>(
@@ -216,17 +210,13 @@ class _ClientScreenState extends State<ClientScreen> {
               return _loadingCenter();
             }
             if (state is ClientErrorProductState) {
-              return _showErrorMessageService();
+              // return _showErrorMessageService();
             }
             if (refreshState) {
-              return _loadingCenter();
+              // return _loadingCenter();
             }
             if (state is ClientLoadedProductState) {
               var products = state.products ?? [];
-              var saveData = products.where(
-                (element) =>
-                    element.name == "CANTV_INTERNET" || element.name == "CANTV",
-              );
               var profile = state.profile;
               String? save = "";
               String? save1 = "";
@@ -309,11 +299,32 @@ class _ClientScreenState extends State<ClientScreen> {
                 ],
               );
             }
-            return _showErrorMessage();
+            return Text("Error de prueab");
           },
         ),
       ),
     );
+  }
+
+  Widget buttonText = Text(
+    "CERRAR SESIÓN",
+    style: subtitleStyleText("white", 15),
+  );
+
+  void executeLogoutEvent() {
+    _cache.emptyCacheData();
+    context.go(StaticNames.loginName.path);
+  }
+
+  void closeSession() {
+    setState(() {
+      buttonText = const SizedBox(
+        width: 25,
+        height: 25,
+        child: CircularProgressIndicator(color: ColorUtil.white),
+      );
+    });
+    executeLogoutEvent();
   }
 
   @override

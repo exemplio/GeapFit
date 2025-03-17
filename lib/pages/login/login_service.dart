@@ -133,7 +133,7 @@ class LoginService {
   }
 
   Future<Result<Void>> saveInitData(String businessId) {
-    return _getCredentials.init(businessId).then((value) {
+    return _getCredentials.getClients().then((value) {
       if (value.success) {
         var initData = value.obj;
         if (initData != null) {

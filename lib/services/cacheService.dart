@@ -19,7 +19,6 @@ import 'package:device_info_plus/device_info_plus.dart';
 
 @injectable
 class Cache {
-
   final _logger = Logger();
   DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
 
@@ -52,12 +51,11 @@ class Cache {
     });
   }
 
-
   Future<String?> getCacheData(String name) async {
     try {
       return _prefsString(name);
     } catch (err) {
-    //  print(err);
+      //  print(err);
     }
 
     return Future.value(null);
@@ -65,16 +63,17 @@ class Cache {
 
   Future<CredentialModel?> getLastCredentials() {
     return _getFromPrefs(
-        "last_credentials", (s) => CredentialModel.fromJson(s));
+      "last_credentials",
+      (s) => CredentialModel.fromJson(s),
+    );
   }
-
 
   Future<void> deleteCacheData(String name) async {
     try {
       var prefs = await _prefs();
       await prefs.remove(name);
     } catch (err) {
-    //  print(err);
+      //  print(err);
     }
   }
 
@@ -92,12 +91,11 @@ class Cache {
 
       await prefs.setString(FingerprintService.key, fingerprint!);
 
-
       if (accessTokenResponse != null) {
         await saveAccessToken(accessTokenResponse);
       }
     } catch (err) {
-   //   print(err);
+      //   print(err);
     }
   }
 
@@ -135,15 +133,19 @@ class Cache {
   }
 
   Future<AccessTokenResponse> saveAccessToken(
-      AccessTokenResponse accessTokenResponse) async {
+    AccessTokenResponse accessTokenResponse,
+  ) async {
     var expiresIn = accessTokenResponse.expiresIn;
 
     if (accessTokenResponse.idToken != null && expiresIn != null) {
-      accessTokenResponse.expireDate =
-          DateTime.now().add(Duration(seconds: expiresIn - 10));
+      accessTokenResponse.expireDate = DateTime.now().add(
+        Duration(seconds: expiresIn - 10),
+      );
 
       return saveAccessTokenResponse(
-          accessTokenResponse, const Duration(days: 365));
+        accessTokenResponse,
+        const Duration(days: 365),
+      );
     } else {
       var ttl = Optional.ofNullable(expiresIn)
           .map((p0) => Duration(seconds: p0 - 10))
@@ -154,14 +156,20 @@ class Cache {
   }
 
   Future<AccessTokenResponse> saveAccessTokenResponse(
-      AccessTokenResponse accessTokenResponse, Duration ttl) {
-    return setCacheJsonFuture("access_token", accessTokenResponse)
-        .then((value) => accessTokenResponse);
+    AccessTokenResponse accessTokenResponse,
+    Duration ttl,
+  ) {
+    return setCacheJsonFuture(
+      "access_token",
+      accessTokenResponse,
+    ).then((value) => accessTokenResponse);
   }
 
   Future<AccessTokenResponse?> getAccessTokenResponse() {
     return _getFromPrefs(
-        "access_token", (s) => AccessTokenResponse.fromJson(s));
+      "access_token",
+      (s) => AccessTokenResponse.fromJson(s),
+    );
   }
 
   Future<SharedPreferences> _prefs() {
@@ -179,7 +187,9 @@ class Cache {
   }
 
   Future<T?> _getFromPrefs<T>(
-      String key, T Function(dynamic json) parseJson) async {
+    String key,
+    T Function(dynamic json) parseJson,
+  ) async {
     var json = await _prefsString(key);
     if (json == null) {
       return null;
@@ -196,12 +206,12 @@ class Cache {
     return _getFromPrefs("profile", (json) => Profile.fromJson(json));
   }
 
-  Future<void> saveInitData(Init init) {
+  Future<void> saveInitData(Document init) {
     return _savePrefs("init_data", init);
   }
+
   Future<Init?> getInitData() {
-    return _getFromPrefs("init_data",
-            (json) => Init.fromJson(json));
+    return _getFromPrefs("init_data", (json) => Init.fromJson(json));
   }
 
   Future<void> saveKeepLastSession(String keepData) {
@@ -217,14 +227,15 @@ class Cache {
     return _savePrefs("last_credentials", credentials);
   }
 
-  Future<void> saveDeviceModel(String model) async{
+  Future<void> saveDeviceModel(String model) async {
     return _savePrefs("device_model", model);
   }
 
   Future<String> getModel() async {
     var prefs = await _prefs();
-    String replaceAllDevice= prefs.getString("device_model")!.replaceAll('"', '');
+    String replaceAllDevice = prefs
+        .getString("device_model")!
+        .replaceAll('"', '');
     return replaceAllDevice;
   }
-
 }

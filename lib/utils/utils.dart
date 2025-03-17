@@ -14,18 +14,17 @@ abstract class MyUtils {
   static final Random random = Random();
 
   static final RegExp REX_CI = RegExp(r'^[VEJG][0-9]+$');
-  
+
   static final RegExp REX_EMAIL = RegExp(
-      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
+    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
+  );
   static final Set<String> nonAuthServices = {
     "/oauth/authorize",
-    "/oauth/info_from_credentials"
+    "/oauth/info_from_credentials",
   };
-  static final Map<String, String> operador = {
-  };
+  static final Map<String, String> operador = {};
 
-  static final Map<String, String> operadorNumber = {
-  };
+  static final Map<String, String> operadorNumber = {};
   static parseDNI(dni) {
     dni = dni.padLeft((9), "0");
     return dni;
@@ -76,9 +75,13 @@ abstract class MyUtils {
 
   static String get type => dotenv.env['CONTEXT_PATH'] ?? '';
 
+  static String get typeAuth => dotenv.env['CONTEXT_AUTH_PATH'] ?? '';
+
   static String get clientId => dotenv.env['CLIENT_ID'] ?? '';
 
   static String get base => dotenv.env['API_URL'] ?? '';
+
+  static String get baseAuth => dotenv.env['API_AUTH_URL'] ?? '';
 
   static String get publicKey => dotenv.env['PASSWORD_PUBLIC_KEY'] ?? '';
 
@@ -109,7 +112,9 @@ abstract class MyUtils {
   }
 
   static Future<Result<T>> nextResult<T, S>(
-      Result<S> result, Future<Result<T>> Function(Result<S> result) function) {
+    Result<S> result,
+    Future<Result<T>> Function(Result<S> result) function,
+  ) {
     if (!result.success) {
       return Future.value(Result.transform(result));
     }

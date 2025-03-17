@@ -283,8 +283,8 @@ class _AgendaScreenState extends State<AgendaScreen> {
             }
           }
           if (state is StoreLoadingState) {
-            _bloc().mInventory();
-            return _loadingCenter();
+            // _bloc().mInventory();
+            // return _loadingCenter();
           }
           return Center(
             child: SingleChildScrollView(

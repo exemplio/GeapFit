@@ -68,7 +68,7 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
     var result = await getInventory();
     if (result.success) {
       if (result.obj != null) {
-        inventory = result.obj;
+        // inventory = result.obj;
         if (inventory?.count != 0) {
           for (int i = 0; i < inventory!.results!.length; i++) {
             if (inventory!.results![i].type != null) {

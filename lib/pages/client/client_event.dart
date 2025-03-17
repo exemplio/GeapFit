@@ -1,4 +1,4 @@
-part of 'client_eq_bloc.dart';
+part of 'client_bloc.dart';
 
 abstract class ClientEqEvent {
   const ClientEqEvent();
