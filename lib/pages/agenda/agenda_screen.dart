@@ -56,9 +56,7 @@ class _AgendaScreenState extends State<AgendaScreen> {
     },
   );
 
-  Widget _showErrorMessage({
-    String errorMessage = "NO HAY SERVICIOS DISPONIBLE",
-  }) {
+  Widget _showErrorMessage({String errorMessage = "NO HAY AGENDA DISPONIBLE"}) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -82,6 +80,10 @@ class _AgendaScreenState extends State<AgendaScreen> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [const SizedBox(height: 10), Center(child: Text(errorMessage))],
     );
+  }
+
+  Future<void> _refresh() async {
+    _bloc().add(AgendaRefreshEvent());
   }
 
   @override
@@ -140,7 +142,8 @@ class _AgendaScreenState extends State<AgendaScreen> {
             if (library.isEmpty) {
               return _showErrorMessage();
             }
-            return Center(
+            return RefreshIndicator(
+              onRefresh: _refresh,
               child: SingleChildScrollView(
                 child: TableCalendar(
                   firstDay: DateTime.utc(2020, 1, 1),

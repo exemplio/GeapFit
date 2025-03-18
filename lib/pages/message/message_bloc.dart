@@ -18,9 +18,6 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
 
   MessageBloc() : super(MessageInitialState()) {
     on<MessageEvent>((event, emitter) async {
-      print("<-------------------->");
-      print(event.runtimeType);
-      print("<-------------------->");
       switch (event.runtimeType) {
         case MessageInitialEvent:
           if (message.isNotEmpty) {

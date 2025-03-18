@@ -92,9 +92,7 @@ class _ChatScreenState extends State<ChatScreen> {
     setState(() {});
   }
 
-  Widget _showErrorMessage({
-    String errorMessage = "NO HAY SERVICIOS DISPONIBLE",
-  }) {
+  Widget _showErrorMessage({String errorMessage = "NO HAY CHATS DISPONIBLE"}) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -118,6 +116,10 @@ class _ChatScreenState extends State<ChatScreen> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [const SizedBox(height: 10), Center(child: Text(errorMessage))],
     );
+  }
+
+  Future<void> _refresh() async {
+    _bloc().add(ChatRefreshEvent());
   }
 
   @override
@@ -173,40 +175,43 @@ class _ChatScreenState extends State<ChatScreen> {
               return _showErrorMessage();
             }
             return SafeArea(
-              child: Container(
-                width: double.infinity,
-                color: const Color.fromARGB(255, 241, 241, 241),
-                child: Column(
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.only(
-                        top: 25,
-                        bottom: 5,
-                        right: 20,
-                        left: 20,
-                      ),
-                      child: SizedBox(),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
+              child: RefreshIndicator(
+                onRefresh: _refresh,
+                child: Container(
+                  width: double.infinity,
+                  color: const Color.fromARGB(255, 241, 241, 241),
+                  child: Column(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(
+                          top: 25,
+                          bottom: 5,
                           right: 20,
                           left: 20,
-                          bottom: 5,
                         ),
-                        child: ListView.builder(
-                          itemCount: peopleList.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return PeopleItem(
-                              people: peopleList[index],
-                              index: index,
-                              func: forceUpdate,
-                            );
-                          },
+                        child: SizedBox(),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            right: 20,
+                            left: 20,
+                            bottom: 5,
+                          ),
+                          child: ListView.builder(
+                            itemCount: peopleList.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return PeopleItem(
+                                people: peopleList[index],
+                                index: index,
+                                func: forceUpdate,
+                              );
+                            },
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             );

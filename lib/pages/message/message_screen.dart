@@ -114,7 +114,7 @@ class _MessageScreenState extends State<MessageScreen> {
   }
 
   Widget _showErrorMessage({
-    String errorMessage = "NO HAY SERVICIOS DISPONIBLE",
+    String errorMessage = "NO HAY MENSAJE DISPONIBLE",
   }) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 import 'package:geap_fit/services/cacheService.dart';
 import 'package:go_router/go_router.dart';
 import 'package:geap_fit/pages/client/client_bloc.dart';
@@ -11,8 +12,8 @@ import 'package:geap_fit/styles/text.dart';
 import 'package:geap_fit/styles/theme_provider.dart';
 import 'package:geap_fit/utils/staticNamesRoutes.dart';
 import '../../di/injection.dart';
-import '../../services/http/domain/productModel.dart';
-import 'models/initModel.dart';
+import 'models/userModel.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class ClientScreen extends StatefulWidget {
   final ClientEqBloc bloc;
@@ -38,21 +39,20 @@ class _ClientScreenState extends State<ClientScreen> {
     super.initState();
   }
 
-  void _refresh() async {
-    _bloc().add(ClientRefreshProductEvent());
+  Future<void> _refresh() async {
+    _bloc().add(ClientRefreshEvent());
   }
 
   Widget _showErrorMessage({
-    String errorMessage = "NO HAY SERVICIOS DISPONIBLE",
+    String errorMessage = "NO HAY CLIENTES DISPONIBLE",
   }) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Center(
-          child: Lottie.asset(
-            "assets/img/warning.json",
-            repeat: false,
+        const Center(
+          child: Image(
+            image: AssetImage("assets/icons/warning.png"),
             width: 100,
             height: 100,
           ),
@@ -71,83 +71,81 @@ class _ClientScreenState extends State<ClientScreen> {
     );
   }
 
-  Widget _cliente(Fields product) {
-    // var company = product.company?.toLowerCase();
-    // int isExistsImage = listCompanies.indexOf(company ?? "");
-
-    return Card(
-      surfaceTintColor: Colors.white,
-      margin: const EdgeInsets.all(0),
-      elevation: 3,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-        child: Column(
+  Widget _cliente(List<Fields> user, index) {
+    const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
+    String dropdownValue = list.first;
+    return InkWell(
+      focusColor: _colorProvider.primaryLight(),
+      highlightColor: _colorProvider.primaryLight(),
+      splashColor: _colorProvider.primaryLight(),
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 10),
+        // padding: const EdgeInsets.symmetric(horizontal: 10),
+        height: 75,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
           children: [
-            const SizedBox(width: 5),
-            Text(
-              product.born?.integerValue ?? "",
-              textAlign: TextAlign.center,
-              style: const TitleTextStyle(
-                color: ColorUtil.dark_gray,
-                fontSize: 12,
-                fontWeight: FontWeight.normal,
+            const CircleAvatar(
+              backgroundImage: NetworkImage(
+                "https://cdn-icons-png.flaticon.com/512/6858/6858504.png",
+              ),
+              radius: 28,
+            ),
+            const Gap(20),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    user[index].first?.stringValue ?? "N/A",
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const Gap(1),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          user[index].last?.stringValue ?? "N/A",
+                          style: const TextStyle(fontSize: 13),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: DropdownButton<String>(
+                value: dropdownValue,
+                icon: const Icon(Icons.arrow_downward),
+                elevation: 16,
+                style: const TextStyle(color: Colors.deepPurple),
+                underline: Container(height: 2, color: Colors.deepPurpleAccent),
+                onChanged: (String? value) {
+                  // This is called when the user selects an item.
+                  setState(() {
+                    dropdownValue = value!;
+                  });
+                },
+                items:
+                    list.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _profileHeader({ProfileModel? profile}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 1),
-      child: Card(
-        surfaceTintColor: Colors.white,
-        elevation: 2,
-        color: ColorUtil.grayLight,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 1),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                flex: 3,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      profile?.businessName ?? "",
-                      style: const TitleTextStyle(
-                        fontSize: 16,
-                        color: ColorUtil.black,
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      profile?.idDoc ?? "",
-                      style: const TitleTextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: ColorUtil.dark_gray,
-                      ),
-                    ),
-                    // SizedBox(height: 5),
-                  ],
-                ),
-              ),
-              //const Padding(padding: EdgeInsets.symmetric(horizontal: 45, vertical: 0)),
-              const Flexible(
-                flex: 1,
-                child: Image(
-                  image: AssetImage("assets/img/sunmi.png"),
-                  width: 100,
-                  height: 100,
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );
@@ -159,9 +157,11 @@ class _ClientScreenState extends State<ClientScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(width: 50, height: 50, child: CircularProgressIndicator()),
-          SizedBox(height: 10),
-          Text("Cargando"),
+          SizedBox(
+            width: 50,
+            height: 50,
+            child: SpinKitSpinningCircle(color: ColorUtil.black),
+          ),
         ],
       ),
     );
@@ -194,7 +194,7 @@ class _ClientScreenState extends State<ClientScreen> {
                 setState(() {
                   refreshState = true;
                 });
-                await _bloc().getProducts();
+                await _bloc().getUsers();
                 setState(() {
                   refreshState = false;
                 });
@@ -210,96 +210,43 @@ class _ClientScreenState extends State<ClientScreen> {
               return _loadingCenter();
             }
             if (state is ClientErrorProductState) {
-              // return _showErrorMessageService();
+              return _showErrorMessageService();
             }
             if (refreshState) {
-              // return _loadingCenter();
+              return _loadingCenter();
             }
             if (state is ClientLoadedProductState) {
-              var products = state.products ?? [];
-              var profile = state.profile;
-              String? save = "";
-              String? save1 = "";
-              String? save2 = "";
-              if (products.isEmpty) {
+              var usuarios = state.usuarios ?? [];
+              if (usuarios.isEmpty) {
                 return _showErrorMessage();
               }
-              return CustomScrollView(
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: Column(
-                      children: [
-                        profile != null
-                            ? _profileHeader(profile: profile)
-                            : const SizedBox(),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(20, 15, 10, 10),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  const Text(
-                                    "SERVICIOS DISPONIBLES",
-                                    style: TitleTextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                  ),
-                                  IconButton(
-                                    onPressed: () {
-                                      _refresh();
-                                    },
-                                    icon: const Icon(Icons.refresh),
-                                  ),
-                                ],
-                              ),
-                              const Row(children: []),
-                            ],
-                          ),
-                        ),
-                      ],
+              return RefreshIndicator(
+                onRefresh: _refresh,
+                child: CustomScrollView(
+                  slivers: [
+                    SliverPadding(
+                      padding: const EdgeInsets.all(10),
+                      sliver: SliverGrid(
+                        gridDelegate:
+                            const SliverGridDelegateWithMaxCrossAxisExtent(
+                              maxCrossAxisExtent: 600,
+                              childAspectRatio: 12 / 5,
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 10,
+                            ),
+                        delegate: SliverChildBuilderDelegate((
+                          BuildContext context,
+                          int index,
+                        ) {
+                          return _cliente(usuarios, index);
+                        }, childCount: usuarios.length),
+                      ),
                     ),
-                  ),
-                  SliverPadding(
-                    padding: const EdgeInsets.all(10),
-                    // Espaciado alrededor del contenido
-                    sliver: SliverGrid(
-                      gridDelegate:
-                          const SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 325,
-                            childAspectRatio: 12 / 11,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                          ),
-                      delegate: SliverChildBuilderDelegate((
-                        BuildContext context,
-                        int index,
-                      ) {
-                        return InkWell(
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(20),
-                          ),
-                          radius: 10,
-                          focusColor: _colorProvider.primaryLight(),
-                          highlightColor: _colorProvider.primaryLight(),
-                          splashColor: _colorProvider.primaryLight(),
-                          onTap:
-                              () => context.goNamed(
-                                StaticNames.product.name,
-                                extra: products[index],
-                              ),
-                          child: _cliente(products[index]),
-                        );
-                      }, childCount: products.length),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               );
             }
-            return Text("Error de prueab");
+            return const Text("Error");
           },
         ),
       ),

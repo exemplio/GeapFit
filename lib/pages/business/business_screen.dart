@@ -57,9 +57,7 @@ class _BusinessScreenState extends State<BusinessScreen> {
     },
   );
 
-  Widget _showErrorMessage({
-    String errorMessage = "NO HAY SERVICIOS DISPONIBLE",
-  }) {
+  Widget _showErrorMessage({String errorMessage = "NO HAY DATOS DISPONIBLES"}) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -83,6 +81,10 @@ class _BusinessScreenState extends State<BusinessScreen> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [const SizedBox(height: 10), Center(child: Text(errorMessage))],
     );
+  }
+
+  Future<void> _refresh() async {
+    _bloc().add(BusinessRefreshEvent());
   }
 
   @override
@@ -141,7 +143,10 @@ class _BusinessScreenState extends State<BusinessScreen> {
             if (library.isEmpty) {
               return _showErrorMessage();
             }
-            return const Text("BUSINESS VIEW");
+            return RefreshIndicator(
+              onRefresh: _refresh,
+              child: const SingleChildScrollView(child: Text("")),
+            );
           }
           return const Text("Error");
         },

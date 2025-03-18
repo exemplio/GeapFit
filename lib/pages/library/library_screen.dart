@@ -58,13 +58,11 @@ class _LibraryScreenState extends State<LibraryScreen> {
     },
   );
 
-  void _refresh() async {
+  Future<void> _refresh() async {
     _bloc().add(LibraryRefreshEvent());
   }
 
-  Widget _showErrorMessage({
-    String errorMessage = "NO HAY SERVICIOS DISPONIBLE",
-  }) {
+  Widget _showErrorMessage({String errorMessage = "NO HAY DATOS DISPONIBLES"}) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -146,68 +144,45 @@ class _LibraryScreenState extends State<LibraryScreen> {
             if (library.isEmpty) {
               return _showErrorMessage();
             }
-            return CustomScrollView(
-              slivers: [
-                SliverToBoxAdapter(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 15, 10, 10),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    _refresh();
-                                  },
-                                  icon: const Icon(Icons.refresh),
-                                ),
-                              ],
-                            ),
-                            const Row(children: []),
-                          ],
-                        ),
-                      ),
-                    ],
+            return RefreshIndicator(
+              onRefresh: _refresh,
+              child: CustomScrollView(
+                slivers: [
+                  SliverPadding(
+                    padding: const EdgeInsets.all(10),
+                    // Espaciado alrededor del contenido
+                    sliver: SliverGrid(
+                      gridDelegate:
+                          const SliverGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent: 600,
+                            childAspectRatio: 12 / 5,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                          ),
+                      delegate: SliverChildBuilderDelegate((
+                        BuildContext context,
+                        int index,
+                      ) {
+                        return InkWell(
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(20),
+                          ),
+                          radius: 10,
+                          focusColor: _colorProvider.primaryLight(),
+                          highlightColor: _colorProvider.primaryLight(),
+                          splashColor: _colorProvider.primaryLight(),
+                          onTap:
+                              () => context.goNamed(
+                                StaticNames.message.name,
+                                extra: library[index],
+                              ),
+                          child: Text(""),
+                        );
+                      }, childCount: library.length),
+                    ),
                   ),
-                ),
-                SliverPadding(
-                  padding: const EdgeInsets.all(10),
-                  // Espaciado alrededor del contenido
-                  sliver: SliverGrid(
-                    gridDelegate:
-                        const SliverGridDelegateWithMaxCrossAxisExtent(
-                          maxCrossAxisExtent: 600,
-                          childAspectRatio: 12 / 5,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
-                        ),
-                    delegate: SliverChildBuilderDelegate((
-                      BuildContext context,
-                      int index,
-                    ) {
-                      return InkWell(
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(20),
-                        ),
-                        radius: 10,
-                        focusColor: _colorProvider.primaryLight(),
-                        highlightColor: _colorProvider.primaryLight(),
-                        splashColor: _colorProvider.primaryLight(),
-                        onTap:
-                            () => context.goNamed(
-                              StaticNames.message.name,
-                              extra: library[index],
-                            ),
-                        child: Text(""),
-                      );
-                    }, childCount: library.length),
-                  ),
-                ),
-              ],
+                ],
+              ),
             );
           }
           return const Text("Error");
