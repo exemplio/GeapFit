@@ -51,7 +51,7 @@ class MyTheme {
       colorScheme: ColorScheme.fromSwatch().copyWith(
         primary: colorProvider.primary(),
         secondary: colorProvider.primaryLight(),
-        surface: colorProvider.primaryLight(),
+        surface: colorProvider.primary(),
         error: error,
       ),
     );

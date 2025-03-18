@@ -2,37 +2,29 @@
 
 part of 'library_bloc.dart';
 
-@immutable
-abstract class LibraryState {
-  InventoryModel? inventory;
-  Results? consigned;
-  List<String>? listTypes = [];
-  LibraryState({this.inventory, this.consigned, this.listTypes});
+abstract class LibraryState extends Equatable {
+  List<Fields>? library = [];
+  LibraryState({this.library});
+
+  @override
+  List<Object?> get props => [];
 }
 
 class LibraryInitialState extends LibraryState {
-  LibraryInitialState({super.inventory, super.consigned, super.listTypes});
+  LibraryInitialState({super.library});
 }
 
-class LibraryLoadingState extends LibraryState {
-  LibraryLoadingState({super.inventory, super.consigned, super.listTypes});
+class LibraryLoadingProductState extends LibraryState {
+  LibraryLoadingProductState();
 }
 
-class LibrarySuccessState extends LibraryState {
-  LibrarySuccessState({super.inventory, super.consigned, super.listTypes});
+class LibraryLoadedProductState extends LibraryState {
+  LibraryLoadedProductState({super.library});
 }
 
-class LibraryLoadedState extends LibraryState {
-  LibraryLoadedState({super.inventory, super.consigned, super.listTypes});
-}
-
-class LibraryErrorState extends LibraryState {
-  String errorMessage;
-  LibraryErrorState({required this.errorMessage});
-}
-
-class LibraryGoNextState extends LibraryState {
-  String next;
-  Results? product;
-  LibraryGoNextState({required this.next, this.product, super.listTypes});
+class LibraryErrorProductState extends LibraryState {
+  String? errorMessage;
+  LibraryErrorProductState({
+    this.errorMessage = "Error al cargar los servicios",
+  });
 }

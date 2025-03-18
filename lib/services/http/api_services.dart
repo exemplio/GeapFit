@@ -7,7 +7,7 @@ import 'dart:io';
 import 'package:http/http.dart';
 import 'package:injectable/injectable.dart';
 import 'package:geap_fit/domain/profile.dart';
-import 'package:geap_fit/pages/client/models/initModel.dart';
+import 'package:geap_fit/pages/client/models/userModel.dart';
 import 'package:geap_fit/pages/agenda/models/collect_channel_model.dart';
 import 'package:geap_fit/pages/agenda/models/store_model.dart';
 import 'package:geap_fit/services/cacheService.dart';
@@ -21,7 +21,6 @@ import '../../domain/credential_response.dart';
 import '../../domain/message.dart';
 import '../../pages/agenda/models/rate_model.dart';
 import '../../utils/utils.dart';
-import 'domain/role_request.dart';
 import 'http_service.dart';
 
 @injectable
@@ -170,20 +169,6 @@ class ApiServices {
     );
   }
 
-  Future<Result> withdraw(
-    Map<String, dynamic> body,
-    Map<String, dynamic> params,
-  ) async {
-    var headers = {HttpHeaders.contentTypeHeader: ContentType.json.toString()};
-
-    var uri = url("${MyUtils.type}${StaticNamesPath.withdraw.path}");
-
-    return httpCall(
-      (client) => client.post(uri, body: jsonEncode(body), headers: headers),
-      parseJson: (json) => json,
-    );
-  }
-
   Future<Result<Void>> closeSession(String idToken) {
     var uri = url(
       "${MyUtils.type}${MyUtils.type}${StaticNamesPath.closeSession.path}",
@@ -196,46 +181,6 @@ class ApiServices {
     return httpCall((client) => client.put(uri, headers: headers));
   }
 
-  Future<Result<Message>> sendAuthDeviceCode(
-    String idToken,
-    String fingerprint,
-  ) {
-    var uri = url(
-      "${MyUtils.type}${MyUtils.type}${StaticNamesPath.resendCode.path}",
-      queryParameters: {"fingerprint": fingerprint},
-    );
-    var headers = {
-      HttpHeaders.contentTypeHeader: ContentType.json.toString(),
-      HttpHeaders.authorizationHeader: "Bearer $idToken",
-    };
-
-    return httpCall(
-      (client) => client.get(uri, headers: headers),
-      parseJson: (json) => Message.fromJson(json),
-    ).then(
-      (value) => Result(
-        value.success,
-        value.obj,
-        value.error,
-        value.stackTrace,
-        value.errorMessage,
-        value.obj,
-      ),
-    );
-  }
-
-  Future<Result<CredentialResponse>> credentials(Map<String, String> body) {
-    var uri = url("${MyUtils.type}${StaticNamesPath.credentials.path}");
-    var headers = {
-      HttpHeaders.contentTypeHeader: "application/x-www-form-urlencoded",
-    };
-
-    return httpCall(
-      (client) => client.post(uri, body: body, headers: headers),
-      parseJson: (json) => CredentialResponse.fromJson(json),
-    );
-  }
-
   Future<Result<Profile>> profile() {
     var headers = {HttpHeaders.contentTypeHeader: ContentType.json.toString()};
     var uri = url("${MyUtils.type}${StaticNamesPath.profile.path}");
@@ -246,19 +191,7 @@ class ApiServices {
     );
   }
 
-  Future<Result<Roles>> roles() async {
-    var headers = {HttpHeaders.contentTypeHeader: ContentType.json.toString()};
-    // var token = await initHeaders();
-    // headers.addAll(token);
-    var uri = url("${MyUtils.type}${StaticNamesPath.roles.path}");
-
-    return httpCall(
-      (client) => client.get(uri, headers: headers),
-      parseJson: (json) => Roles.fromJson(json),
-    );
-  }
-
-  Future<Result<Document>> getClients() async {
+  Future<Result<Users>> getClients() async {
     Map<String, String> params = {};
 
     var headers = {HttpHeaders.contentTypeHeader: ContentType.json.toString()};
@@ -272,7 +205,7 @@ class ApiServices {
 
     return httpCall(
       (client) => client.get(uri, headers: headers),
-      parseJson: (json) => Document.fromJson(json),
+      parseJson: (json) => Users.fromJson(json),
     );
   }
 

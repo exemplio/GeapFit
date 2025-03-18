@@ -21,7 +21,7 @@ class PeopleItem extends StatelessWidget {
     return InkWell(
       onTap:
           () => context.goNamed(
-            StaticNames.product.name,
+            StaticNames.message.name,
             extra: [people, index, func],
           ),
       child: Container(

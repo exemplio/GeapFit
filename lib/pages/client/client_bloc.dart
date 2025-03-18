@@ -4,104 +4,77 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:geap_fit/utils/utils.dart';
 
 import '../../di/injection.dart';
 import '../../services/cacheService.dart';
 import '../../services/http/api_services.dart';
-import '../../services/http/domain/productModel.dart';
-import 'models/initModel.dart';
+import 'models/userModel.dart';
 
 part 'client_state.dart';
 part 'client_event.dart';
 
 class ClientEqBloc extends Bloc<ClientEqEvent, ClientEqState> {
-  final _cache = Cache();
   final _apiServices = getIt<ApiServices>();
-  List<Fields> products = [];
-  ProfileModel? profile;
+  List<Fields> usuarios = [];
 
   ClientEqBloc() : super(ClientInitialState()) {
     on<ClientEqEvent>((event, emitter) async {
       switch (event.runtimeType) {
         case ClientInitialEvent:
-          if (products != [] && profile != null) {
-            emitter(
-              ClientLoadedProductState(products: products, profile: profile),
-            );
+          if (usuarios.isNotEmpty) {
+            emitter(ClientLoadedProductState(usuarios: usuarios));
           } else {
             emitter(ClientLoadingProductState());
-            getProducts();
+            getUsers();
           }
           break;
-        case ClientErrorProductEvent:
+        case ClientErrorEvent:
           emitter(ClientErrorProductState());
           break;
-        case ClientLoadedProductEvent:
-          emitter(
-            ClientLoadedProductState(products: products, profile: profile),
-          );
+        case ClientLoadedEvent:
+          emitter(ClientLoadedProductState(usuarios: usuarios));
           break;
-        case ClientRefreshProductEvent:
-          products = [];
-          profile = null;
+        case ClientRefreshEvent:
+          usuarios = [];
           emitter(ClientLoadingProductState());
-          getProducts();
+          getUsers();
           break;
       }
     });
   }
   void init() {
-    products = [];
+    usuarios = [];
     add(ClientInitialEvent());
   }
 
-  Future<void> getProducts() async {
-    add(ClientLoadingProductEvent());
+  Future<void> getUsers() async {
+    add(ClientLoadingEvent());
 
     var initData = await _apiServices.getClients();
 
-    Document? guardarInitData;
-
-    // Safely cast initData.obj to Document?
-    guardarInitData = initData.obj;
-    if (initData.obj is Document) {
-    } else {
-      print("initData.obj is not a Document");
+    List<Document>? saveInitData;
+    saveInitData = initData.obj?.documents;
+    List<Document> usersJson = [];
+    if (saveInitData != null) {
+      for (var element in saveInitData) {
+        usersJson.add(element);
+      }
     }
 
-    // Handle the case when guardarInitData is null
-    if (guardarInitData == null) {
-      print("guardarInitData is null");
-    } else {
-      print(guardarInitData);
+    if (usersJson.isEmpty) {
+      add(ClientErrorEvent());
     }
 
-    // Assign guardarInitData to a List<Document>
-    List<Document> inventories = [];
-    if (guardarInitData != null) {
-      inventories.add(guardarInitData);
-    }
-    print(inventories);
-
-    if (inventories.isEmpty) {
-      add(ClientErrorProductEvent());
-    }
-
-    if (inventories.isNotEmpty) {
-      products = [];
-      print("TAMBIEN LLEGA ACA");
-      for (var inv in inventories) {
-        print(guardarInitData);
-        print("----");
-        print(inv.fields);
+    if (usersJson.isNotEmpty) {
+      usuarios = [];
+      for (var inv in usersJson) {
         if (inv.fields != null) {
-          // products.addAll(inv.fields!);
-          products = inv.fields as List<Fields>? ?? [];
-          add(ClientLoadedProductEvent());
+          usuarios.add(inv.fields!);
+          // usuarios = inv.fields as List<Fields>? ?? [];
+          add(ClientLoadedEvent());
         }
       }
-      // products = MyUtils.orderList(products);
+      // usuarios = MyUtils.orderList(usuarios);
     }
   }
 }

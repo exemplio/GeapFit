@@ -2,37 +2,29 @@
 
 part of 'business_bloc.dart';
 
-@immutable
-abstract class BusinessState {
-  InventoryModel? inventory;
-  Results? consigned;
-  List<String>? listTypes = [];
-  BusinessState({this.inventory, this.consigned, this.listTypes});
+abstract class BusinessState extends Equatable {
+  List<Fields>? business = [];
+  BusinessState({this.business});
+
+  @override
+  List<Object?> get props => [];
 }
 
 class BusinessInitialState extends BusinessState {
-  BusinessInitialState({super.inventory, super.consigned, super.listTypes});
+  BusinessInitialState({super.business});
 }
 
-class BusinessLoadingState extends BusinessState {
-  BusinessLoadingState({super.inventory, super.consigned, super.listTypes});
+class BusinessLoadingProductState extends BusinessState {
+  BusinessLoadingProductState();
 }
 
-class BusinessSuccessState extends BusinessState {
-  BusinessSuccessState({super.inventory, super.consigned, super.listTypes});
+class BusinessLoadedProductState extends BusinessState {
+  BusinessLoadedProductState({super.business});
 }
 
-class BusinessLoadedState extends BusinessState {
-  BusinessLoadedState({super.inventory, super.consigned, super.listTypes});
-}
-
-class BusinessErrorState extends BusinessState {
-  String errorMessage;
-  BusinessErrorState({required this.errorMessage});
-}
-
-class BusinessGoNextState extends BusinessState {
-  String next;
-  Results? product;
-  BusinessGoNextState({required this.next, this.product, super.listTypes});
+class BusinessErrorProductState extends BusinessState {
+  String? errorMessage;
+  BusinessErrorProductState({
+    this.errorMessage = "Error al cargar los servicios",
+  });
 }

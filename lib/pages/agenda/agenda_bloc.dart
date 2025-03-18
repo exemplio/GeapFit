@@ -9,45 +9,46 @@ import 'package:geap_fit/pages/client/models/userModel.dart';
 import '../../di/injection.dart';
 import '../../services/http/api_services.dart';
 
-part 'chat_state.dart';
-part 'chat_event.dart';
+part 'agenda_state.dart';
+part 'agenda_event.dart';
 
-class ChatBloc extends Bloc<ChatEvent, ChatState> {
+class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
   final _apiServices = getIt<ApiServices>();
-  List<Fields> chat = [];
+  List<Fields> agenda = [];
 
-  ChatBloc() : super(ChatInitialState()) {
-    on<ChatEvent>((event, emitter) async {
+  AgendaBloc() : super(AgendaInitialState()) {
+    on<AgendaEvent>((event, emitter) async {
       switch (event.runtimeType) {
-        case ChatInitialEvent:
-          if (chat.isNotEmpty) {
-            emitter(ChatLoadedProductState(chat: chat));
+        case AgendaInitialEvent:
+          if (agenda.isNotEmpty) {
+            emitter(AgendaLoadedProductState(agenda: agenda));
           } else {
-            emitter(ChatLoadingProductState());
+            emitter(AgendaLoadingProductState());
             getUsers();
           }
           break;
-        case ChatErrorEvent:
-          emitter(ChatErrorProductState());
+        case AgendaErrorEvent:
+          emitter(AgendaErrorProductState());
           break;
-        case ChatLoadedEvent:
-          emitter(ChatLoadedProductState(chat: chat));
+        case AgendaLoadedEvent:
+          emitter(AgendaLoadedProductState(agenda: agenda));
           break;
-        case ChatRefreshEvent:
-          chat = [];
-          emitter(ChatLoadingProductState());
+        case AgendaRefreshEvent:
+          agenda = [];
+          emitter(AgendaLoadingProductState());
           getUsers();
           break;
       }
     });
   }
+
   void init() {
-    chat = [];
-    add(ChatInitialEvent());
+    agenda = [];
+    add(AgendaInitialEvent());
   }
 
   Future<void> getUsers() async {
-    add(ChatLoadingEvent());
+    add(AgendaLoadingEvent());
     var initData = await _apiServices.getClients();
     List<Document>? saveInitData;
     saveInitData = initData.obj?.documents;
@@ -58,18 +59,18 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       }
     }
     if (users.isEmpty) {
-      add(ChatErrorEvent());
+      add(AgendaErrorEvent());
     }
     if (users.isNotEmpty) {
-      chat = [];
+      agenda = [];
       for (var inv in users) {
         if (inv.fields != null) {
-          chat.add(inv.fields!);
-          // chat = inv.fields as List<Fields>? ?? [];
-          add(ChatLoadedEvent());
+          agenda.add(inv.fields!);
+          // agenda = inv.fields as List<Fields>? ?? [];
+          add(AgendaLoadedEvent());
         }
       }
-      // chat = MyUtils.orderList(chat);
+      // agenda = MyUtils.orderList(agenda);
     }
   }
 }

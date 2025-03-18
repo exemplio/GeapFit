@@ -1,14 +1,12 @@
 // ignore_for_file: file_names
 
 import 'package:geap_fit/services/http/domain/productModel.dart';
-import '../../../services/http/domain/role_request.dart';
 
 class Init {
   AccessToken? idToken;
   ProfileModel? profile;
   ProfileModel? businessProfile;
   Country? country;
-  Role? role;
   InitData? initData;
   List<Inventories>? inventories;
 
@@ -17,7 +15,6 @@ class Init {
     this.profile,
     this.businessProfile,
     this.country,
-    this.role,
     this.initData,
     this.inventories,
   });
@@ -35,7 +32,6 @@ class Init {
             : null;
     country =
         json['country'] != null ? Country.fromJson(json['country']) : null;
-    role = json['role'] != null ? Role.fromJson(json['role']) : null;
     initData =
         json['init_data'] != null ? InitData.fromJson(json['init_data']) : null;
     if (json['inventories'] != null) {
@@ -59,9 +55,6 @@ class Init {
     }
     if (country != null) {
       data['country'] = country?.toJson();
-    }
-    if (role != null) {
-      data['role'] = role?.toJson();
     }
     if (initData != null) {
       data['init_data'] = initData?.toJson();
@@ -499,12 +492,12 @@ class Ally {
   }
 }
 
-class FirestoreResponse {
+class Users {
   List<Document>? documents;
 
-  FirestoreResponse({this.documents});
+  Users({this.documents});
 
-  FirestoreResponse.fromJson(Map<String, dynamic> json) {
+  Users.fromJson(Map<String, dynamic> json) {
     if (json['documents'] != null) {
       documents = <Document>[];
       json['documents'].forEach((v) {
@@ -554,13 +547,16 @@ class Fields {
   FieldValue? first;
   FieldValue? born;
   FieldValue? last;
+  FieldValue? middle;
 
-  Fields({this.first, this.born, this.last});
+  Fields({this.first, this.born, this.last, this.middle});
 
   Fields.fromJson(Map<String, dynamic> json) {
     first = json['first'] != null ? FieldValue.fromJson(json['first']) : null;
     born = json['born'] != null ? FieldValue.fromJson(json['born']) : null;
     last = json['last'] != null ? FieldValue.fromJson(json['last']) : null;
+    middle =
+        json['middle'] != null ? FieldValue.fromJson(json['middle']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -573,6 +569,9 @@ class Fields {
     }
     if (last != null) {
       data['last'] = last?.toJson();
+    }
+    if (middle != null) {
+      data['middle'] = middle?.toJson();
     }
     return data;
   }

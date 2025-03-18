@@ -80,40 +80,6 @@ class _MessageScreenState extends State<MessageScreen> {
     );
   }
 
-  Widget _buttonPayment() {
-    return Expanded(
-      child: TextButton.icon(
-        icon: const Icon(Icons.payment, color: ColorUtil.white),
-        style: TextButton.styleFrom(
-          backgroundColor: _colorProvider.primary(),
-          padding: const EdgeInsets.all(20),
-        ),
-        onPressed: () => _bloc().goNext(path: StaticNames.agenda.name),
-        label: const Text(
-          "COMPRA",
-          style: TitleTextStyle(color: ColorUtil.white),
-        ),
-      ),
-    );
-  }
-
-  Widget _buttonGet() {
-    return Expanded(
-      child: TextButton.icon(
-        icon: const Icon(Icons.phone_android_sharp, color: ColorUtil.white),
-        style: TextButton.styleFrom(
-          backgroundColor: _colorProvider.primaryLight(),
-          padding: const EdgeInsets.all(20),
-        ),
-        onPressed: () => _bloc().goNext(path: StaticNames.withdraw.name),
-        label: const Text(
-          "RETIRO",
-          style: TitleTextStyle(color: ColorUtil.white),
-        ),
-      ),
-    );
-  }
-
   void dialog(String errorMessage) => showDialog(
     context: context,
     builder: (context) {
@@ -147,11 +113,36 @@ class _MessageScreenState extends State<MessageScreen> {
     messageController.clear();
   }
 
+  Widget _showErrorMessage({
+    String errorMessage = "NO HAY SERVICIOS DISPONIBLE",
+  }) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const Center(
+          child: Image(
+            image: AssetImage("assets/icons/warning.png"),
+            width: 100,
+            height: 100,
+          ),
+        ),
+        const SizedBox(height: 10),
+        Text(errorMessage),
+      ],
+    );
+  }
+
+  Widget _showErrorMessageService({String errorMessage = "Test screen"}) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [const SizedBox(height: 10), Center(child: Text(errorMessage))],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    // List<dynamic> arguments =
-    // ModalRoute.of(context)!.settings.arguments as List<dynamic>;
-    // final People people = arguments[0];
     final People people = People(
       name: "TEST",
       avatarUrl: "TEST",
@@ -181,32 +172,38 @@ class _MessageScreenState extends State<MessageScreen> {
       body: BlocConsumer<MessageBloc, MessageState>(
         bloc: _bloc(),
         listener: (context, state) {
-          if (state is MessageGoNextState) {
-            if (state.product != null) {
-              context.goNamed(state.next, extra: state.product);
-            } else {
-              if (state.listTypes != null) {
-                context.goNamed(state.next, extra: state.listTypes);
-              }
-              // context.goNamed(state.next);
+          if (state is MessageLoadedProductState) {
+            void _refrescar() async {
+              setState(() {
+                // refreshState = true;
+              });
+              await _bloc().getUsers();
+              setState(() {
+                // refreshState = false;
+              });
             }
+
+            _refrescar();
           }
         },
         builder: (context, state) {
-          if (state is MessageLoadedState) {
-            var inventory = state.inventory?.results?[0];
-            var consigned = state.consigned;
-
-            if (inventory != null) {
-              // return _inventory(inventory, consigned);
+          if (state is MessageInitialState ||
+              state is MessageLoadingProductState) {
+            _bloc().init();
+            return _loadingCenter();
+          }
+          if (state is MessageErrorProductState) {
+            return _showErrorMessageService();
+          }
+          if (state is MessageLoadingProductState) {
+            return _loadingCenter();
+          }
+          if (state is MessageLoadedProductState) {
+            var message = state.message ?? [];
+            if (message.isEmpty) {
+              return _showErrorMessage();
             }
-          }
-          if (state is MessageLoadingState) {
-            // _bloc().mInventory();
-            // return _loadingCenter();
-          }
-          return Scaffold(
-            body: SafeArea(
+            return SafeArea(
               child: Container(
                 width: double.infinity,
                 decoration: const BoxDecoration(
@@ -291,9 +288,9 @@ class _MessageScreenState extends State<MessageScreen> {
                   ),
                 ),
               ),
-            ),
-          );
-          ;
+            );
+          }
+          return const Text("Error");
         },
       ),
     );

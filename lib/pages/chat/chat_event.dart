@@ -1,33 +1,25 @@
-// ignore_for_file: must_be_immutable
-
 part of 'chat_bloc.dart';
 
-@immutable
 abstract class ChatEvent {
   const ChatEvent();
 }
 
 class ChatInitialEvent extends ChatEvent {
-  const ChatInitialEvent();
-}
-
-class ChatLoadingEvent extends ChatEvent {
-  bool isLoading = true;
-  ChatLoadingEvent(this.isLoading);
-}
-
-class ChatSuccessEvent extends ChatEvent {
-  const ChatSuccessEvent();
+  ChatInitialEvent();
 }
 
 class ChatLoadedEvent extends ChatEvent {
-  const ChatLoadedEvent();
+  ChatLoadedEvent();
+}
+
+class ChatLoadingEvent extends ChatEvent {
+  ChatLoadingEvent();
 }
 
 class ChatErrorEvent extends ChatEvent {
-  const ChatErrorEvent();
+  ChatErrorEvent();
 }
 
-class ChatGoNextEvent extends ChatEvent {
-  const ChatGoNextEvent();
+class ChatRefreshEvent extends ChatEvent {
+  ChatRefreshEvent();
 }

@@ -13,7 +13,7 @@ import 'package:geap_fit/services/http/domain/productModel.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 import 'package:geap_fit/pages/pages.dart';
-import 'package:geap_fit/pages/agenda/bloc/agenda_bloc.dart';
+import 'package:geap_fit/pages/agenda/agenda_bloc.dart';
 import 'package:geap_fit/pages/agenda/models/store_model.dart';
 import 'package:geap_fit/utils/global.dart';
 import 'package:geap_fit/utils/staticNamesRoutes.dart';
@@ -110,7 +110,7 @@ final GoRouter router = GoRouter(
           builder: (context, state) {
             _logger.i(state.location);
             // ApiServices ;
-            return AgendaScreen(bloc: StoreBloc());
+            return AgendaScreen(bloc: AgendaBloc());
           },
         ),
         GoRoute(
@@ -145,8 +145,8 @@ final GoRouter router = GoRouter(
           routes: [
             GoRoute(
               parentNavigatorKey: _shellNavigatorKey,
-              name: StaticNames.product.name,
-              path: StaticNames.product.path,
+              name: StaticNames.message.name,
+              path: StaticNames.message.path,
               builder: (context, state) {
                 _logger.i(state.location);
                 var product = state.extra;

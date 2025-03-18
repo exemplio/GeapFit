@@ -2,11 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geap_fit/pages/chat/api.dart';
 import 'package:geap_fit/pages/chat/core/storage.dart';
 import 'package:geap_fit/pages/chat/core/variables.dart';
 import 'package:geap_fit/pages/chat/models/people.dart';
-import 'package:geap_fit/pages/library/library_bloc.dart';
+import 'package:geap_fit/pages/chat/chat_bloc.dart';
 import 'package:geap_fit/services/cacheService.dart';
 import 'package:geap_fit/widgets/people_item.dart';
 import 'package:go_router/go_router.dart';
@@ -70,44 +71,12 @@ class _ChatScreenState extends State<ChatScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(width: 50, height: 50, child: CircularProgressIndicator()),
-          SizedBox(height: 10),
-          Text("Cargando"),
+          SizedBox(
+            width: 50,
+            height: 50,
+            child: SpinKitSpinningCircle(color: ColorUtil.black),
+          ),
         ],
-      ),
-    );
-  }
-
-  Widget _buttonPayment() {
-    return Expanded(
-      child: TextButton.icon(
-        icon: const Icon(Icons.payment, color: ColorUtil.white),
-        style: TextButton.styleFrom(
-          backgroundColor: _colorProvider.primary(),
-          padding: const EdgeInsets.all(20),
-        ),
-        onPressed: () => _bloc().goNext(path: StaticNames.agenda.name),
-        label: const Text(
-          "COMPRA",
-          style: TitleTextStyle(color: ColorUtil.white),
-        ),
-      ),
-    );
-  }
-
-  Widget _buttonGet() {
-    return Expanded(
-      child: TextButton.icon(
-        icon: const Icon(Icons.phone_android_sharp, color: ColorUtil.white),
-        style: TextButton.styleFrom(
-          backgroundColor: _colorProvider.primaryLight(),
-          padding: const EdgeInsets.all(20),
-        ),
-        onPressed: () => _bloc().goNext(path: StaticNames.withdraw.name),
-        label: const Text(
-          "RETIRO",
-          style: TitleTextStyle(color: ColorUtil.white),
-        ),
       ),
     );
   }
@@ -121,6 +90,34 @@ class _ChatScreenState extends State<ChatScreen> {
 
   forceUpdate() {
     setState(() {});
+  }
+
+  Widget _showErrorMessage({
+    String errorMessage = "NO HAY SERVICIOS DISPONIBLE",
+  }) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const Center(
+          child: Image(
+            image: AssetImage("assets/icons/warning.png"),
+            width: 100,
+            height: 100,
+          ),
+        ),
+        const SizedBox(height: 10),
+        Text(errorMessage),
+      ],
+    );
+  }
+
+  Widget _showErrorMessageService({String errorMessage = "Test screen"}) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [const SizedBox(height: 10), Center(child: Text(errorMessage))],
+    );
   }
 
   @override
@@ -145,32 +142,37 @@ class _ChatScreenState extends State<ChatScreen> {
       body: BlocConsumer<ChatBloc, ChatState>(
         bloc: _bloc(),
         listener: (context, state) {
-          if (state is ChatGoNextState) {
-            if (state.product != null) {
-              context.goNamed(state.next, extra: state.product);
-            } else {
-              if (state.listTypes != null) {
-                context.goNamed(state.next, extra: state.listTypes);
-              }
-              // context.goNamed(state.next);
+          if (state is ChatLoadedProductState) {
+            void _refrescar() async {
+              setState(() {
+                // refreshState = true;
+              });
+              await _bloc().getUsers();
+              setState(() {
+                // refreshState = false;
+              });
             }
+
+            _refrescar();
           }
         },
         builder: (context, state) {
-          if (state is ChatLoadedState) {
-            var inventory = state.inventory?.results?[0];
-            var consigned = state.consigned;
-
-            if (inventory != null) {
-              // return _inventory(inventory, consigned);
+          if (state is ChatInitialState || state is ChatLoadingProductState) {
+            _bloc().init();
+            return _loadingCenter();
+          }
+          if (state is ChatErrorProductState) {
+            return _showErrorMessageService();
+          }
+          if (state is ChatLoadingProductState) {
+            return _loadingCenter();
+          }
+          if (state is ChatLoadedProductState) {
+            var chat = state.chat ?? [];
+            if (chat.isEmpty) {
+              return _showErrorMessage();
             }
-          }
-          if (state is ChatLoadingState) {
-            // _bloc().mInventory();
-            // return _loadingCenter();
-          }
-          return Scaffold(
-            body: SafeArea(
+            return SafeArea(
               child: Container(
                 width: double.infinity,
                 color: const Color.fromARGB(255, 241, 241, 241),
@@ -207,9 +209,9 @@ class _ChatScreenState extends State<ChatScreen> {
                   ],
                 ),
               ),
-            ),
-          );
-          ;
+            );
+          }
+          return const Text("Error");
         },
       ),
     );

@@ -8,7 +8,6 @@ import 'package:geap_fit/domain/credential_response.dart';
 import 'package:geap_fit/pages/login/get_credentials.dart';
 import 'package:geap_fit/utils/utils.dart';
 import '../../services/cacheService.dart';
-import '../../services/http/domain/role_request.dart';
 import '../../services/http/result.dart';
 
 @injectable
@@ -103,17 +102,17 @@ class LoginService {
     });
   }
 
-  Future<Result<Void>> saveInitData(String businessId) {
-    return _getCredentials.getClients().then((value) {
-      if (value.success) {
-        var initData = value.obj;
-        if (initData != null) {
-          return _cache
-              .saveInitData(initData)
-              .then((v) => Result.result(value));
-        }
-      }
-      return Result.result(value);
-    });
-  }
+  // Future<Result<Void>> saveInitData(String businessId) {
+  //   return _getCredentials.getClients().then((value) {
+  //     if (value.success) {
+  //       var initData = value.obj;
+  //       if (initData != null) {
+  //         return _cache
+  //             .saveInitData(initData)
+  //             .then((v) => Result.result(value));
+  //       }
+  //     }
+  //     return Result.result(value);
+  //   });
+  // }
 }

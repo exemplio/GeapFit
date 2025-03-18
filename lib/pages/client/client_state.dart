@@ -3,16 +3,15 @@
 part of 'client_bloc.dart';
 
 abstract class ClientEqState extends Equatable {
-  List<Fields>? products = [];
-  ProfileModel? profile;
-  ClientEqState({this.products, this.profile});
+  List<Fields>? usuarios = [];
+  ClientEqState({this.usuarios});
 
   @override
   List<Object?> get props => [];
 }
 
 class ClientInitialState extends ClientEqState {
-  ClientInitialState({super.products, super.profile});
+  ClientInitialState({super.usuarios});
 }
 
 class ClientLoadingProductState extends ClientEqState {
@@ -20,7 +19,7 @@ class ClientLoadingProductState extends ClientEqState {
 }
 
 class ClientLoadedProductState extends ClientEqState {
-  ClientLoadedProductState({super.products, super.profile});
+  ClientLoadedProductState({super.usuarios});
 }
 
 class ClientErrorProductState extends ClientEqState {

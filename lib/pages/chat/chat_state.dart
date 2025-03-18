@@ -2,37 +2,27 @@
 
 part of 'chat_bloc.dart';
 
-@immutable
-abstract class ChatState {
-  InventoryModel? inventory;
-  Results? consigned;
-  List<String>? listTypes = [];
-  ChatState({this.inventory, this.consigned, this.listTypes});
+abstract class ChatState extends Equatable {
+  List<Fields>? chat = [];
+  ChatState({this.chat});
+
+  @override
+  List<Object?> get props => [];
 }
 
 class ChatInitialState extends ChatState {
-  ChatInitialState({super.inventory, super.consigned, super.listTypes});
+  ChatInitialState({super.chat});
 }
 
-class ChatLoadingState extends ChatState {
-  ChatLoadingState({super.inventory, super.consigned, super.listTypes});
+class ChatLoadingProductState extends ChatState {
+  ChatLoadingProductState();
 }
 
-class ChatSuccessState extends ChatState {
-  ChatSuccessState({super.inventory, super.consigned, super.listTypes});
+class ChatLoadedProductState extends ChatState {
+  ChatLoadedProductState({super.chat});
 }
 
-class ChatLoadedState extends ChatState {
-  ChatLoadedState({super.inventory, super.consigned, super.listTypes});
-}
-
-class ChatErrorState extends ChatState {
-  String errorMessage;
-  ChatErrorState({required this.errorMessage});
-}
-
-class ChatGoNextState extends ChatState {
-  String next;
-  Results? product;
-  ChatGoNextState({required this.next, this.product, super.listTypes});
+class ChatErrorProductState extends ChatState {
+  String? errorMessage;
+  ChatErrorProductState({this.errorMessage = "Error al cargar los servicios"});
 }

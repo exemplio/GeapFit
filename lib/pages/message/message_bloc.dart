@@ -1,103 +1,83 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'dart:async';
-import 'package:flutter/material.dart';
-import 'package:geap_fit/pages/agenda/models/store_model.dart';
-import 'package:logger/logger.dart';
-import 'package:bloc/bloc.dart';
-import 'package:optional/optional.dart';
-import 'package:geap_fit/pages/agenda/bloc/agenda_service.dart';
 
-part 'message_event.dart';
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:geap_fit/pages/client/models/userModel.dart';
+
+import '../../di/injection.dart';
+import '../../services/http/api_services.dart';
+
 part 'message_state.dart';
+part 'message_event.dart';
 
 class MessageBloc extends Bloc<MessageEvent, MessageState> {
-  MessageBloc() : super(MessageLoadingState()) {
-    on<MessageEvent>((event, emit) async {
+  final _apiServices = getIt<ApiServices>();
+  List<Fields> message = [];
+
+  MessageBloc() : super(MessageInitialState()) {
+    on<MessageEvent>((event, emitter) async {
+      print("<-------------------->");
+      print(event.runtimeType);
+      print("<-------------------->");
       switch (event.runtimeType) {
-        case MessageLoadingEvent:
-          emit(MessageLoadingState(inventory: inventory));
-          break;
         case MessageInitialEvent:
-          emit(MessageInitialState(inventory: inventory));
-          break;
-        case MessageLoadedEvent:
-          emit(
-            MessageLoadedState(
-              inventory: inventory,
-              consigned: consigned,
-              listTypes: listTypes,
-            ),
-          );
+          if (message.isNotEmpty) {
+            emitter(MessageLoadedProductState(message: message));
+          } else {
+            emitter(MessageLoadingProductState());
+            getUsers();
+          }
           break;
         case MessageErrorEvent:
-          emit(MessageErrorState(errorMessage: errorMessage));
+          emitter(MessageErrorProductState());
           break;
-        case MessageGoNextEvent:
-          emit(
-            MessageGoNextState(
-              next: next,
-              product: mproduct,
-              listTypes: listTypes,
-            ),
-          );
+        case MessageLoadedEvent:
+          emitter(MessageLoadedProductState(message: message));
+          break;
+        case MessageRefreshEvent:
+          message = [];
+          emitter(MessageLoadingProductState());
+          // getUsers();
           break;
       }
     });
   }
-  String next = "";
-  String errorMessage = "";
-  InventoryModel? inventory;
-  final Logger _logger = Logger();
-  List<String> listTypes = [];
-  Results? consigned;
-  Results? mproduct;
-
-  void goNext({
-    required String path,
-    Results? product,
-    List<String>? listTypes,
-  }) {
-    next = path;
-    mproduct = product;
-    listTypes = listTypes;
-    add(const MessageGoNextEvent());
+  void init() {
+    message = [];
+    add(MessageInitialEvent());
   }
 
-  Future<void> mInventory() async {
-    var result = await getInventory();
-    if (result.success) {
-      if (result.obj != null) {
-        // inventory = result.obj;
-        if (inventory?.count != 0) {
-          for (int i = 0; i < inventory!.results!.length; i++) {
-            if (inventory!.results![i].type != null) {
-              listTypes.add(inventory!.results![i].type!);
-            }
-          }
-          var consignedResult =
-              inventory?.results
-                  ?.where((x) => x.type == "POSTPAID" && (x.minLimit ?? 0) > 0)
-                  .firstOptional
-                  .orElseNull;
-          if (consignedResult != null) {
-            consigned = consignedResult;
-          }
-          add(const MessageLoadedEvent());
-        } else {
-          listTypes = [];
-          _logger.i(result.errorMessage);
-          errorMessage =
-              result.errorMessage ??
-              "El aliado no posee actualmente un inventario asignado";
-          add(const MessageErrorEvent());
+  Future<void> getUsers() async {
+    add(MessageLoadingEvent());
+
+    var initData = await _apiServices.getClients();
+
+    List<Document>? saveInitData;
+    saveInitData = initData.obj?.documents;
+
+    List<Document> users = [];
+    if (saveInitData != null) {
+      for (var element in saveInitData) {
+        users.add(element);
+      }
+    }
+
+    if (users.isEmpty) {
+      add(MessageErrorEvent());
+    }
+
+    if (users.isNotEmpty) {
+      message = [];
+      for (var inv in users) {
+        if (inv.fields != null) {
+          message.add(inv.fields!);
+          // message = inv.fields as List<Fields>? ?? [];
+          add(MessageLoadedEvent());
         }
       }
-    } else {
-      listTypes = [];
-      _logger.i(result.errorMessage);
-      errorMessage = result.errorMessage ?? "Error al obtener el inventario";
-      add(const MessageErrorEvent());
+      // message = MyUtils.orderList(message);
     }
   }
 }

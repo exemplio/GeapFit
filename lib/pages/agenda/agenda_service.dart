@@ -7,7 +7,7 @@ import 'package:geap_fit/services/cacheService.dart';
 import 'package:geap_fit/services/http/api_services.dart';
 import 'package:geap_fit/services/http/domain/password_grant_request.dart';
 
-import '../../../services/http/result.dart';
+import '../../services/http/result.dart';
 
 final _apiServices = getIt<ApiServices>();
 final _cache = Cache();

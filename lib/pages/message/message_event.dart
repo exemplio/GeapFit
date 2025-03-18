@@ -1,33 +1,25 @@
-// ignore_for_file: must_be_immutable
-
 part of 'message_bloc.dart';
 
-@immutable
 abstract class MessageEvent {
   const MessageEvent();
 }
 
 class MessageInitialEvent extends MessageEvent {
-  const MessageInitialEvent();
-}
-
-class MessageLoadingEvent extends MessageEvent {
-  bool isLoading = true;
-  MessageLoadingEvent(this.isLoading);
-}
-
-class MessageSuccessEvent extends MessageEvent {
-  const MessageSuccessEvent();
+  MessageInitialEvent();
 }
 
 class MessageLoadedEvent extends MessageEvent {
-  const MessageLoadedEvent();
+  MessageLoadedEvent();
+}
+
+class MessageLoadingEvent extends MessageEvent {
+  MessageLoadingEvent();
 }
 
 class MessageErrorEvent extends MessageEvent {
-  const MessageErrorEvent();
+  MessageErrorEvent();
 }
 
-class MessageGoNextEvent extends MessageEvent {
-  const MessageGoNextEvent();
+class MessageRefreshEvent extends MessageEvent {
+  MessageRefreshEvent();
 }

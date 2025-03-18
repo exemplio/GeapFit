@@ -8,18 +8,18 @@ class ClientInitialEvent extends ClientEqEvent {
   ClientInitialEvent();
 }
 
-class ClientLoadedProductEvent extends ClientEqEvent {
-  ClientLoadedProductEvent();
+class ClientLoadedEvent extends ClientEqEvent {
+  ClientLoadedEvent();
 }
 
-class ClientLoadingProductEvent extends ClientEqEvent {
-  ClientLoadingProductEvent();
+class ClientLoadingEvent extends ClientEqEvent {
+  ClientLoadingEvent();
 }
 
-class ClientErrorProductEvent extends ClientEqEvent {
-  ClientErrorProductEvent();
+class ClientErrorEvent extends ClientEqEvent {
+  ClientErrorEvent();
 }
 
-class ClientRefreshProductEvent extends ClientEqEvent {
-  ClientRefreshProductEvent();
+class ClientRefreshEvent extends ClientEqEvent {
+  ClientRefreshEvent();
 }

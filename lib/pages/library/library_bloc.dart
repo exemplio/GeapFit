@@ -1,103 +1,75 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'dart:async';
-import 'package:flutter/material.dart';
-import 'package:geap_fit/pages/agenda/models/store_model.dart';
-import 'package:logger/logger.dart';
-import 'package:bloc/bloc.dart';
-import 'package:optional/optional.dart';
-import 'package:geap_fit/pages/agenda/bloc/agenda_service.dart';
 
-part 'library_event.dart';
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:geap_fit/pages/client/models/userModel.dart';
+
+import '../../di/injection.dart';
+import '../../services/http/api_services.dart';
+
 part 'library_state.dart';
+part 'library_event.dart';
 
 class LibraryBloc extends Bloc<LibraryEvent, LibraryState> {
-  LibraryBloc() : super(LibraryLoadingState()) {
-    on<LibraryEvent>((event, emit) async {
+  final _apiServices = getIt<ApiServices>();
+  List<Fields> library = [];
+
+  LibraryBloc() : super(LibraryInitialState()) {
+    on<LibraryEvent>((event, emitter) async {
       switch (event.runtimeType) {
-        case LibraryLoadingEvent:
-          emit(LibraryLoadingState(inventory: inventory));
-          break;
         case LibraryInitialEvent:
-          emit(LibraryInitialState(inventory: inventory));
-          break;
-        case LibraryLoadedEvent:
-          emit(
-            LibraryLoadedState(
-              inventory: inventory,
-              consigned: consigned,
-              listTypes: listTypes,
-            ),
-          );
+          if (library.isNotEmpty) {
+            emitter(LibraryLoadedProductState(library: library));
+          } else {
+            emitter(LibraryLoadingProductState());
+            getUsers();
+          }
           break;
         case LibraryErrorEvent:
-          emit(LibraryErrorState(errorMessage: errorMessage));
+          emitter(LibraryErrorProductState());
           break;
-        case LibraryGoNextEvent:
-          emit(
-            LibraryGoNextState(
-              next: next,
-              product: mproduct,
-              listTypes: listTypes,
-            ),
-          );
+        case LibraryLoadedEvent:
+          emitter(LibraryLoadedProductState(library: library));
+          break;
+        case LibraryRefreshEvent:
+          library = [];
+          emitter(LibraryLoadingProductState());
+          getUsers();
           break;
       }
     });
   }
-  String next = "";
-  String errorMessage = "";
-  InventoryModel? inventory;
-  final Logger _logger = Logger();
-  List<String> listTypes = [];
-  Results? consigned;
-  Results? mproduct;
-
-  void goNext({
-    required String path,
-    Results? product,
-    List<String>? listTypes,
-  }) {
-    next = path;
-    mproduct = product;
-    listTypes = listTypes;
-    add(const LibraryGoNextEvent());
+  void init() {
+    library = [];
+    add(LibraryInitialEvent());
   }
 
-  Future<void> mInventory() async {
-    var result = await getInventory();
-    if (result.success) {
-      if (result.obj != null) {
-        // inventory = result.obj;
-        if (inventory?.count != 0) {
-          for (int i = 0; i < inventory!.results!.length; i++) {
-            if (inventory!.results![i].type != null) {
-              listTypes.add(inventory!.results![i].type!);
-            }
-          }
-          var consignedResult =
-              inventory?.results
-                  ?.where((x) => x.type == "POSTPAID" && (x.minLimit ?? 0) > 0)
-                  .firstOptional
-                  .orElseNull;
-          if (consignedResult != null) {
-            consigned = consignedResult;
-          }
-          add(const LibraryLoadedEvent());
-        } else {
-          listTypes = [];
-          _logger.i(result.errorMessage);
-          errorMessage =
-              result.errorMessage ??
-              "El aliado no posee actualmente un inventario asignado";
-          add(const LibraryErrorEvent());
+  Future<void> getUsers() async {
+    add(LibraryLoadingEvent());
+    var initData = await _apiServices.getClients();
+    List<Document>? saveInitData;
+    saveInitData = initData.obj?.documents;
+    List<Document> users = [];
+    if (saveInitData != null) {
+      for (var element in saveInitData) {
+        users.add(element);
+      }
+    }
+    if (users.isEmpty) {
+      add(LibraryErrorEvent());
+    }
+    if (users.isNotEmpty) {
+      library = [];
+      for (var inv in users) {
+        if (inv.fields != null) {
+          library.add(inv.fields!);
+          // library = inv.fields as List<Fields>? ?? [];
+          add(LibraryLoadedEvent());
         }
       }
-    } else {
-      listTypes = [];
-      _logger.i(result.errorMessage);
-      errorMessage = result.errorMessage ?? "Error al obtener el inventario";
-      add(const LibraryErrorEvent());
+      // library = MyUtils.orderList(library);
     }
   }
 }

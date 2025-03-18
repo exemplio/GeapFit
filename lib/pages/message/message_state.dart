@@ -2,37 +2,29 @@
 
 part of 'message_bloc.dart';
 
-@immutable
-abstract class MessageState {
-  InventoryModel? inventory;
-  Results? consigned;
-  List<String>? listTypes = [];
-  MessageState({this.inventory, this.consigned, this.listTypes});
+abstract class MessageState extends Equatable {
+  List<Fields>? message = [];
+  MessageState({this.message});
+
+  @override
+  List<Object?> get props => [];
 }
 
 class MessageInitialState extends MessageState {
-  MessageInitialState({super.inventory, super.consigned, super.listTypes});
+  MessageInitialState({super.message});
 }
 
-class MessageLoadingState extends MessageState {
-  MessageLoadingState({super.inventory, super.consigned, super.listTypes});
+class MessageLoadingProductState extends MessageState {
+  MessageLoadingProductState();
 }
 
-class MessageSuccessState extends MessageState {
-  MessageSuccessState({super.inventory, super.consigned, super.listTypes});
+class MessageLoadedProductState extends MessageState {
+  MessageLoadedProductState({super.message});
 }
 
-class MessageLoadedState extends MessageState {
-  MessageLoadedState({super.inventory, super.consigned, super.listTypes});
-}
-
-class MessageErrorState extends MessageState {
-  String errorMessage;
-  MessageErrorState({required this.errorMessage});
-}
-
-class MessageGoNextState extends MessageState {
-  String next;
-  Results? product;
-  MessageGoNextState({required this.next, this.product, super.listTypes});
+class MessageErrorProductState extends MessageState {
+  String? errorMessage;
+  MessageErrorProductState({
+    this.errorMessage = "Error al cargar los servicios",
+  });
 }

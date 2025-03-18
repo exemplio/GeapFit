@@ -6,7 +6,7 @@ class StaticNames {
   static PathAndName rootName = PathAndName(name: "root", path: "/");
   static PathAndName nav = PathAndName(name: "nav", path: "/nav");
   static PathAndName clients = PathAndName(name: "clients", path: "/clients");
-  static PathAndName product = PathAndName(name: "product", path: "product");
+  static PathAndName message = PathAndName(name: "message", path: "message");
   static PathAndName agenda = PathAndName(name: "agenda", path: "/agenda");
   static PathAndName library = PathAndName(name: "library", path: "/library");
   static PathAndName business = PathAndName(
