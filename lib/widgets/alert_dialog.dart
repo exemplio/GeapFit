@@ -11,14 +11,14 @@ class Alerts {
       actions: [
         TextButton(
           onPressed: callback,
-          child: Text(
-            "Regresar",
-            style: subtitleStyleText("", 16),
-          ),
-        )
+          child: Text("Regresar", style: subtitleStyleText("", 16)),
+        ),
       ],
-      content: Text(message,
-          style: subtitleStyleText("", 18), textAlign: TextAlign.center),
+      content: Text(
+        message,
+        style: subtitleStyleText("", 18),
+        textAlign: TextAlign.center,
+      ),
     );
     return alert;
   }
@@ -30,55 +30,59 @@ class Alerts {
       actions: [
         TextButton(
           onPressed: callback,
-          child: Text(
-            "Regresar",
-            style: subtitleStyleText("", 16),
-          ),
-        )
+          child: Text("Regresar", style: subtitleStyleText("", 16)),
+        ),
       ],
-      content: Text(message,
-          style: subtitleStyleText("", 18), textAlign: TextAlign.center),
+      content: Text(
+        message,
+        style: subtitleStyleText("", 18),
+        textAlign: TextAlign.center,
+      ),
     );
     return alert;
   }
 
-  static AlertDialog success(String message, callback,
-      {String buttonText = "Regresar"}) {
+  static AlertDialog success(
+    String message,
+    callback, {
+    String buttonText = "Regresar",
+  }) {
     AlertDialog alert = AlertDialog(
       icon: const Icon(Icons.check_circle_rounded, size: 30),
       iconColor: ColorUtil.success,
       actions: [
         TextButton(
           onPressed: callback,
-          child: Text(
-            buttonText,
-            style: subtitleStyleText("", 16),
-          ),
-        )
+          child: Text(buttonText, style: subtitleStyleText("", 16)),
+        ),
       ],
-      content: Text(message,
-          style: subtitleStyleText("", 18), textAlign: TextAlign.center),
+      content: Text(
+        message,
+        style: subtitleStyleText("", 18),
+        textAlign: TextAlign.center,
+      ),
     );
     return alert;
   }
 
-  static AlertDialog dialogTwoButtonActions(
-      {Widget child = const Text(""),
-      List<String> actionButtonsNames = const ["REGRESAR", "ACEPTAR"],
-      callback,
-      callbackTwo}) {
+  static AlertDialog dialogTwoButtonActions({
+    Widget child = const Text(""),
+    List<String> actionButtonsNames = const ["REGRESAR", "ACEPTAR"],
+    callback,
+    callbackTwo,
+  }) {
     AlertDialog alert = AlertDialog(
       icon: const Icon(Icons.warning_amber, size: 30),
       iconColor: ColorUtil.warning,
       actions: [
         TextButton(
-            onPressed: callback,
-            child:
-                Text(actionButtonsNames[0], style: subtitleStyleText("", 16))),
+          onPressed: callback,
+          child: Text(actionButtonsNames[0], style: subtitleStyleText("", 16)),
+        ),
         TextButton(
           onPressed: callbackTwo,
           child: Text(actionButtonsNames[1], style: subtitleStyleText("", 16)),
-        )
+        ),
       ],
       content: child,
     );

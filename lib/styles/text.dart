@@ -5,22 +5,7 @@ import 'bg.dart';
 const Color dfltTextColor = Color.fromARGB(255, 53, 53, 53);
 
 titleStyleText(String mycolor, double fontSize) {
-  return TextStyle(
-    fontSize: fontSize,
-    fontWeight: FontWeight.bold,
-    color:
-        mycolor == "white"
-            ? Colors.white
-            : mycolor == "grey"
-            ? Colors.grey
-            : mycolor == "primary"
-            ? primaryColor()
-            : mycolor == "success"
-            ? ColorUtil.success
-            : mycolor == "error"
-            ? ColorUtil.error
-            : dfltTextColor,
-  );
+  return TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold);
 }
 
 Color primaryColor() {
@@ -28,21 +13,7 @@ Color primaryColor() {
 }
 
 subtitleStyleText(String mycolor, double fontSize) {
-  return TextStyle(
-    fontSize: fontSize,
-    color:
-        mycolor == "white"
-            ? Colors.white
-            : mycolor == "primary"
-            ? primaryColor()
-            : mycolor == "grey"
-            ? Colors.grey
-            : mycolor == "error"
-            ? ColorUtil.error
-            : mycolor == "gray"
-            ? ColorUtil.dark_gray
-            : dfltTextColor,
-  );
+  return TextStyle(fontSize: fontSize);
 }
 
 class TitleTextStyle extends TextStyle {
