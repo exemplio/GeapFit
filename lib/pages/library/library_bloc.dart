@@ -4,7 +4,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:geap_fit/pages/client/models/userModel.dart';
+import 'package:geap_fit/pages/client/models/user_model.dart';
 
 import '../../di/injection.dart';
 import '../../services/http/api_services.dart';

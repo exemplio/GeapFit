@@ -65,6 +65,9 @@ class LoginScreenBloc extends Bloc<LoginEvent, LoginState> {
     var errorMessage = Optional.ofNullable(result.msg)
         .map((p0) => p0.message)
         .orElse(result.errorMessage ?? "Error al loguearse");
+    print("<----------->");
+    print(result);
+    print("<----------->");
     if (result.success) {
       emitter(GoToAuthDeviceState(userEmail, _passwordController.value));
     } else {

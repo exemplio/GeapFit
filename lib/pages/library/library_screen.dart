@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, depend_on_referenced_packages
+// ignore_for_file: must_be_immutable, depend_on_referenced_packages, no_leading_underscores_for_local_identifiers
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,15 +6,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geap_fit/pages/library/library_bloc.dart';
 import 'package:geap_fit/services/cacheService.dart';
 import 'package:go_router/go_router.dart';
-import 'package:geap_fit/di/injection.dart';
-import 'package:geap_fit/pages/agenda/models/store_model.dart';
-import 'package:geap_fit/styles/theme_provider.dart';
-import 'package:geap_fit/utils/error_message.dart';
 import 'package:geap_fit/utils/staticNamesRoutes.dart';
-import 'package:lottie/lottie.dart';
 import '../../styles/bg.dart';
 import '../../styles/text.dart';
-import 'library_bloc.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class LibraryScreen extends StatefulWidget {
@@ -26,7 +20,6 @@ class LibraryScreen extends StatefulWidget {
 }
 
 class _LibraryScreenState extends State<LibraryScreen> {
-  final _colorProvider = getIt<ThemeProvider>().colorProvider();
   LibraryBloc _bloc() => widget.bloc;
   final Cache _cache = Cache();
 
@@ -90,9 +83,6 @@ class _LibraryScreenState extends State<LibraryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    CalendarFormat _calendarFormat = CalendarFormat.month;
-    DateTime _focusedDay = DateTime.now();
-    DateTime? _selectedDay;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -168,9 +158,9 @@ class _LibraryScreenState extends State<LibraryScreen> {
                             Radius.circular(20),
                           ),
                           radius: 10,
-                          focusColor: _colorProvider.primaryLight(),
-                          highlightColor: _colorProvider.primaryLight(),
-                          splashColor: _colorProvider.primaryLight(),
+                          // focusColor: _colorProvider.primaryLight(),
+                          // highlightColor: _colorProvider.primaryLight(),
+                          // splashColor: _colorProvider.primaryLight(),
                           onTap:
                               () => context.goNamed(
                                 StaticNames.message.name,

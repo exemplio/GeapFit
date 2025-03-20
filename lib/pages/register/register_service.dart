@@ -1,4 +1,4 @@
-// ignore_for_file: unused_field, unused_element, non_constant_identifier_names
+// ignore_for_file: unused_field, unused_element
 
 import 'dart:async';
 import 'dart:ffi';

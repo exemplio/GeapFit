@@ -5,14 +5,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import "package:flutter/services.dart";
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:logger/logger.dart';
 import 'package:geap_fit/di/injection.dart';
 import 'package:geap_fit/services/http/dev_http_overrides.dart';
 import 'package:geap_fit/services/http/network_connectivity.dart';
-import 'package:geap_fit/styles/theme_provider.dart';
 import 'package:geap_fit/utils/bloc_providers.dart';
 import 'package:geap_fit/utils/utils.dart';
-import 'package:provider/provider.dart';
 import 'routes/routes.dart';
 import 'services/cacheService.dart';
 
@@ -41,33 +38,25 @@ void mainCommon(String env) async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  await getIt<ThemeProvider>().loadThemes();
+  // await getIt<ThemeProvider>().loadThemes();
 
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final _logger = Logger();
-
   MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: blocProviders,
-      child: ChangeNotifierProvider(
-        create: (context) => getIt<ThemeProvider>(),
-        child: Consumer<ThemeProvider>(
-          builder: (context, state, child) {
-            _logger.i("app_theme_name ${state.appTheme().name}");
-            return MaterialApp.router(
-              theme: state.theme(),
-              locale: const Locale('es'),
-              debugShowCheckedModeBanner: false,
-              routerConfig: router,
-            );
-          },
-        ),
+      child: MaterialApp.router(
+        theme: ThemeData.light(), // Light theme
+        darkTheme: ThemeData.dark(), // Dark theme
+        themeMode: ThemeMode.system,
+        locale: const Locale('es'),
+        debugShowCheckedModeBanner: false,
+        routerConfig: router,
       ),
     );
   }

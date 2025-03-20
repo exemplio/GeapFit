@@ -1,4 +1,4 @@
-// ignore_for_file: depend_on_referenced_packages, non_constant_identifier_names, use_build_context_synchronously
+// ignore_for_file: depend_on_referenced_packages, use_build_context_synchronously
 
 import 'dart:async';
 
@@ -10,9 +10,7 @@ import 'package:logger/logger.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:geap_fit/pages/register/register_service.dart';
 import 'package:geap_fit/services/http/result.dart';
-import 'package:geap_fit/utils/utils.dart';
 
-import '../../styles/theme_provider.dart';
 import '../../utils/translate.dart';
 
 part 'register_event.dart';
@@ -22,7 +20,6 @@ part 'register_state.dart';
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final _logger = Logger();
   final RegisterService _registerService;
-  final ThemeProvider themeProvider;
   TextEditingController emailController = TextEditingController();
   TextEditingController firstNameController = TextEditingController();
   TextEditingController businessNameController = TextEditingController();
@@ -44,8 +41,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   List<dynamic> show1 = [];
   List<dynamic> show2 = [];
 
-  RegisterBloc(this._registerService, this.themeProvider)
-    : super(const RegisterInitialState()) {
+  RegisterBloc(this._registerService) : super(const RegisterInitialState()) {
     on<RegisterEvent>((event, emit) {
       _logger.i(event);
       switch (event.runtimeType) {

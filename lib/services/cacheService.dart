@@ -5,15 +5,12 @@ import 'dart:convert';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 import 'package:optional/optional.dart';
-import 'package:geap_fit/domain/access_token_response.dart';
-import 'package:geap_fit/domain/credentialModel.dart';
-import 'package:geap_fit/domain/profile.dart';
-import 'package:geap_fit/pages/client/models/userModel.dart';
+import 'package:geap_fit/pages/login/models/credential_model.dart';
+import 'package:geap_fit/pages/client/models/user_model.dart';
 import 'package:geap_fit/services/http/network_connectivity.dart';
 import 'package:geap_fit/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../domain/credential_response.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 
 @injectable
@@ -34,10 +31,6 @@ class Cache {
 
   setCacheJson(String key, data) async {
     return _savePrefs(key, data);
-  }
-
-  Future<void> setMerchantDevice(data) {
-    return _savePrefs("device", data);
   }
 
   Future<dynamic> getCacheJson(String name) {
@@ -82,13 +75,8 @@ class Cache {
       //await _cacheData.clear();
 
       var prefs = await _prefs();
-      var accessTokenResponse = await getAccessTokenResponse();
 
       await prefs.clear();
-
-      if (accessTokenResponse != null) {
-        await saveAccessToken(accessTokenResponse);
-      }
     } catch (err) {
       //   print(err);
     }
@@ -104,15 +92,15 @@ class Cache {
     });
   }
 
-  Future<CredentialResponse?> credentialResponse() {
-    return getObj("credentials", (s) => CredentialResponse.fromJson(s));
+  Future<CredentialModel?> credentialResponse() {
+    return getObj("last_credentials", (s) => CredentialModel.fromJson(s));
   }
 
   Future<bool> areCredentialsStored() async {
     var first = await credentialResponse().then((value) => value != null);
-    var second = await getAccessTokenResponse().then((value) => value != null);
+    // var second = await getAccessTokenResponse().then((value) => value != null);
 
-    return first || second;
+    return first;
   }
 
   Future<void> saveNetworkState(NetworkState networkState) {
@@ -125,46 +113,6 @@ class Cache {
 
   Future<bool> isOnline() async {
     return await getNetworkState().then((value) => value?.isOnline ?? true);
-  }
-
-  Future<AccessTokenResponse> saveAccessToken(
-    AccessTokenResponse accessTokenResponse,
-  ) async {
-    var expiresIn = accessTokenResponse.expiresIn;
-
-    if (accessTokenResponse.idToken != null && expiresIn != null) {
-      accessTokenResponse.expireDate = DateTime.now().add(
-        Duration(seconds: expiresIn - 10),
-      );
-
-      return saveAccessTokenResponse(
-        accessTokenResponse,
-        const Duration(days: 365),
-      );
-    } else {
-      var ttl = Optional.ofNullable(expiresIn)
-          .map((p0) => Duration(seconds: p0 - 10))
-          .orElse(const Duration(minutes: 1));
-
-      return saveAccessTokenResponse(accessTokenResponse, ttl);
-    }
-  }
-
-  Future<AccessTokenResponse> saveAccessTokenResponse(
-    AccessTokenResponse accessTokenResponse,
-    Duration ttl,
-  ) {
-    return setCacheJsonFuture(
-      "access_token",
-      accessTokenResponse,
-    ).then((value) => accessTokenResponse);
-  }
-
-  Future<AccessTokenResponse?> getAccessTokenResponse() {
-    return _getFromPrefs(
-      "access_token",
-      (s) => AccessTokenResponse.fromJson(s),
-    );
   }
 
   Future<SharedPreferences> _prefs() {
@@ -193,16 +141,8 @@ class Cache {
     return parseJson(jsonDecode(json));
   }
 
-  Future<void> saveProfile(Profile profile) {
-    return _savePrefs("profile", profile);
-  }
-
   Future<void> saveInitData(Document init) {
     return _savePrefs("init_data", init);
-  }
-
-  Future<Init?> getInitData() {
-    return _getFromPrefs("init_data", (json) => Init.fromJson(json));
   }
 
   Future<void> saveKeepLastSession(String keepData) {

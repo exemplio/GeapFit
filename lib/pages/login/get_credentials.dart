@@ -1,8 +1,7 @@
 import 'dart:convert';
 
+import 'package:geap_fit/pages/login/models/credential_model.dart';
 import 'package:injectable/injectable.dart';
-import 'package:geap_fit/domain/access_token_response.dart';
-import 'package:geap_fit/domain/profile.dart';
 import 'package:geap_fit/services/http/domain/password_grant_request.dart';
 import 'package:geap_fit/services/http/result.dart';
 
@@ -14,32 +13,12 @@ class GetCredentials {
 
   GetCredentials(this._apiServices);
 
-  Future<Result<AccessTokenResponse>> refreshToken(
-    String idToken,
-    String refreshToken,
-  ) {
-    return _apiServices.refreshToken(idToken, refreshToken);
-  }
-
-  Future<Result<AccessTokenResponse>> authorize(
-    String clientId,
-    String secret,
-  ) {
-    var auth = utf8.fuse(base64).encode("$clientId:$secret");
-
-    return _apiServices.authorize(auth);
-  }
-
-  Future<Result<AccessTokenResponse>> passwordGrant(
+  Future<Result<CredentialModel>> passwordGrant(
     String email,
     String password,
     bool isCI,
   ) {
     return _apiServices.passwordGrant(PasswordGrantRequest(email, password));
-  }
-
-  Future<Result<Profile>> profile() {
-    return _apiServices.profile();
   }
 
   Future<Result<void>> getClients() {

@@ -6,13 +6,10 @@ import 'package:gap/gap.dart';
 import 'package:geap_fit/services/cacheService.dart';
 import 'package:go_router/go_router.dart';
 import 'package:geap_fit/pages/client/client_bloc.dart';
-import 'package:lottie/lottie.dart';
 import 'package:geap_fit/styles/bg.dart';
 import 'package:geap_fit/styles/text.dart';
-import 'package:geap_fit/styles/theme_provider.dart';
 import 'package:geap_fit/utils/staticNamesRoutes.dart';
-import '../../di/injection.dart';
-import 'models/userModel.dart';
+import 'models/user_model.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class ClientScreen extends StatefulWidget {
@@ -29,7 +26,6 @@ class _ClientScreenState extends State<ClientScreen> {
   List<String> listCompanies = [];
   bool collapsePostpaid = false;
   final Cache _cache = Cache();
-  final _colorProvider = getIt<ThemeProvider>().colorProvider();
 
   ClientEqBloc _bloc() => widget.bloc;
 
@@ -75,15 +71,15 @@ class _ClientScreenState extends State<ClientScreen> {
     const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
     String dropdownValue = list.first;
     return InkWell(
-      focusColor: _colorProvider.primaryLight(),
-      highlightColor: _colorProvider.primaryLight(),
-      splashColor: _colorProvider.primaryLight(),
+      focusColor: Colors.black,
+      highlightColor: Colors.black,
+      splashColor: Colors.black,
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 10),
         // padding: const EdgeInsets.symmetric(horizontal: 10),
         height: 75,
         decoration: BoxDecoration(
-          color: Colors.white,
+          // color: Colors.white,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Row(
@@ -128,8 +124,8 @@ class _ClientScreenState extends State<ClientScreen> {
                 value: dropdownValue,
                 icon: const Icon(Icons.arrow_downward),
                 elevation: 16,
-                style: const TextStyle(color: Colors.deepPurple),
-                underline: Container(height: 2, color: Colors.deepPurpleAccent),
+                // style: const TextStyle(color: Colors.deepPurple),
+                underline: Container(height: 2),
                 onChanged: (String? value) {
                   // This is called when the user selects an item.
                   setState(() {
@@ -172,10 +168,7 @@ class _ClientScreenState extends State<ClientScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: const Text(
-          "GEAP FIT",
-          style: TitleTextStyle(fontSize: 24, color: ColorUtil.black),
-        ),
+        title: const Text("GEAP FIT", style: TitleTextStyle(fontSize: 24)),
         centerTitle: true,
         actions: [
           IconButton(

@@ -11,15 +11,9 @@ import 'package:geap_fit/pages/chat/chat_bloc.dart';
 import 'package:geap_fit/services/cacheService.dart';
 import 'package:geap_fit/widgets/people_item.dart';
 import 'package:go_router/go_router.dart';
-import 'package:geap_fit/di/injection.dart';
-import 'package:geap_fit/pages/agenda/models/store_model.dart';
-import 'package:geap_fit/styles/theme_provider.dart';
-import 'package:geap_fit/utils/error_message.dart';
 import 'package:geap_fit/utils/staticNamesRoutes.dart';
 import '../../styles/bg.dart';
 import '../../styles/text.dart';
-import 'chat_bloc.dart';
-import 'package:gap/gap.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:collection/collection.dart';
 
@@ -32,7 +26,6 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  final _colorProvider = getIt<ThemeProvider>().colorProvider();
   ChatBloc _bloc() => widget.bloc;
   final Cache _cache = Cache();
 

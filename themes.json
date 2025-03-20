@@ -3,7 +3,7 @@
     "name": "default-theme",
     "dflt": true,
     "colors": {
-      "primary": "0xFF000000",
+      "primary": "0xFFFFFFFF",
       "primary_light": "0xFFFFFFFF"
     },
     "assets_img": {

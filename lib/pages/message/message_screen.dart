@@ -8,10 +8,7 @@ import 'package:geap_fit/pages/chat/core/variables.dart';
 import 'package:geap_fit/pages/chat/models/people.dart';
 import 'package:geap_fit/services/cacheService.dart';
 import 'package:geap_fit/widgets/message_item.dart';
-import 'package:geap_fit/widgets/people_item.dart';
 import 'package:go_router/go_router.dart';
-import 'package:geap_fit/di/injection.dart';
-import 'package:geap_fit/styles/theme_provider.dart';
 import 'package:geap_fit/utils/staticNamesRoutes.dart';
 import 'package:intl/intl.dart';
 import '../../styles/bg.dart';
@@ -30,13 +27,11 @@ class MessageScreen extends StatefulWidget {
 }
 
 class _MessageScreenState extends State<MessageScreen> {
-  final _colorProvider = getIt<ThemeProvider>().colorProvider();
   MessageBloc _bloc() => widget.bloc;
   final Cache _cache = Cache();
 
   var messageController = TextEditingController();
 
-  // Kullanicinin bu sayfaya erisimi yoksa welcomeScreen'e gonderiyoruz.
   getUser() async {
     Storage storage = Storage();
 

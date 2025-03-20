@@ -93,10 +93,10 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-# flutter_icons:
-#   android: true
-#   ios: false
-#   image_path: "assets/icons/icon_white.png"
+flutter_icons:
+  android: true
+  ios: false
+  image_path: "assets/icons/icon_dark.png"
 
 flutter_native_splash:
   color: "#42a5f5"
@@ -115,6 +115,7 @@ flutter:
     - env.demo
     - themes.json    
     - assets/icons/
+    - assets/icons/google.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
@@ -128,11 +129,9 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Roboto
+    - family: OpenSans
       fonts:
-        - asset: assets/fonts/Roboto-Regular.ttf
-        - asset: assets/fonts/Roboto-Italic.ttf
-          style: italic
+        - asset: assets/fonts/OpenSans.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package

@@ -1,10 +1,7 @@
-// ignore_for_file: non_constant_identifier_names
-
 import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:geap_fit/services/http/domain/productModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../services/http/result.dart';
@@ -122,26 +119,26 @@ abstract class MyUtils {
     return function(result);
   }
 
-  static List<ProductModel> orderList(List<ProductModel> list) {
-    if (list.isEmpty) {
-      return [];
-    } else {
-      int n = list.length;
-      int i, k;
-      ProductModel aux;
-      for (k = 1; k < n; k++) {
-        for (i = 0; i < (n - k); i++) {
-          if (list[i].formattedName!.compareTo(list[i + 1].formattedName!) >
-              0) {
-            aux = list[i];
-            list[i] = list[i + 1];
-            list[i + 1] = aux;
-          }
-        }
-      }
-      return list;
-    }
-  }
+  // static List<ProductModel> orderList(List<ProductModel> list) {
+  //   if (list.isEmpty) {
+  //     return [];
+  //   } else {
+  //     int n = list.length;
+  //     int i, k;
+  //     ProductModel aux;
+  //     for (k = 1; k < n; k++) {
+  //       for (i = 0; i < (n - k); i++) {
+  //         if (list[i].formattedName!.compareTo(list[i + 1].formattedName!) >
+  //             0) {
+  //           aux = list[i];
+  //           list[i] = list[i + 1];
+  //           list[i + 1] = aux;
+  //         }
+  //       }
+  //     }
+  //     return list;
+  //   }
+  // }
 
   static String cryptoKey() {
     return "DixFbJ8hts9YNyHEIYFIh6J1ZHJLAMUlKCkCBtjpvyM=";

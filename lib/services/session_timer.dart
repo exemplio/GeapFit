@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, unused_field, unused_local_variable, unnecessary_null_comparison, use_build_context_synchronously
+// ignore_for_file: unused_field, unused_local_variable, unnecessary_null_comparison, use_build_context_synchronously
 
 import 'dart:async';
 
@@ -9,7 +9,6 @@ import 'package:geap_fit/services/http/result.dart';
 import 'package:geap_fit/utils/global.dart';
 import 'package:geap_fit/widgets/restart.dart';
 
-import '../domain/access_token_response.dart';
 import 'http/api_services.dart';
 
 // import 'package:in_app_session_timeout/global.dart';
@@ -33,7 +32,7 @@ class SessionTimer {
   // Widget _circular = SizedBox(width: 25, height: 25 ,child: CircularProgressIndicator( color: ColorUtil.primary_light,));
 
   void startTimer() async {
-    var res = await _cache.getAccessTokenResponse();
+    // var res = await _cache.getAccessTokenResponse();
     // time = res!.expiresIn ?? 180;
     // print("inicio de timer ejecutado $time");
     // timer = Timer.periodic(Duration(seconds: time!), (_) {
@@ -115,29 +114,29 @@ class SessionTimer {
     // if(refreshTime.isActive){
     //   refreshTime.cancel();
     // }
-    time2 = 10;
-    var data = await _cache.getAccessTokenResponse();
-    if (data!.idToken != null && data.idToken != null) {
-      //  print(data.idToken);
-      var result = await _apiServices
-          .refreshToken(data.idToken!, data.idToken!)
-          .onError((error, stacktrace) => Result.fail(error, stacktrace));
-      if (result.success) {
-        final AccessTokenResponse res = result.obj!;
-        String id_token = res.idToken ?? "";
-        int expires_in = res.expiresIn ?? 0;
-        if (id_token != "" && expires_in != 0) {
-          _cache.saveAccessTokenResponse(res, Duration(seconds: expires_in));
-          Navigator.pop(context);
-          startTimer();
-        } else {
-          await _removeSession(context);
-        }
-      } else {
-        await _removeSession(context);
-      }
-    } else {
-      await _removeSession(context);
-    }
+    // time2 = 10;
+    // var data = await _cache.getAccessTokenResponse();
+    // if (data!.idToken != null && data.idToken != null) {
+    //   //  print(data.idToken);
+    //   var result = await _apiServices
+    //       .refreshToken(data.idToken!, data.idToken!)
+    //       .onError((error, stacktrace) => Result.fail(error, stacktrace));
+    //   if (result.success) {
+    //     final AccessTokenResponse res = result.obj!;
+    //     String id_token = res.idToken ?? "";
+    //     int expires_in = res.expiresIn ?? 0;
+    //     if (id_token != "" && expires_in != 0) {
+    //       _cache.saveAccessTokenResponse(res, Duration(seconds: expires_in));
+    //       Navigator.pop(context);
+    //       startTimer();
+    //     } else {
+    //       await _removeSession(context);
+    //     }
+    //   } else {
+    //     await _removeSession(context);
+    //   }
+    // } else {
+    //   await _removeSession(context);
+    // }
   }
 }

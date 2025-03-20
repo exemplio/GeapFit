@@ -6,9 +6,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../di/injection.dart';
-import '../../services/cacheService.dart';
 import '../../services/http/api_services.dart';
-import 'models/userModel.dart';
+import 'models/user_model.dart';
 
 part 'client_state.dart';
 part 'client_event.dart';

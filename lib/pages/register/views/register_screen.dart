@@ -9,7 +9,6 @@ import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:geap_fit/di/injection.dart';
-import 'package:geap_fit/styles/theme_provider.dart';
 import 'package:geap_fit/utils/staticNamesRoutes.dart';
 import 'package:geap_fit/utils/uppercase.dart';
 import 'package:geap_fit/utils/utils.dart';
@@ -27,7 +26,7 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final _colorProvider = getIt<ThemeProvider>().colorProvider();
+  // final _colorProvider = getIt<ThemeProvider>().colorProvider();
   final logger = Logger();
   final _formKey = GlobalKey<FormState>();
   String showQuestion1 = "345";
@@ -117,12 +116,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           width: 200,
                           height: 80,
                         ),
-                        Text(
+                        const Text(
                           "NUEVA CUENTA",
                           textAlign: TextAlign.center,
                           style: TitleTextStyle(
                             fontSize: 18,
-                            color: _colorProvider.primary(),
+                            // color: _colorProvider.primary(),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -685,10 +684,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 top: 10,
                               ),
                               child: TextButton(
-                                child: Text(
+                                child: const Text(
                                   "Reenviar correo de activación",
                                   style: TextStyle(
-                                    color: _colorProvider.primary(),
+                                    // color: _colorProvider.primary(),
                                     decoration: TextDecoration.underline,
                                   ),
                                 ),
@@ -941,7 +940,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       child: TextButton.icon(
         icon: const Icon(Icons.person, color: ColorUtil.white),
         style: TextButton.styleFrom(
-          backgroundColor: _colorProvider.primary(),
+          // backgroundColor: _colorProvider.primary(),
           padding: const EdgeInsets.all(20),
         ),
         onPressed:
@@ -1022,9 +1021,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         TextSpan(
                           text: _bloc().emailController.text,
-                          style: TextStyle(
+                          style: const TextStyle(
                             decoration: TextDecoration.underline,
-                            color: _colorProvider.primary(),
+                            // color: _colorProvider.primary(),
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
@@ -1072,11 +1071,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
               ),
               ElevatedButton(
-                style: ButtonStyle(
-                  fixedSize: const MaterialStatePropertyAll(Size(130, 40)),
-                  backgroundColor: MaterialStatePropertyAll(
-                    _colorProvider.primary(),
-                  ),
+                style: const ButtonStyle(
+                  fixedSize: MaterialStatePropertyAll(Size(130, 40)),
+                  // backgroundColor: MaterialStatePropertyAll(
+                  //   _colorProvider.primary(),
+                  // ),
                 ),
                 onPressed: () {
                   Navigator.pop(context);

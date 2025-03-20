@@ -25,9 +25,6 @@ import 'package:geap_fit/services/http/cache_online_provider.dart' as _i323;
 import 'package:geap_fit/services/http/http_service.dart' as _i989;
 import 'package:geap_fit/services/http/is_online_provider.dart' as _i716;
 import 'package:geap_fit/styles/profile_theme_selector.dart' as _i604;
-import 'package:geap_fit/styles/theme_holder.dart' as _i1052;
-import 'package:geap_fit/styles/theme_loader.dart' as _i339;
-import 'package:geap_fit/styles/theme_provider.dart' as _i287;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -39,20 +36,16 @@ extension GetItInjectableX on _i174.GetIt {
     final injectionModule = _$InjectionModule();
     gh.factory<_i99.Cache>(() => _i99.Cache());
     gh.factory<_i604.ProfileThemeSelector>(() => _i604.ProfileThemeSelector());
-    gh.factory<_i339.ThemeLoader>(() => _i339.ThemeLoader());
     gh.lazySingleton<_i989.HttpService>(() => injectionModule.httpService);
     gh.factory<_i1051.BottomNavBloc>(
       () => _i1051.BottomNavBloc(gh<_i99.Cache>()),
     );
-    gh.singleton<_i1052.ThemeHolder>(
-      () => _i1052.ThemeHolder(gh<_i339.ThemeLoader>()),
-    );
     gh.factory<_i716.IsOnlineProvider>(
       () => _i323.CacheOnlineProvider(gh<_i99.Cache>()),
     );
-    gh.singleton<_i287.ThemeProvider>(
-      () => _i287.ThemeProvider(gh<_i1052.ThemeHolder>()),
-    );
+    // gh.singleton<_i287.ThemeProvider>(
+    //   () => _i287.ThemeProvider(gh<_i1052.ThemeHolder>()),
+    // );
     gh.factory<_i281.ApiServices>(
       () => _i281.ApiServices(
         gh<_i989.HttpService>(),
@@ -75,10 +68,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i303.AuthInterceptor(gh<_i99.Cache>()),
     );
     gh.factory<_i17.RegisterBloc>(
-      () => _i17.RegisterBloc(
-        gh<_i851.RegisterService>(),
-        gh<_i287.ThemeProvider>(),
-      ),
+      () => _i17.RegisterBloc(gh<_i851.RegisterService>()),
     );
     return this;
   }

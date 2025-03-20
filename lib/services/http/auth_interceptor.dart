@@ -2,14 +2,12 @@
 
 import 'package:http_interceptor/http_interceptor.dart';
 import 'package:injectable/injectable.dart';
-import 'package:logger/logger.dart';
 import 'package:geap_fit/services/cacheService.dart';
 
 import '../../utils/utils.dart';
 
 @injectable
 class AuthInterceptor implements InterceptorContract {
-  final _logger = Logger();
   final Cache _cache;
 
   AuthInterceptor(this._cache);

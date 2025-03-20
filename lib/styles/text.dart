@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:geap_fit/styles/theme_provider.dart';
 
-import '../di/injection.dart';
 import 'bg.dart';
 
 const Color dfltTextColor = Color.fromARGB(255, 53, 53, 53);
@@ -26,7 +24,7 @@ titleStyleText(String mycolor, double fontSize) {
 }
 
 Color primaryColor() {
-  return getIt<ThemeProvider>().colorProvider().primary();
+  return Colors.black;
 }
 
 subtitleStyleText(String mycolor, double fontSize) {

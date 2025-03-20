@@ -7,7 +7,6 @@ import 'package:geap_fit/services/http/api_services.dart';
 import 'package:geap_fit/services/http/result.dart';
 import 'package:geap_fit/styles/bg.dart';
 import 'package:geap_fit/styles/text.dart';
-import 'package:geap_fit/styles/theme_provider.dart';
 import 'package:geap_fit/utils/translate.dart';
 import 'package:geap_fit/utils/uppercase.dart';
 import 'package:geap_fit/widgets/alert_dialog.dart';
@@ -21,7 +20,7 @@ class EmailForm extends StatefulWidget {
 }
 
 class _EmailFormState extends State<EmailForm> {
-  final _colorProvider = getIt<ThemeProvider>().colorProvider();
+  // final _colorProvider = getIt<ThemeProvider>().colorProvider();
   TextEditingController emailController = TextEditingController();
   TextEditingController emailToSendController = TextEditingController();
   TextEditingController answer1Controller = TextEditingController();
@@ -79,9 +78,9 @@ class _EmailFormState extends State<EmailForm> {
               Text(
                 translate(widget.title),
                 textAlign: TextAlign.center,
-                style: TitleTextStyle(
+                style: const TitleTextStyle(
                   fontSize: 18,
-                  color: _colorProvider.primary(),
+                  // color: _colorProvider.primary(),
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -427,7 +426,7 @@ class _EmailFormState extends State<EmailForm> {
       child: TextButton.icon(
         icon: const Icon(Icons.payment_outlined, color: ColorUtil.white),
         style: TextButton.styleFrom(
-          backgroundColor: _colorProvider.primary(),
+          // backgroundColor: _colorProvider.primary(),
           padding: const EdgeInsets.all(20),
         ),
         onPressed:

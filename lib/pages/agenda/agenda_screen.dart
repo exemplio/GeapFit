@@ -5,10 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geap_fit/services/cacheService.dart';
 import 'package:go_router/go_router.dart';
-import 'package:geap_fit/di/injection.dart';
-import 'package:geap_fit/pages/agenda/models/store_model.dart';
-import 'package:geap_fit/styles/theme_provider.dart';
-import 'package:geap_fit/utils/error_message.dart';
 import 'package:geap_fit/utils/staticNamesRoutes.dart';
 import '../../styles/bg.dart';
 import '../../styles/text.dart';
@@ -24,7 +20,6 @@ class AgendaScreen extends StatefulWidget {
 }
 
 class _AgendaScreenState extends State<AgendaScreen> {
-  final _colorProvider = getIt<ThemeProvider>().colorProvider();
   AgendaBloc _bloc() => widget.bloc;
   final Cache _cache = Cache();
 
@@ -168,7 +163,7 @@ class _AgendaScreenState extends State<AgendaScreen> {
                     _focusedDay = focusedDay;
                   },
                   calendarStyle: CalendarStyle(
-                    selectedDecoration: BoxDecoration(
+                    selectedDecoration: const BoxDecoration(
                       color: Colors.blue,
                       shape: BoxShape.circle,
                     ),
@@ -185,7 +180,7 @@ class _AgendaScreenState extends State<AgendaScreen> {
                       color: Colors.blue,
                       borderRadius: BorderRadius.circular(20.0),
                     ),
-                    formatButtonTextStyle: TextStyle(color: Colors.white),
+                    formatButtonTextStyle: const TextStyle(color: Colors.white),
                   ),
                 ),
               ),
